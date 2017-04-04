@@ -1,0 +1,13 @@
+<fieldset class="btn-group-vertical game-files" data-toggle="buttons">
+  <label class="btn btn-default game-file" ng-repeat="gameFile in gameFiles | orderBy: '-saveTimestamp'" ng-class="{active: selectCurrGame && isCurrGame(gameFile.id)}">
+    <input type="radio" ng-model="$parent.selectedGameId" name="selectedFileId" ng-value="gameFile.id" required radio-detect-change>
+    Name: {{gameFile.protagonistName}}<br>
+    {{gameFile.location.area}}<span ng-show="gameFile.location.room">: {{gameFile.location.room}}</span><br>
+    Last Saved: {{gameFile.saveTimestamp | date:"medium"}}
+  </label>
+  <label ng-show="showNewFile" class="btn btn-default game-file new-file">
+    <input type="radio" ng-model="selectedGameId" name="selectedFileId" value="new" required radio-detect-change>
+    <span class="fa fa-plus" aria-hidden="true"></span>
+    New File
+  </label>
+</fieldset>

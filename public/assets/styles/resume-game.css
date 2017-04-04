@@ -1,0 +1,22 @@
+resume-game .grad-btn {
+	box-sizing: border-box;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (min-width: 500px) {
+	resume-game .grad-btn {
+		width: 300px;
+	}
+}
+
+resume-game game-file-select {
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	resume-game game-file-select {
+		width: 70%;
+	}
+}

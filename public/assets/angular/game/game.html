@@ -1,0 +1,59 @@
+<div class="no-game-loaded" ng-hide="game.loaded"><!--no game loaded view-->
+  <div class="container">
+    <p ng-show="retrievingGame"><!--loading view-->
+      Starting up your game...
+      <loading-icon></loading-icon>
+    </p>
+    <div ng-hide="retrievingGame || retrievingGameError">
+      <p>You don't have a game loaded!</p>
+      <a href="#/" class="grad-btn animated flipInX">Go Home</a>
+    </div>
+    <div ng-show="!retrievingGame && retrievingGameError">
+      <p class="error">There was an error starting up your game. Try again in a moment.</p>
+      <button ng-click="startLoadedGame()" type="button" class="grad-btn small animated flipInX">Try again</button>
+    </div>
+  </div><!--container-->
+</div>
+
+<div ng-show="game.loaded"><!--game-loaded view-->
+
+  <div class="container-fluid">
+    <div class="game-hud row">
+      <div class="game-header col-sm-9 animated slideInLeft">
+        <h3>
+          <span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span>
+          <span ng-show="location.room.length">:</span>
+          <span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span>
+        </h3>
+      </div>
+      <div class="game-settings col-sm-3 animated flipInX">
+        <button type="button" class="grad-btn save-btn" data-toggle="modal" data-target=".saveModal">Save</button>
+      </div>
+  </div><!--container-fluid-->
+
+  <div class="container">
+    <div class="game-frame">
+      <div class="output well">
+        <div class="outputs" scroll-glue>
+          <p ng-repeat="output in outputs track by $index" ng-class="{'user-supplied': output.userSupplied, 'error': output.error}">
+            <span ng-if="output.stream" stream-text text-lines="output.text" after-stream="finishGameOutput(output)"></span>
+            <span ng-if="!output.stream" ng-bind="output.text"></span>
+          </p>
+        </div>
+        <loading-icon ng-show="loadingOutputResponse"></loading-icon>
+      </div>
+      <form name="gameInputForm" class="game-input-form animated flipInX" ng-submit="submitInput()">
+        <input id="userInput" name="input" type="text" ng-model="userInput" class="form-control" aria-label="Type a command here" placeholder="Type a command here" autofocus autocomplete="off">
+        <button ng-disabled="form.submitDisabled" ng-mouseenter="form.submitHover = true" ng-mouseleave="form.submitHover = false" type="submit">
+          <span ng-class="{'bounce': form.submitHover && !form.submitDisabled}" class="animated infinite glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+          <span class="sr-only">Submit</span>
+        </button>
+      </form>
+
+
+    </div><!--game-frame-->
+  </div><!--container-->
+
+  <save-modal></save-modal>
+
+</div><!--game-loaded view-->

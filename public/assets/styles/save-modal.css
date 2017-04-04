@@ -1,0 +1,63 @@
+.saveModal .modal-body {
+	text-align: center;
+}
+
+.saveModal .grad-btn {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-color: #3c5632;
+	color: #3c5632;
+	background: transparent;
+	background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0), #3c5632, #253e1c);
+	background-position: 1% 50%;  
+    background-size: 300% 300%;
+	width: 20rem;
+}
+
+.saveModal .grad-btn.small {
+	margin: 0;
+	width: auto;
+	display: inline;
+	padding: 5px 10px;
+}
+
+.saveModal .grad-btn,
+.saveModal .grad-btn:link, 
+.saveModal .grad-btn:visited, 
+.saveModal .grad-btn:active {
+  color: #3c5632;
+}
+
+.saveModal .grad-btn:hover,
+.saveModal .grad-btn:focus, 
+.saveModal .grad-btn:active {
+  color: white;
+  border-color: transparent;
+  background-position: 99% 50%; 
+}
+
+.saveModal form {
+	margin-top: 0;
+}
+.saveModal input {
+	border-color: rgba(60,86,50,.5);
+}
+
+.saveModal game-file-select {
+	width: 100%;
+	text-align: left;
+}
+
+.saveModal .back-btn.ng-hide {
+	display: none !important;
+}
+
+.saveModal .new-file .fa {
+	display: block !important;
+}
+
+.saveModal .game-files .btn{
+	color: #3c5632 !important;
+}

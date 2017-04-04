@@ -1,0 +1,71 @@
+form label {
+	font-weight: normal;
+}
+
+.form-group {
+	text-align: left;
+}
+
+@media (min-width: 768px) {
+	.form-group {
+		text-align: right;
+	}
+}
+
+.form-control {
+	font-size: 1.8rem;
+	background-color: rgba(255, 255, 255, 0.3);
+	color: #0c130a;
+	border-color: transparent;
+}
+
+.form-control:focus {
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0), 0 0 8px rgba(190, 168, 112, .6);
+	border-color: #bea870;
+}
+
+.form-control.ng-dirty.ng-invalid {
+	border-color: rgb(169,68,66);
+}
+
+.form-control.ng-dirty.ng-invalid:focus {
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0), 0 0 10px rgba(169,68,66,.8);
+}
+
+form.sign-in button,
+form.sign-in input[type="submit"],
+form.sign-up button,
+form.sign-up input[type="submit"] {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (max-width: 500px) {
+	form.sign-in button,
+	form.sign-in input[type="submit"],
+	form.sign-up button,
+	form.sign-up input[type="submit"] {
+	    display: block;
+	    width: 80%;
+  }
+}
+
+.form-control-feedback {
+	right: 1em;
+}
+
+.form-control-feedback-error,
+.form-label-required{
+	font-size: .9em;
+	color: #a94442;
+}
+
+.form-label-required {
+	display: inline;
+}
+
+@media (min-width: 768px) {
+	.form-label-required {
+		display: block;
+	}
+}

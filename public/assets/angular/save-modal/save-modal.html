@@ -1,0 +1,63 @@
+<div class="modal fade saveModal" tabindex="-1" aria-labelledby="saveModalLabel">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h2 class="modal-title" id="saveModalLabel">Save Your Game</h2>
+        </div><!--modal-header-->
+
+        <div class="modal-body">
+
+          <div ng-show="isPage('notSignedIn')"><!--Not Signed In View-->
+            <h3>You need to sign in to save your game</h3>
+            <button type="button" ng-click="changePage('signIn')" class="grad-btn animated flipInX">Sign In</button>
+            <button type="button" ng-click="changePage('signUp')" class="grad-btn animated flipInX">Sign Up</button>
+          </div>
+
+          <div ng-show="isPage('signIn')"><!--Sign In View-->
+            <h3>Sign In</h3>
+            <sign-in></sign-in>
+          </div>
+
+          <div ng-show="isPage('signUp')"><!--Sign Up View-->
+            <h3>Sign Up</h3>
+            <sign-up></sign-up>
+          </div>
+
+          <div ng-show="isPage('saveForm')"><!--Save Form View-->
+            <h3>Select a file to save the game</h3>
+
+            <p ng-show="loadingGames"><!--Loading games view-->
+              Loading Game Files...
+              <loading-icon></loading-icon>
+            </p>
+
+            <div ng-show="retrievingError"><!--Error while loading games view-->
+              <p class="error">{{retrievingErrorMsg}}</p>
+              <button ng-click="loadGameSummaries()" ng-show="retryRetrieveAllowed" class="grad-btn small animated flipInX">Try again</button>
+              <button ng-click="signOut()" ng-hide="retryRetrieveAllowed" class="grad-btn small animated flipInX">Sign out</button>
+            </div>
+
+            <form ng-hide="loadingGames || retrievingError" name="saveForm" ng-submit="submitSaveForm()" novalidate>
+              <p>Selected game id: {{saveFormData.gameId}}</p>
+              <game-file-select game-files="gameFiles" selected-game-id="saveFormData.gameId" show-new-file="true" select-curr-game="true"></game-file-select>
+              <p class="error">{{saveForm.errorMsg}}</p>
+              <submit-btn label="Save" is-disabled="saveForm.disableSubmitBtn"></submit-btn>
+            </form>
+          </div>
+
+        </div><!--modal-body-->
+
+        <div class="modal-footer">
+          <button type="button" class="grad-btn small pull-left back-btn" ng-hide="isPage('saveForm') || isPage('notSignedIn')" ng-click="goBack()">Back</button>
+          <button type="button" class="grad-btn small" data-dismiss="modal">Nevermind</button>
+        </div><!--modal-footer-->
+
+      </div><!--modal-content-->
+    </div><!--modal-dialog-->
+   </div><!--vertical alignment helper-->
+</div><!--modal-->

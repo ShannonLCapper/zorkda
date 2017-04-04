@@ -1,0 +1,23 @@
+.intro-btns {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  margin: auto;
+  font-family: "Orbitron", sans-serif;
+}
+
+.intro-btns > li {
+  display: inline;
+}
+
+@media (max-width: 767.5px) { /*fractional because of weird bug where it wouldn't break on the right px*/
+  .intro-btns {
+    display: block;
+  }
+  .intro-btns .grad-btn {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

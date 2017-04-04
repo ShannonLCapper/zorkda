@@ -1,0 +1,8 @@
+<form name="newGameForm" ng-submit="submitNewGameForm()" novalidate>
+  <fieldset class="form-group animated fadeInDown">
+    <label id="charNameLabel">What would you like to name your character?</label>
+    <input type="text" ng-pattern="/^['a-z-A-Z0-9 ._-]+$/" class="form-control" name="charName" maxlength="20" ng-model="characterName" aria-labelledby="charNameLabel" required autofocus>
+  </fieldset>
+  <p class="error">{{newGameForm.errorMsg}}</p>
+  <submit-btn label="Start Game" is-disabled="newGameForm.disableSubmitBtn"></submit-btn>
+</form>

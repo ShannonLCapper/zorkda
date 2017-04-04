@@ -1,0 +1,118 @@
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+	.modal-dialog {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+    text-align: left;
+}
+
+.modal-open[style] {
+	padding-right: 0px !important;
+}
+
+.modal {
+	color: #3c5632;
+    transition: height .5s ease-in-out;
+}
+
+.modal-title {
+    font-size: 2.5rem;
+}
+
+.modal-header,
+.modal-footer {
+	background-color: #dac99c;
+}
+
+.modal-body {
+    background-color: #f3f0e7;
+}
+
+.modal-header {
+	text-align: center;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.modal-footer {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.modal h3 {
+    font-size: 2rem;
+}
+
+.modal-body label,
+.modal-body legend {
+	font-weight: normal;
+}
+
+.modal .info-btn {
+    background-color: transparent;
+    border: none;
+    color: #3c5632;
+    padding: 0px 3px;
+}
+
+.settingsModal fieldset {
+	margin-bottom: 10px;
+    border: 1px solid rgba(218,201,156,.5);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.settingsModal fieldset:last-child {
+    margin-bottom: 5px;
+}
+
+.range-descriptor {
+	font-size: .8em;
+}
+.range-descriptor.left {
+	float: left;
+}
+.range-descriptor.right {
+	float: right;
+}
+
+.settingsModal .test-btn {
+    float: right;
+    background-color: transparent;
+    border: transparent;
+    border-radius: 5px;
+    font-size: .9em;
+}
+
+.settingsModal .test-btn:hover,
+.settingsModal .test-btn:focus {
+    background-color: rgba(218,201,156,.3);
+}
+
+.settingsModal .test-text {
+    clear: both;
+    font-size: .9em;
+}

@@ -1,0 +1,15 @@
+<div ng-show="isSignedIn">
+  <p>You are already signed in</p>
+  <button class="grad-btn animated flipInX" type="button" ng-click="signOut()">Sign Out</button>
+</div>
+
+<form class="sign-in" name="signInForm" class="form-horizontal" ng-submit="submitSignIn()" ng-hide="isSignedIn" novalidate>
+  <form-group-horiz animation="fadeInDown" label="Username" required="true" ng-class="{'has-error': signInForm.username.hasError}">
+    <input type="text" ng-pattern="/^[a-z-A-Z0-9 ._-]+$/" ng-model="username" name="username" class="form-control animated fadeInDown" title="Username" maxlength="30" autofocus required>
+  </form-group-horiz>
+  <form-group-horiz animation="fadeInDown" label="Password" required="true" ng-class="{'has-error': signInForm.password.hasError}">
+    <input type="password" ng-model="password" name="password" class="form-control animated fadeInDown" title="Password" maxlength="100" required>
+  </form-group-horiz>
+  <p class="error">{{signInForm.errorMsg}}</p>
+  <submit-btn label="Sign In" is-disabled="signInForm.disableSubmitBtn"></submit-btn>
+</form>

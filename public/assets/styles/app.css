@@ -1,0 +1,58 @@
+html {
+  height: 100%; /*makes the page render all the way to the bottom, even if there is not enough content to go that far*/
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%; /*makes body go to at least the bottom of the page*/
+  color: #bea870;
+  /*font-family: 'Orbitron', sans-serif;*/
+  /*font-family: 'Rajdhani', sans-serif;*/
+  /*font-family: 'Jura', sans-serif;*/
+  font-family: 'Kelly Slab', cursive;
+  text-align: center;
+  padding-top: 70px;
+  padding-bottom: 30px;
+  font-size: 1.8rem;
+  background: #172213;
+}
+
+body.notMobile {
+  background: url("/assets/images/background/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0,0,0,.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(0,0,0,.4);
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #0c130a;
+  border-radius: 0;
+}
+
+.loading-icon {
+  display: block !important;
+}
+
+.loading-icon.ng-hide {
+  display: none !important;
+}
+
+.error {
+  font-size: .9em;
+  color: #a94442;
+}

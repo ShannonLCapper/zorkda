@@ -1,0 +1,33 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#/">The Legend of Zorkda</a>
+        <button type="button" class="navbar-toggle animated flipInX" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div><!--navbar-header-->
+      <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
+        <li>
+          <a type="button" ng-click="closeNav()" data-toggle="modal" data-target=".settingsModal" class="animated flipInX">
+            <i class="fa fa-gears" aria-hidden="true"></i>
+            <span class="visible-xs-inline">Settings</span>
+          </a>
+        </li>
+        <li ng-show="user.signedIn" class="dropdown">
+          <a id="navUsernameBtn" class="dropdown-toggle animated flipInX" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            {{user.username}}
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navUsernameBtn">
+            <li><a href="#/" ng-click="closeNav(signOut)">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+  </div><!--container-fluid-->
+</nav>
+
+<settings-modal></settings-modal>

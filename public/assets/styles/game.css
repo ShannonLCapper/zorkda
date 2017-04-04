@@ -1,0 +1,150 @@
+game {
+	text-align: left;
+}
+
+game .no-game-loaded {
+	text-align: center;
+}
+
+.game-hud {
+	margin-bottom: 10px;
+}
+
+.game-hud .game-header {
+	padding-left: 0px;
+	margin-bottom: 10px;
+	min-height: 2em;
+}
+
+.game-hud .game-header h3 {
+	color: white;
+	background: linear-gradient(270deg, rgba(190,168,112,0), rgba(190,168,112,.7), #614b25 90%);
+	padding: 10px 0px 10px 30px;
+	margin: 0;
+}
+
+.game-header>h3>span {
+	display: inline-block;
+}
+
+.game-header>h3>span.ng-leave {
+	display: none;
+}
+
+.game-header>h3>span.ng-leave-active {
+	display: none;
+}
+
+.game-hud .save-btn {
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0px auto;
+	width: 100%;
+}
+
+@media (min-width: 500px) {
+	.game-hud .save-btn {
+		max-width: 300px;
+	}
+}
+
+.game-frame .output {
+	background-color: rgba(8,19,10, 0.4);
+	border-color: transparent;
+	height: 70vh;
+	overflow: hidden;
+	position: relative;
+	padding: 0px;
+}
+
+@media (min-width: 768px) {
+	.game-frame .output {
+		height: 75vh;
+	}
+}
+
+.game-frame .outputs{
+	height: 100%;
+	overflow: auto;
+	padding: 19px;
+}
+
+.game-frame loading-icon {
+	display: block;
+	position: absolute;
+	right: 20px;
+	bottom: 15px;
+}
+
+.game-frame .output .user-supplied {
+	color: #a3be70;
+}
+
+.game-input-form {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.game-input-form input::-webkit-input-placeholder {
+	color: #333d30;
+}
+.game-input-form input::-moz-placeholder {
+	color: #333d30;
+}
+.game-input-form input:-moz-placeholder {
+	color: #333d30;
+	opacity: 1;
+}
+.game-input-form input:-ms-input-placeholder {
+	color: #333d30;
+	opacity: 1;
+}
+
+@media (min-width: 768px) {
+	.game-input-form {
+		position: relative;
+	}
+}
+
+.game-input-form .form-control {
+	display: inline;
+	width: 100%;
+	border-radius: 0;
+	padding-right: 4.2rem;
+	background-color: #5e665b;
+}
+
+.game-input-form button {
+	color: #0c130a;
+	position: absolute;
+	right: 0;
+	top: 0;
+	vertical-align: top;
+	padding: 0;
+	width: 4.2rem;
+	height: 100%;
+	background-color: transparent;
+	border: none;
+	text-align: center;
+}
+
+.game-input-form button:hover,
+.game-input-form button:focus {
+	color: inherit;
+}
+
+.game-input-form button[disabled] {
+	color: #0c130a;
+	opacity: 0.2;
+}
+
+.game-input-form button .glyphicon {
+	font-size: 3rem;
+	position: absolute;
+	left: 50%;
+	margin-left: -1.5rem;
+	top: 0;
+}

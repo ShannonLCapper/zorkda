@@ -1,0 +1,29 @@
+<div ng-hide="user.signedIn"><!--Not signed in view-->
+  <p>You need to sign in before you can resume a saved game</p>
+  <a href="#/sign-in" class="grad-btn animated flipInX">Sign In</a>
+</div>
+
+<div ng-show="user.signedIn">
+
+  <p ng-show="loadingGames"><!--Loading games view-->
+    Loading Game Files...
+    <loading-icon></loading-icon>
+  </p>
+
+  <div ng-show="retrievingError"><!--Error while loading games view-->
+    <p class="error">{{retrievingErrorMsg}}</p>
+    <button ng-click="loadGameSummaries()" ng-show="retryRetrieveAllowed" class="grad-btn small animated flipInX">Try again</button>
+  </div>
+
+  <div ng-hide="loadingGames || retrievingError || gameFiles.length"><!--No games to resume view-->
+    <p>You don't have any saved games to resume</p>
+    <a href="#/new-game" class="grad-btn animated flipInX">Start New Game</a>
+  </div>
+
+  <form ng-show="gameFiles.length" name="selectGameForm" ng-submit="submitSelectGameForm()" novalidate><!--Game file select view-->
+    <game-file-select game-files="gameFiles" selected-game-id="selectedGameId"></game-file-select>
+    <p class="error">{{selectGameForm.errorMsg}}</p>
+    <submit-btn label="Resume" is-disabled="selectGameForm.disableSubmitBtn"></submit-btn>
+  </form>
+
+</div>

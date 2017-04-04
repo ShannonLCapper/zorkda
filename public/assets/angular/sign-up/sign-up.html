@@ -1,0 +1,25 @@
+<div ng-show="isSignedIn">
+  <p>You are already signed in</p>
+  <button class="grad-btn animated flipInX" type="button" ng-click="signOut()">Sign Out</button>
+</div>
+
+<form ng-hide="isSignedIn" class="sign-up" name="signUpForm" class="form-horizontal" ng-submit="submitSignUp()" novalidate>
+  <form-group-horiz label="Username" required="true" animation="fadeInDown">
+    <input type="text" ng-pattern="/^[a-z-A-Z0-9 ._-]+$/" name="username" class="form-control animated fadeInDown" maxlength="30" ng-model="username" title="Username" autofocus required>
+  </form-group-horiz>
+  <form-group-horiz label="Password" required="true" animation="fadeInDown">
+    <input type="password" name="password" class="form-control animated fadeInDown" maxlength="100" ng-model="password" title="Password" required>
+  </form-group-horiz>
+  <form-group-horiz label="Confirm Password" animation="fadeInDown">
+    <input type="password" name="passwordConf" comparewith="signUpForm.password" class="form-control animated fadeInDown" maxlength="100" ng-model="passwordConf" title="Confirm Password" aria-describedby="passwordConfStatus" required>
+    <!-- <span ng-show="signUpForm.passwordConf.noMatch">
+      <span class="glyphicon glyphicon-remove form-control-feedback animated swing" aria-hidden="true"></span>
+      <span class="sr-only" id="passwordConfStatus">Passwords do not match</span>
+    </span>
+    <span ng-show="signUpForm.passwordConf.noMatch">
+      <span class="glyphicon glyphicon-ok form-control-feedback animated bounceIn" aria-hidden="true"></span>
+      <span class="sr-only" id="passwordConfStatus">Passwords match</span> -->
+  </form-group-horiz>
+  <p class="error">{{signUpForm.errorMsg}}</p>
+  <submit-btn label="Sign Up" is-disabled="signUpForm.disableSubmitBtn"></submit-btn>
+</form>
