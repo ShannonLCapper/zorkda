@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 	spec.homepage		= "http://legendofzorkda.com/"
 	spec.license		= "MIT"
 
-	spec.files			= Dir["{lib}/**/*.rb", "{lib}/**/*.txt", "bin/*", "LICENSE", "*.md"]
+	spec.files			= Dir["{lib}/**/*.rb", "{lib}/**/*.txt", "{lib}/**/*.json", "bin/*", "LICENSE", "*.md"]
 	spec.executables	= []
 	spec.test_files		= Dir["{tests}/**/*.rb"]
 	spec.require_paths	= ["lib"]

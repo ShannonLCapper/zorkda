@@ -1,4 +1,7 @@
-Dir["#{File.dirname(__FILE__)}/zorkda-web/**/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/zorkda-web/Db/**/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/zorkda-web/GameFileCookie/**/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/zorkda-web/GameFileHandler/**/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/zorkda-web/User/**/*.rb"].each { |file| require file }
 
 module Zorkda
 
