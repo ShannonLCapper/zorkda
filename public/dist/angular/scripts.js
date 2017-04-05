@@ -23,9 +23,21 @@
 	angular
 		.module("core", [
 			"ngCookies",
+      "ngAnimate",
       "zorkdaSounds",
       "streamText"
 		]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("gameFileSelect", [
+			"core",
+  		"ngAnimate"
+		])
 
 })();
 "use strict";
@@ -39,17 +51,6 @@
 		"core",
 		"saveModal"
 	]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("gameFileSelect", [
-			"core",
-  		"ngAnimate"
-		])
 
 })();
 "use strict";
@@ -75,10 +76,9 @@
 (function() {
 	
 	angular
-		.module("navbar", [
-			"core",
-      "settingsModal"
-		]);
+		.module("newGame", [
+			"core"
+		])
 
 })();
 "use strict";
@@ -86,9 +86,10 @@
 (function() {
 	
 	angular
-		.module("newGame", [
-			"core"
-		])
+		.module("navbar", [
+			"core",
+      "settingsModal"
+		]);
 
 })();
 "use strict";
@@ -120,10 +121,10 @@
 (function() {
 	
 	angular
-		.module("settingsModal", [
-			"core",
-      "streamText"
-		]);
+		.module("signIn", [
+			"zorkdaForm",
+			"core"
+		])
 
 })();
 "use strict";
@@ -131,10 +132,10 @@
 (function() {
 	
 	angular
-		.module("signIn", [
-			"zorkdaForm",
-			"core"
-		])
+		.module("settingsModal", [
+			"core",
+      "streamText"
+		]);
 
 })();
 "use strict";
@@ -263,6 +264,123 @@ $(document).ready(function() {
 				})($window.navigator.userAgent || $window.navigator.vendor || $window.opera);
 				return check;
 			}
+		}]);
+
+})();
+angular
+	.module("gameFileSelect")
+	.animation(".game-file", function phoneAnimationFactory() {
+		return {
+			enter: animateIn,
+			move: animateIn,
+			leave: animateOut
+		};
+
+		function getVerticalDimensions(element) {
+			return {
+				height: element.prop("scrollHeight"),
+				minHeight: element.css("minHeight"),
+				maxHeight: element.css("maxHeight"),
+				paddingTop: element.css("paddingTop"),
+				paddingBottom: element.css("paddingBottom"),
+				marginTop: element.css("marginTop"),
+				marginBottom: element.css("marginBottom")
+			}
+		}
+
+		function animateIn(element, done) {
+			var dim = getVerticalDimensions(element);
+			element
+				.css({
+					minHeight: 0,
+					height: 0,
+					paddingTop: 0,
+					paddingBottom: 0,
+					marginTop: 0,
+					marginBottom: 0,
+					opacity: 0
+				})
+				.animate({
+					minHeight: dim.minHeight,
+					height: dim.height,
+					paddingTop: dim.paddingTop,
+					paddingBottom: dim.paddingBottom,
+					marginTop: dim.marginTop,
+					marginBottom: dim.marginBottom,
+					opacity: 1
+				}, function() {
+					$(this).css("height", "auto");
+					done();
+				});
+
+			return function animateInEnd(wasCanceled) {
+				if (wasCanceled) element.stop();
+			};
+		}
+
+		function animateOut(element, done) {
+			var dim = getVerticalDimensions(element);
+			element
+				.css({
+					minHeight: dim.minHeight,
+					height: dim.height,
+					paddingTop: dim.paddingTop,
+					paddingBottom: dim.paddingBottom,
+					marginTop: dim.marginTop,
+					marginBottom: dim.marginBottom,
+					opacity: 1
+				})
+				.animate({
+					minHeight: 0,
+					height: 0,
+					paddingTop: 0,
+					paddingBottom: 0,
+					marginTop: 0,
+					marginBottom: 0,
+					opacity: 0
+				}, done);
+
+			return function animateOutEnd(wasCanceled) {
+				if (wasCanceled) element.stop();
+			};
+		}
+	});
+"use strict";
+
+(function() {
+	
+	angular
+		.module("gameFileSelect")
+		.directive("gameFileSelect", ["GameService", function(GameService) {
+			return {
+				restrict: "E",
+				scope: {
+          gameFiles: "=",
+          selectedGameId: "=",
+          showNewFile: "=",
+          selectCurrGame: "="
+        },
+				templateUrl: "assets/angular/game-file-select/game-file-select.html",
+        link: function(scope, element, attrs) {
+          if (scope.selectCurrGame) {
+            scope.currGame = GameService.getGame();
+            scope.selectedGameId = scope.currGame.id;
+            scope.$watch(
+              function() {return GameService.getGame();},
+              function(newInfo, oldInfo) {
+                if (newInfo !== oldInfo) {
+                  scope.currGame = newInfo;
+                  scope.selectedGameId = scope.currGame.id;
+                }
+              },
+              true
+            );
+            scope.isCurrGame = function(id) {
+              return scope.currGame.id === id;
+            };
+          }
+        }
+			};
 		}]);
 
 })();
@@ -431,123 +549,6 @@ $(document).ready(function() {
 		}]);
 
 })();
-angular
-	.module("gameFileSelect")
-	.animation(".game-file", function phoneAnimationFactory() {
-		return {
-			enter: animateIn,
-			move: animateIn,
-			leave: animateOut
-		};
-
-		function getVerticalDimensions(element) {
-			return {
-				height: element.prop("scrollHeight"),
-				minHeight: element.css("minHeight"),
-				maxHeight: element.css("maxHeight"),
-				paddingTop: element.css("paddingTop"),
-				paddingBottom: element.css("paddingBottom"),
-				marginTop: element.css("marginTop"),
-				marginBottom: element.css("marginBottom")
-			}
-		}
-
-		function animateIn(element, done) {
-			var dim = getVerticalDimensions(element);
-			element
-				.css({
-					minHeight: 0,
-					height: 0,
-					paddingTop: 0,
-					paddingBottom: 0,
-					marginTop: 0,
-					marginBottom: 0,
-					opacity: 0
-				})
-				.animate({
-					minHeight: dim.minHeight,
-					height: dim.height,
-					paddingTop: dim.paddingTop,
-					paddingBottom: dim.paddingBottom,
-					marginTop: dim.marginTop,
-					marginBottom: dim.marginBottom,
-					opacity: 1
-				}, function() {
-					$(this).css("height", "auto");
-					done();
-				});
-
-			return function animateInEnd(wasCanceled) {
-				if (wasCanceled) element.stop();
-			};
-		}
-
-		function animateOut(element, done) {
-			var dim = getVerticalDimensions(element);
-			element
-				.css({
-					minHeight: dim.minHeight,
-					height: dim.height,
-					paddingTop: dim.paddingTop,
-					paddingBottom: dim.paddingBottom,
-					marginTop: dim.marginTop,
-					marginBottom: dim.marginBottom,
-					opacity: 1
-				})
-				.animate({
-					minHeight: 0,
-					height: 0,
-					paddingTop: 0,
-					paddingBottom: 0,
-					marginTop: 0,
-					marginBottom: 0,
-					opacity: 0
-				}, done);
-
-			return function animateOutEnd(wasCanceled) {
-				if (wasCanceled) element.stop();
-			};
-		}
-	});
-"use strict";
-
-(function() {
-	
-	angular
-		.module("gameFileSelect")
-		.directive("gameFileSelect", ["GameService", function(GameService) {
-			return {
-				restrict: "E",
-				scope: {
-          gameFiles: "=",
-          selectedGameId: "=",
-          showNewFile: "=",
-          selectCurrGame: "="
-        },
-				templateUrl: "assets/angular/game-file-select/game-file-select.html",
-        link: function(scope, element, attrs) {
-          if (scope.selectCurrGame) {
-            scope.currGame = GameService.getGame();
-            scope.selectedGameId = scope.currGame.id;
-            scope.$watch(
-              function() {return GameService.getGame();},
-              function(newInfo, oldInfo) {
-                if (newInfo !== oldInfo) {
-                  scope.currGame = newInfo;
-                  scope.selectedGameId = scope.currGame.id;
-                }
-              },
-              true
-            );
-            scope.isCurrGame = function(id) {
-              return scope.currGame.id === id;
-            };
-          }
-        }
-			};
-		}]);
-
-})();
 "use strict";
 
 (function() {
@@ -565,37 +566,6 @@ angular
 						function(signedIn) {scope.isSignedIn = signedIn;},
 						true
 					);
-				}
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("navbar")
-		.directive("navbar", ["UserService", function(UserService){
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/navbar/navbar.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser();},
-						function(userInfo) {scope.user = userInfo;},
-						true
-					);
-
-					scope.closeNav = function(callback) {
-						$(".navbar-collapse").collapse("hide");
-						if (callback) callback()
-					};
-
-					scope.signOut = function() {
-						UserService.signOut();
-					};
 				}
 			};
 		}]);
@@ -650,6 +620,37 @@ angular
               
           }
         }
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("navbar")
+		.directive("navbar", ["UserService", function(UserService){
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/navbar/navbar.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser();},
+						function(userInfo) {scope.user = userInfo;},
+						true
+					);
+
+					scope.closeNav = function(callback) {
+						$(".navbar-collapse").collapse("hide");
+						if (callback) callback()
+					};
+
+					scope.signOut = function() {
+						UserService.signOut();
+					};
+				}
 			};
 		}]);
 
@@ -893,48 +894,6 @@ angular
 (function() {
 	
 	angular
-		.module("settingsModal")
-		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/settings-modal/settings-modal.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-
-					scope.playTestSound = function() {
-						ZorkdaSounds.playSound("navi");
-					};
-
-					scope.playTestTextScroll = function() {
-						scope.testText = [];
-						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
-					};
-
-					//Initialize popover functionality
-					$("[data-toggle='popover']").popover();
-					//Initialize testText
-					scope.testText = [];
-					//Set up 2-way binding with scope.settings and SettingsService.settings
-					scope.settings = SettingsService.getSettings();
-					scope.$watch(
-						function() {return SettingsService.getSettings();},
-						function(newV, oldV) {
-							if (newV !== oldV && newV !== scope.settings) {
-								scope.settings = newV;
-							}
-						},
-						true
-					);
-				}
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
 		.module("signIn")
 		.directive("signIn", ["UserService", "$location", "$routeParams", function(UserService, $location, $routeParams) {
 			return {
@@ -1008,6 +967,48 @@ angular
             }
           };
         }
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("settingsModal")
+		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/settings-modal/settings-modal.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+
+					scope.playTestSound = function() {
+						ZorkdaSounds.playSound("navi");
+					};
+
+					scope.playTestTextScroll = function() {
+						scope.testText = [];
+						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
+					};
+
+					//Initialize popover functionality
+					$("[data-toggle='popover']").popover();
+					//Initialize testText
+					scope.testText = [];
+					//Set up 2-way binding with scope.settings and SettingsService.settings
+					scope.settings = SettingsService.getSettings();
+					scope.$watch(
+						function() {return SettingsService.getSettings();},
+						function(newV, oldV) {
+							if (newV !== oldV && newV !== scope.settings) {
+								scope.settings = newV;
+							}
+						},
+						true
+					);
+				}
 			};
 		}]);
 

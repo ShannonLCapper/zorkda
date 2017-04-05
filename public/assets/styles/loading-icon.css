@@ -1,0 +1,43 @@
+.loading-icon {
+  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grad-btn .loading-icon {
+	margin-top: -20px;
+	margin-bottom: -20px;
+}
+
+.grad-btn.small .loading-icon {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/*.loading-icon.ng-hide {
+  display: none !important;
+}*/
+
+/*For some reason, angular is flipping ng-hide-remove and ng-hide-add for the loading icon
+So this is really providing animation for when the loading icon is going from hidden to shown,
+not the other way around
+Also, the transition needs to be in place for the loading-icon element itself or else the hooks
+won't get placed, so even though changing the opacity of the loading-icon tag doesn't
+affect the opacity of the .loading-icon img within it, it still needs to be done*/
+loading-icon.ng-hide-remove {
+	transition: all linear 1s;
+	opacity: 0;
+}
+
+loading-icon.ng-hide-remove.ng-hide-remove-active {
+	opacity: 1;
+}
+
+loading-icon.ng-hide-remove .loading-icon{
+	opacity: 0;
+	transition: all linear 1s;
+}
+
+loading-icon.ng-hide-remove.ng-hide-remove-active .loading-icon{
+	opacity: 1;
+}

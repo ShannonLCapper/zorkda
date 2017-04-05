@@ -38,6 +38,11 @@
   background-position: 99% 50%; 
 }
 
+.saveModal .grad-btn .loading-icon {
+	margin-top: -10px;
+	margin-bottom: -10px;
+}
+
 .saveModal form {
 	margin-top: 0;
 }

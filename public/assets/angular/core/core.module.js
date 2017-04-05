@@ -5,6 +5,7 @@
 	angular
 		.module("core", [
 			"ngCookies",
+      "ngAnimate",
       "zorkdaSounds",
       "streamText"
 		]);

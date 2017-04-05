@@ -44,14 +44,6 @@ body::-webkit-scrollbar-track {
   border-radius: 0;
 }
 
-.loading-icon {
-  display: block !important;
-}
-
-.loading-icon.ng-hide {
-  display: none !important;
-}
-
 .error {
   font-size: .9em;
   color: #a94442;
