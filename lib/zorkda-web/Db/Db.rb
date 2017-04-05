@@ -5,7 +5,10 @@ module Zorkda
     require "json"
     require "oj"
 
-    creds = JSON.load(File.read("secrets.json"))
+    creds = {
+      "AccessKeyId" => ENV["ZORKDA_DYNAMO_KEY"],
+      "SecretAccessKey" => ENV["ZORKDA_DYNAMO_SECRET"]
+    }
 
     Aws.use_bundled_cert!
     Aws.config.update({
