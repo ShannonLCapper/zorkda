@@ -4,6 +4,7 @@ module Zorkda
     require "aws-sdk-core"
     require "json"
     require "oj"
+    require "dotenv/load"
 
     creds = {
       "AccessKeyId" => ENV["ZORKDA_DYNAMO_KEY"],
