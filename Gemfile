@@ -7,3 +7,4 @@ gem 'rack-contrib' #, git: 'github.com:rack/rack-contrib', ref: 'b7237381e412852
 gem 'aws-sdk-core'
 gem 'bcrypt-ruby', '3.1.5', :require => 'bcrypt'
 gem 'oj'
+gem 'require_all'
