@@ -90,9 +90,10 @@
 (function() {
 	
 	angular
-		.module("newGame", [
-			"core"
-		])
+		.module("settingsModal", [
+			"core",
+      "streamText"
+		]);
 
 })();
 "use strict";
@@ -105,17 +106,6 @@
       "signUp",
       "core",
       "zorkdaForm"
-		]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("settingsModal", [
-			"core",
-      "streamText"
 		]);
 
 })();
@@ -145,16 +135,6 @@
 
 (function() {
 	
-	angular
-		.module("splashPage", [
-			"core"
-		])
-
-})();
-"use strict";
-
-(function() {
-	
 	angular.module("streamText", [
     "ngSanitize"
 	]);
@@ -165,9 +145,29 @@
 (function() {
 	
 	angular
+		.module("splashPage", [
+			"core"
+		])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
 		.module("zorkdaForm", [
       "core"
     ])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("newGame", [
+			"core"
+		])
 
 })();
 "use strict";
@@ -603,10 +603,9 @@ angular
 						var game = GameService.getGame();
 						if (game.loaded && !game.saved) {
 							var answer = confirm("Are you sure you want to sign out without saving your current game?");
-							if (answer) {
-								UserService.signOut();
-							}
+							if (!answer) return;
 						}
+						UserService.signOut();
 					};
 				}
 			};
@@ -708,50 +707,39 @@ angular
 (function() {
 	
 	angular
-		.module("newGame")
-		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
+		.module("settingsModal")
+		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
 			return {
 				restrict: "E",
-				scope: {
-        },
-				templateUrl: "assets/angular/new-game/new-game.html",
-        link: function(scope, element, attrs) {
-          scope.submitNewGameForm = function() {
-            var newGameForm = scope.newGameForm;
-            newGameForm.errorMsg = "";
-            if (newGameForm.$invalid) {
-              var errorMsg;
-              var $error = newGameForm.charName.$error;
-              if ($error.required) {
-                errorMsg = "You need to choose a name";
-              } else if ($error.pattern) {
-                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
-              } else if ($error.maxlength) {
-                errorMsg = "Your character's name cannot be over 20 characters";
-              }
-              newGameForm.errorMsg = errorMsg;
-              return
-            }
-            newGameForm.disableSubmitBtn = true;
-            GameService
-              .loadNewGame(scope.characterName)
-              .then(function successfulGameLoad() {
-                $location.path("/game");
-              }, function failureGameLoad(response) {
-                var errorMsg;
-                if (response.status === 400) { //missing field, shouldn't happen
-                  errorMsg = "You need to choose a name";
-                } else {
-                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
-                }
-                newGameForm.errorMsg = errorMsg;
-              })
-              .finally(function reenabelSubmitBtn() {
-                newGameForm.disableSubmitBtn = false;
-              })
-              
-          }
-        }
+				templateUrl: "assets/angular/settings-modal/settings-modal.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+
+					scope.playTestSound = function() {
+						ZorkdaSounds.playSound("navi");
+					};
+
+					scope.playTestTextScroll = function() {
+						scope.testText = [];
+						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
+					};
+
+					//Initialize popover functionality
+					$("[data-toggle='popover']").popover();
+					//Initialize testText
+					scope.testText = [];
+					//Set up 2-way binding with scope.settings and SettingsService.settings
+					scope.settings = SettingsService.getSettings();
+					scope.$watch(
+						function() {return SettingsService.getSettings();},
+						function(newV, oldV) {
+							if (newV !== oldV && newV !== scope.settings) {
+								scope.settings = newV;
+							}
+						},
+						true
+					);
+				}
 			};
 		}]);
 
@@ -895,48 +883,6 @@ angular
 						true
 					);
 
-				}
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("settingsModal")
-		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/settings-modal/settings-modal.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-
-					scope.playTestSound = function() {
-						ZorkdaSounds.playSound("navi");
-					};
-
-					scope.playTestTextScroll = function() {
-						scope.testText = [];
-						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
-					};
-
-					//Initialize popover functionality
-					$("[data-toggle='popover']").popover();
-					//Initialize testText
-					scope.testText = [];
-					//Set up 2-way binding with scope.settings and SettingsService.settings
-					scope.settings = SettingsService.getSettings();
-					scope.$watch(
-						function() {return SettingsService.getSettings();},
-						function(newV, oldV) {
-							if (newV !== oldV && newV !== scope.settings) {
-								scope.settings = newV;
-							}
-						},
-						true
-					);
 				}
 			};
 		}]);
@@ -1160,29 +1106,6 @@ angular
 "use strict";
 
 (function() {
-	
-	angular
-		.module("splashPage")
-		.directive("splashPage", ["UserService", function(UserService) {
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/splash-page/splash-page.html",
-				scope: {},
-				transclude: true,
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser();},
-						function(user) {scope.user = user;},
-						true
-					)
-				}
-			}
-		}]);
-
-})();
-"use strict";
-
-(function() {
 
   angular
     .module('streamText')
@@ -1329,6 +1252,29 @@ angular
 			}
 
 		}])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("splashPage")
+		.directive("splashPage", ["UserService", function(UserService) {
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/splash-page/splash-page.html",
+				scope: {},
+				transclude: true,
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser();},
+						function(user) {scope.user = user;},
+						true
+					)
+				}
+			}
+		}]);
 
 })();
 'use strict';
@@ -1947,6 +1893,59 @@ if(typeof module === "object" && module.exports){
     createDirective(module, 'scrollGlueRight', right);
 }(angular));
 
+"use strict";
+
+(function() {
+	
+	angular
+		.module("newGame")
+		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
+			return {
+				restrict: "E",
+				scope: {
+        },
+				templateUrl: "assets/angular/new-game/new-game.html",
+        link: function(scope, element, attrs) {
+          scope.submitNewGameForm = function() {
+            var newGameForm = scope.newGameForm;
+            newGameForm.errorMsg = "";
+            if (newGameForm.$invalid) {
+              var errorMsg;
+              var $error = newGameForm.charName.$error;
+              if ($error.required) {
+                errorMsg = "You need to choose a name";
+              } else if ($error.pattern) {
+                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
+              } else if ($error.maxlength) {
+                errorMsg = "Your character's name cannot be over 20 characters";
+              }
+              newGameForm.errorMsg = errorMsg;
+              return
+            }
+            newGameForm.disableSubmitBtn = true;
+            GameService
+              .loadNewGame(scope.characterName)
+              .then(function successfulGameLoad() {
+                $location.path("/game");
+              }, function failureGameLoad(response) {
+                var errorMsg;
+                if (response.status === 400) { //missing field, shouldn't happen
+                  errorMsg = "You need to choose a name";
+                } else {
+                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
+                }
+                newGameForm.errorMsg = errorMsg;
+              })
+              .finally(function reenabelSubmitBtn() {
+                newGameForm.disableSubmitBtn = false;
+              })
+              
+          }
+        }
+			};
+		}]);
+
+})();
 "use strict";
 
 (function() {
