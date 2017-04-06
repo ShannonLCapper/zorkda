@@ -6,14 +6,22 @@
   letter-spacing: .3rem;
   border: 1px solid #bea870;
   border-radius: 0;
-  width: 30rem;
+  width: 100%;
   padding: 2rem 0px;
-  margin: 20px;
+  margin: 20px auto;
   transition: all .7s ease-out, width .01s;
   background: transparent;
   background: linear-gradient(270deg, #bea870, #614b25, rgba(0,0,0,0), rgba(0,0,0,0));
   background-position: 1% 50%;  
   background-size: 300% 300%;
+}
+
+@media (min-width: 500px) {
+  .grad-btn {
+    width: 30rem;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 .grad-btn,

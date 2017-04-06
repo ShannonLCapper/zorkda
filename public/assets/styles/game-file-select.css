@@ -54,3 +54,13 @@ game-file-select {
 	outline: none;	
 	box-shadow: inset 0 3px 5px rgba(0,0,0,.125), 0 0 10px rgba(190, 168, 112, 1);
 }
+
+/*Needed because the date wasn't wrapping properly*/
+.game-file .game-summary .date {
+	display: block;
+}
+@media (min-width: 400px) {
+	.game-file .game-summary .date {
+		display: inline;
+	}
+ }

@@ -1,8 +1,6 @@
 module Zorkda
-
   module GameFileHandler
-    include Zorkda::Db
-    include Zorkda::GameFileCookie
+
     require "json"
 
     def self.all_params_present?(params)
@@ -13,7 +11,7 @@ module Zorkda
     end
 
     def self.uuid_valid?(uuid)
-      entry = Db.get_uuid(uuid)
+      entry = Zorkda::Db.get_uuid(uuid)
       return 500 if entry == "read error"
       return false if entry.nil?
       return true
@@ -32,24 +30,44 @@ module Zorkda
       return game_summaries.to_json
     end
 
-    def self.retrieve_game_file(uuid, game_id)
-      return 400 unless self.all_params_present?([uuid, game_id])
-      response = Zorkda::Db.get_game(uuid, game_id)
+    def self.load_game_file(uuid, saved_game_id)
+      return 400 unless self.all_params_present?([uuid, saved_game_id])
+      response = Zorkda::Db.get_saved_game(uuid, saved_game_id, false)
       return 500 if response == "read error"
       return 404 if response.nil?
-      return response[:game_file]
+      game_session_id = Zorkda::GameSessionHandler.create_game_session(response["game_file"], false)
+      # return status code if adding game file to game sessions failed
+      return 500 if game_session_id == "failed"
+      return {
+        gameSessionId: game_session_id,
+        savedGameId: saved_game_id
+      }.to_json
     end
 
-    def self.initialize_game_file(protagonist_name)
+    class FakePlayer #temporary
+      attr_accessor :name
+      def initialize(name)
+        @name = name
+      end
+    end
+
+    class FakeGameFile #temporary
+      attr_accessor :move_counter, :player, :display_location
+      def initialize(protagonist_name)
+        @move_counter = 0
+        @player = FakePlayer.new(protagonist_name)
+        @display_location = {area: "Starting Place", room: "Room 1"}
+      end
+    end
+
+    def self.load_new_game_file(protagonist_name)
       return 400 unless self.all_params_present?([protagonist_name])
-      # TODO: create game file
-      # game_file = ...
-      game_file = { # temporary
-        moves: 0, 
-        player_name: protagonist_name, 
-        location: {area: "Starting Place", room: "Room 1"}
-      }
-      return game_file
+      # game_file = Zorkda::Engine.initialize_new_game(protagonist_name)
+      game_file = FakeGameFile.new(protagonist_name) # temporary
+      game_session_id = Zorkda::GameSessionHandler.create_game_session(game_file)
+      # return status code if adding game file to game sessions failed
+      return 500 if game_session_id == "failed"
+      return { gameSessionId: game_session_id }.to_json
     end
 
     def self.output_obj
@@ -60,102 +78,96 @@ module Zorkda
       }
     end
 
-    def self.start_game(game_cookie)
-      return {loaded: false, gameId: nil} unless Zorkda::GameFileCookie.game_loaded?(game_cookie)
-      game_id = Zorkda::GameFileCookie.get_game_id(game_cookie)
-      game_file = Zorkda::GameFileCookie.get_game_file(game_cookie)
-      # This is temporary, replace with commented out section below
-      return {
-        loaded: true,
-        gameId: game_id,
-        outputLines: ["This is game file id #{game_id}", "Your name is #{game_file[:player_name]}", "You are on move #{game_file[:moves].to_i}" ],
-        location: game_file[:location], 
+    def self.start_game(game_session_id)
+      return 400 unless self.all_params_present?([game_session_id])
+      game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
+      return 500 if game_file == "failed"
+      return 404 if game_file.nil?
+      #output_obj = self.output_obj
+      #Zorkda::Engine.run_game(game_file, output_obj) # TODO
+      update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
+      return 500 if update_game_session_response == "failed"
+      return { # temporary
+        outputLines: ["This is game session #{game_session_id}", "Your name is #{game_file.player.name}", "You are on move #{game_file.move_counter.to_i}" ],
+        location: game_file.display_location, 
         navi: false
       }.to_json
-      # output_obj = self.output_obj
-      # output_obj[:loaded] = true
-      # output_obj[:gameId] = game_id
-      # # TODO
-      # Zorkda::Engine.run_game(game_file, output_obj)
-      # return output_obj.to_json
+      #return output_obj.to_json
     end
 
-    def self.input_to_game(game_cookie, input)
+    def self.input_to_game(game_session_id, input)
+      return 404 unless self.all_params_present?([game_session_id])
       return 400 unless self.all_params_present?([input])
-      return 404 unless Zorkda::GameFileCookie.game_loaded?(game_cookie)
-      game_file = Zorkda::GameFileCookie.get_game_file(game_cookie)
-      # This is temporary, replace with commented out section below
-      game_id = Zorkda::GameFileCookie.get_game_id(game_cookie)
-      game_file[:moves] = game_file[:moves].to_i + 1
-      return {
-        outputLines: ["This is game file id #{game_id}", "You are on move #{game_file[:moves]}" ],
-        location: game_file[:location],
+      game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
+      return 500 if game_file == "failed"
+      return 404 if game_file.nil?
+      #output_obj = self.output_obj
+      #Zorkda::Engine.run_game(game_file, output_obj, input) #TODO
+      game_file.move_counter += 1 #temporary
+      update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
+      return 500 if update_game_session_response == "failed"
+      return { # temporary
+        outputLines: ["This is game session #{game_session_id}", "You are on move #{game_file.move_counter.to_i}" ],
+        location: game_file.display_location,
         navi: true
       }.to_json
-      # output_obj = self.output_obj
-      # output_obj[:loaded] = true
-      # output_obj[:gameId] = game_id
-      # # TODO
-      # Zorkda::Engine.run_game(game_file, output_obj, input)
       # return output_obj.to_json
     end
 
-    def self.save(game_cookie, uuid, game_id)
-      return 400 unless self.all_params_present?([uuid, game_id])
-      valid_uuid = self.uuid_valid?(uuid)
-      case valid_uuid
-      when "read error"
-        return 500
-      when false
-        return 404
-      end
-      game_file = Zorkda::GameFileCookie.get_game_file(game_cookie)
+    def self.save(game_session_id, uuid, save_game_id)
+      return 400 unless self.all_params_present?([uuid, save_game_id])
+      return 404 unless self.all_params_present?([game_session_id])
+      game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
+      return 500 if game_file == "failed"
+      return 404 if game_file.nil?
       game_info = {
         uuid: uuid,
-        game_id: game_id,
-        game_file: game_file,
-        game_summary: self.generate_game_summary(game_id, game_file)
+        game_id: save_game_id,
+        game_file: Zorkda::ObjectEncoder.encode(game_file)
       }
-      response = Zorkda::Db.update_game(game_info)
+      response = Zorkda::Db.update_saved_game(game_info)
       return 500 if response == "write error"
-      return {gameId: game_id}
+      game_summary_info = {
+        uuid: uuid,
+        game_id: save_game_id,
+        game_summary: self.generate_game_summary(save_game_id, game_file)
+      }
+      Zorkda::Db.put_game_summary(game_summary_info)
+      return {savedGameId: save_game_id}
     end
 
-    def self.save_new(game_cookie, uuid)
+    def self.save_new(game_session_id, uuid)
       return 400 unless self.all_params_present?([uuid])
-      valid_uuid = self.uuid_valid?(uuid)
-      case valid_uuid
-      when "read error"
-        return 500
-      when false
-        return 404
-      end
-      game_file = Zorkda::GameFileCookie.get_game_file(game_cookie)
+      return 404 unless self.all_params_present?([game_session_id])
+      game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
       loop do
-        game_id = SecureRandom.hex
+        save_game_id = SecureRandom.hex
         game_info = {
           uuid: uuid,
-          game_id: game_id,
-          game_file: game_file,
-          game_summary: self.generate_game_summary(game_id, game_file)
+          game_id: save_game_id,
+          game_file: Zorkda::ObjectEncoder.encode(game_file)
         }
-        response = Zorkda::Db.add_game(game_info)
+        response = Zorkda::Db.add_saved_game(game_info)
         next if response == "taken"
         return 500 if response == "write error"
-        return {gameId: game_id}
+        game_summary_info = {
+          uuid: uuid,
+          game_id: save_game_id,
+          game_summary: self.generate_game_summary(save_game_id, game_file)
+        }
+        Zorkda::Db.put_game_summary(game_summary_info)
+        return {savedGameId: save_game_id}
       end
     end
 
-    def self.generate_game_summary(game_id, game_file)
-      # TODO: refactor once the real game_file has been created
+    def self.generate_game_summary(save_game_id, game_file)
       return { 
-        protagonistName: game_file[:player_name], #TODO 
-        location: game_file[:location], #TODO
-        id: game_id, 
+        protagonistName: game_file.player.name,
+        location: game_file.display_location,
+        id: save_game_id, 
         saveTimestamp: Time.now.to_i * 1000
       }
     end
     
   end
-
 end

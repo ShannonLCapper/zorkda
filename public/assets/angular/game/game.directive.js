@@ -36,21 +36,31 @@
 						}
 					}
 
-					scope.startLoadedGame = function() {
+					scope.startGame = function() {
 						scope.retrievingGame = true;
 						scope.retrievingGameError = false;
 						GameService
-							.startLoadedGame()
-							.then(function successfulLoadedGameStart(response) {
-								//scope.game.loaded and scope.game.id will be auto updated due to $watch
-								if (scope.game.loaded) {
-									$timeout(function() {
-										$("#userInput").focus();
-									});
-									updateGameLocation(response.data.location);
-									addGameOutput(response.data);
+							.startGame()
+							.then(function successfulGameStart(response) {
+								$timeout(function() {
+									$("#userInput").focus();
+								});
+								updateGameLocation(response.data.location);
+								scope.gameStarted = true;
+								addGameOutput(response.data);
+							}, function unsuccessfulGameStart(response) {
+								var msg;
+								if (response.status  === "404") {
+									msg = "Your game session expired. Please go back to resume from the nearest savepoint, or to start a new game.";
+									scope.canRetryRetrieve = false;
+								} else if (response.status === "400") { //shouldn't happen
+									msg = "Your game file ID didn't get sent in the request. Please go back and try loading the game again.";
+									scope.canRetryRetrieve = false;
+								} else {
+									msg = "There was an error starting up your game. Try again in a moment.";
+									scope.canRetryRetrieve = true;
 								}
-							}, function unsuccessfulLoadedGameStart() {
+								scope.retrievingGameErrorMsg = msg;
 								scope.retrievingGameError = true;
 							})
 							.finally(function() {
@@ -98,12 +108,12 @@
 									var msg;
 									if (response.status === 400) {
 										//this should never happen
-										msg = "Please type a command."
+										msg = "Please type a command.";
 									} else if (response.status === 404) {
 										//this should never happen
-										msg = "You don't have a game file loaded. Go back to start a new game or resume a saved game."
+										msg = "Your game session has expired. Please go back to resume from the nearest savepoint, or to start a new game.";
 									} else {
-										msg = "There was an error on our end. Please try again in a moment."
+										msg = "There was an error on our end. Please try again in a moment.";
 									}
 									newOutput.text = msg;
 									pushToOutputs(newOutput);
@@ -156,7 +166,10 @@
 						true
 					);
 					//Start loaded game on page load
-					scope.startLoadedGame();
+					scope.gameStarted = false;
+					if (scope.game.loaded) {
+						scope.startGame();
+					}
 					
 				}
 			};

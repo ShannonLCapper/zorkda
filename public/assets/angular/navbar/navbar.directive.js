@@ -4,7 +4,7 @@
 	
 	angular
 		.module("navbar")
-		.directive("navbar", ["UserService", function(UserService){
+		.directive("navbar", ["UserService", "GameService", function(UserService, GameService){
 			return {
 				restrict: "E",
 				templateUrl: "assets/angular/navbar/navbar.html",
@@ -22,7 +22,13 @@
 					};
 
 					scope.signOut = function() {
-						UserService.signOut();
+						var game = GameService.getGame();
+						if (game.loaded && !game.saved) {
+							var answer = confirm("Are you sure you want to sign out without saving your current game?");
+							if (answer) {
+								UserService.signOut();
+							}
+						}
 					};
 				}
 			};

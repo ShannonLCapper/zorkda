@@ -3,7 +3,6 @@ module Zorkda
   module User
     require "bcrypt"
     require "json"
-    include Zorkda::Db
 
     def self.all_params_present?(params)
       params.each do |param|

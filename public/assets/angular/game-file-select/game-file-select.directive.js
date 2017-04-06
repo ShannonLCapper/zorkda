@@ -17,19 +17,19 @@
         link: function(scope, element, attrs) {
           if (scope.selectCurrGame) {
             scope.currGame = GameService.getGame();
-            scope.selectedGameId = scope.currGame.id;
+            scope.selectedGameId = scope.currGame.savedGameId;
             scope.$watch(
               function() {return GameService.getGame();},
               function(newInfo, oldInfo) {
                 if (newInfo !== oldInfo) {
                   scope.currGame = newInfo;
-                  scope.selectedGameId = scope.currGame.id;
+                  scope.selectedGameId = scope.currGame.savedGameId;
                 }
               },
               true
             );
             scope.isCurrGame = function(id) {
-              return scope.currGame.id === id;
+              return scope.currGame.savedGameId === id;
             };
           }
         }

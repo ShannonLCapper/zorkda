@@ -43,7 +43,7 @@
             </div>
 
             <form ng-hide="loadingGames || retrievingError" name="saveForm" ng-submit="submitSaveForm()" novalidate>
-              <p>Selected game id: {{saveFormData.gameId}}</p>
+              <!-- <p>Selected game id: {{saveFormData.gameId}}</p> -->
               <game-file-select game-files="gameFiles" selected-game-id="saveFormData.gameId" show-new-file="true" select-curr-game="true"></game-file-select>
               <p class="error">{{saveForm.errorMsg}}</p>
               <submit-btn label="Save" is-disabled="saveForm.disableSubmitBtn"></submit-btn>

@@ -4,7 +4,7 @@
 	
 	angular
 		.module("core")
-		.factory("UserService", ["$cookies", "$http", function userServiceFactory($cookies, $http) {
+		.factory("UserService", ["$cookies", "$http", "GameService", function userServiceFactory($cookies, $http, GameService) {
 			if (getUserCookie() === undefined) initUserCookie();
 			var user
 			updateUser();
@@ -44,9 +44,11 @@
 				},
 
 				signOut: function() {
+					GameService.quitGame();
 					initUserCookie();
 					updateUser();
 				},
+
 				signIn: function(username, password) {
 					//if username not in records, status 404
 					//if incorrect password, status 422

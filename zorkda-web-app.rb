@@ -1,9 +1,9 @@
 require 'sinatra'
-require './lib/zorkda-web.rb'
 require 'json'
 require 'byebug'
 require 'rack'
 require 'rack/contrib'
+require './lib/zorkda-web.rb'
 
 use Rack::PostBodyContentTypeParser
 enable :sessions
@@ -32,83 +32,39 @@ post "/user/game-summaries" do
 end
 
 post "/game/load" do
-  # Response will be a status code
+  # Response will be a status code or {gameSessionId: ..., savedGameId: ...}
   return if !request.xhr?
-  # retrieve_game_file will either return an error status code or a game file
-  game_file = Zorkda::GameFileHandler.retrieve_game_file(params["uuid"], params["gameId"])
-  # Return status code if retrieve_game_file returns a error status code
-  return game_file if game_file.is_a?(Numeric)
-  # set game cookie
-  session["game"] = {
-    game_id: params["gameId"], 
-    game_file: game_file
-  }
-  return 204
+  return Zorkda::GameFileHandler.load_game_file(params["uuid"], params["savedGameId"])
 end
 
 post "/game/load-new" do
-  # Response will be a status code
+  # Response will be a status code or {game_session_id: ...}
   return if !request.xhr?
-  # retrieve_game_file will either return an error status code or a game file
-  game_file = Zorkda::GameFileHandler.initialize_game_file(params["protagonistName"])
-  # Return status code if retrieve_game_file returns a error status code
-  return game_file if game_file.is_a?(Numeric)
-  # set game cookie
-  session["game"] = {
-    game_id: nil, 
-    game_file: game_file
-  }
-  return 204
+  return Zorkda::GameFileHandler.load_new_game_file(params["protagonistName"])
 end
 
-get "/game/start" do
-  # Response will be a hash with the following properties
-  # loaded(boolean), gameId(num or nil), outputLines(arr of strings),
-  # location(hash with area and room strings), navi(boolean)
-  # if loaded = false, gameId should be nil and no other properties needed
+post "/game/start" do
+  # Response will a status code or a hash with the following properties
+  # outputLines(arr of strings), location(hash with area and room strings), navi(boolean)
   return if !request.xhr?
-  # retrieve game cookie
-  game_cookie = session["game"]
-  response = Zorkda::GameFileHandler.start_game(game_cookie)
-  session["game"] = game_cookie
-  return response
+  return Zorkda::GameFileHandler.start_game(params["gameSessionId"])
 end
 
 post "/game/input" do
+  # Response will be a status code or a hash with the following properties
+  # outputLines(arr of strings), location(hash with area and room strings), navi(boolean)
   return if !request.xhr?
-  # retrieve game cookie
-  game_cookie = session["game"]
-  # submit input to game file
-  response = Zorkda::GameFileHandler.input_to_game(game_cookie, params["input"])
-  # update game cookie
-  session["game"] = game_cookie
-  return response
+  return Zorkda::GameFileHandler.input_to_game(params["gameSessionId"], params["input"])
 end
 
 post "/game/save" do
-  # Response will be error status code or {gameId: ...}
+  # Response will be error status code or {savedGameId: ...}
   return if !request.xhr?
-  # retrieve game cookie
-  game_cookie = session["game"]
-  # save game file
-  response = Zorkda::GameFileHandler.save(game_cookie, params["uuid"], params["gameId"])
-  unless response.is_a?(Numeric)
-    session["game"][:game_id] = response[:gameId]
-    response = response.to_json
-  end
-  return response
+  return Zorkda::GameFileHandler.save(params["gameSessionId"], params["uuid"], params["saveGameId"])
 end
 
 post "/game/save-new" do
-  # Response will be error status code or {gameId: ...}
+  # Response will be error status code or {savedGameId: ...}
   return if !request.xhr?
-  # retrieve game cookie
-  game_cookie = session["game"]
-  # save game file
-  response = Zorkda::GameFileHandler.save_new(game_cookie, params["uuid"])
-  unless response.is_a?(Numeric)
-    session["game"][:game_id] = response[:gameId]
-    response = response.to_json
-  end
-  return response
+  return Zorkda::GameFileHandler.save_new(params["gameSessionId"], params["uuid"])
 end

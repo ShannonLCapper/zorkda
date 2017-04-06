@@ -1,28 +1,30 @@
-<div class="no-game-loaded" ng-hide="game.loaded"><!--no game loaded view-->
+<div class="center-text" ng-show="!gameStarted"><!--non-game started views-->
   <div class="container">
-    <p ng-show="retrievingGame"><!--loading view-->
-      Starting up your game...
-      <loading-icon></loading-icon>
-    </p>
-    <div ng-hide="retrievingGame || retrievingGameError">
+    <div ng-show="!game.loaded"><!--no game loaded view-->
       <p>You don't have a game loaded!</p>
       <a href="#/" class="grad-btn animated flipInX">Go Home</a>
     </div>
-    <div ng-show="!retrievingGame && retrievingGameError">
-      <p class="error">There was an error starting up your game. Try again in a moment.</p>
-      <button ng-click="startLoadedGame()" type="button" class="grad-btn small animated flipInX">Try again</button>
+    <div ng-show="game.loaded && retrievingGame"><!--retrieving game loading screen-->
+      <p>Starting up your game...</p>
+      <loading-icon></loading-icon>
     </div>
-  </div><!--container-->
+    <div ng-show="game.loaded && !retrievingGame && retrievingGameError"><!--error retrieving game-->
+      <p class="error">{{retrievingGameErrorMsg}}</p>
+      <button ng-click="startGame()" ng-show="canRetryRetrieve" type="button" class="grad-btn small animated flipInX">Try Again</button>
+      <a href="#/" ng-show="!canRetryRetrieve" class="grad-btn small animated flipInX">Go Home</a>
+    </div>
+
+  </div>
 </div>
 
-<div ng-show="game.loaded"><!--game-loaded view-->
+<div ng-show="gameStarted"><!--game started view-->
 
   <div class="container-fluid">
     <div class="game-hud row">
       <div class="game-header col-sm-9 animated slideInLeft">
         <h3>
           <span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span>
-          <span ng-show="location.room.length">:</span>
+          <span ng-show="location.area[0]">:</span>
           <span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span>
         </h3>
       </div>
