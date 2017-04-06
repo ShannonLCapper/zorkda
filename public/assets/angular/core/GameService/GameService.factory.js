@@ -70,7 +70,9 @@
 					return game;
 				},
 
-				quitGame: clearGame,
+				quitGame: function() {
+					clearGame();
+				},
 
 				startGame: function() {
 					//server response data should be status code or object with the following properties:

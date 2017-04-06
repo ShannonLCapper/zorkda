@@ -16,16 +16,20 @@
 						true
 					);
 
-					scope.closeNav = function(callback) {
+					scope.closeNav = function(callback, e) {
 						$(".navbar-collapse").collapse("hide");
-						if (callback) callback()
+						if (callback) callback(e)
 					};
 
-					scope.signOut = function() {
+					scope.signOut = function(e) {
 						var game = GameService.getGame();
 						if (game.loaded && !game.saved) {
 							var answer = confirm("Are you sure you want to sign out without saving your current game?");
-							if (!answer) return;
+							if (!answer) {
+								e.preventDefault();
+								return
+							} else {
+							}
 						}
 						UserService.signOut();
 					};

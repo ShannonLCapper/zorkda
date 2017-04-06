@@ -58,9 +58,10 @@
 (function() {
 	
 	angular
-		.module("landing", [
-			"core"
-		])
+		.module("navbar", [
+			"core",
+      "settingsModal"
+		]);
 
 })();
 "use strict";
@@ -68,10 +69,9 @@
 (function() {
 	
 	angular
-		.module("navbar", [
-			"core",
-      "settingsModal"
-		]);
+		.module("landing", [
+			"core"
+		])
 
 })();
 "use strict";
@@ -90,9 +90,11 @@
 (function() {
 	
 	angular
-		.module("settingsModal", [
-			"core",
-      "streamText"
+		.module("saveModal", [
+			"signIn",
+      "signUp",
+      "core",
+      "zorkdaForm"
 		]);
 
 })();
@@ -101,11 +103,19 @@
 (function() {
 	
 	angular
-		.module("saveModal", [
-			"signIn",
-      "signUp",
-      "core",
-      "zorkdaForm"
+		.module("newGame", [
+			"core"
+		])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("settingsModal", [
+			"core",
+      "streamText"
 		]);
 
 })();
@@ -145,16 +155,6 @@
 (function() {
 	
 	angular
-		.module("splashPage", [
-			"core"
-		])
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
 		.module("zorkdaForm", [
       "core"
     ])
@@ -164,19 +164,19 @@
 
 (function() {
 	
-	angular
-		.module("newGame", [
-			"core"
-		])
+	angular.module("zorkdaSounds", [
+		"ngAudio"
+	]);
 
 })();
 "use strict";
 
 (function() {
 	
-	angular.module("zorkdaSounds", [
-		"ngAudio"
-	]);
+	angular
+		.module("splashPage", [
+			"core"
+		])
 
 })();
 "use strict";
@@ -559,28 +559,6 @@ angular
 (function() {
 	
 	angular
-		.module("landing")
-		.directive("landing", ["UserService", function(UserService) {
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/landing/landing.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser().signedIn;},
-						function(signedIn) {scope.isSignedIn = signedIn;},
-						true
-					);
-				}
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
 		.module("navbar")
 		.directive("navbar", ["UserService", "GameService", function(UserService, GameService){
 			return {
@@ -594,19 +572,45 @@ angular
 						true
 					);
 
-					scope.closeNav = function(callback) {
+					scope.closeNav = function(callback, e) {
 						$(".navbar-collapse").collapse("hide");
-						if (callback) callback()
+						if (callback) callback(e)
 					};
 
-					scope.signOut = function() {
+					scope.signOut = function(e) {
 						var game = GameService.getGame();
 						if (game.loaded && !game.saved) {
 							var answer = confirm("Are you sure you want to sign out without saving your current game?");
-							if (!answer) return;
+							if (!answer) {
+								e.preventDefault();
+								return
+							} else {
+							}
 						}
 						UserService.signOut();
 					};
+				}
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("landing")
+		.directive("landing", ["UserService", function(UserService) {
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/landing/landing.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser().signedIn;},
+						function(signedIn) {scope.isSignedIn = signedIn;},
+						true
+					);
 				}
 			};
 		}]);
@@ -698,48 +702,6 @@ angular
           }
           
         }
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("settingsModal")
-		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/settings-modal/settings-modal.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-
-					scope.playTestSound = function() {
-						ZorkdaSounds.playSound("navi");
-					};
-
-					scope.playTestTextScroll = function() {
-						scope.testText = [];
-						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
-					};
-
-					//Initialize popover functionality
-					$("[data-toggle='popover']").popover();
-					//Initialize testText
-					scope.testText = [];
-					//Set up 2-way binding with scope.settings and SettingsService.settings
-					scope.settings = SettingsService.getSettings();
-					scope.$watch(
-						function() {return SettingsService.getSettings();},
-						function(newV, oldV) {
-							if (newV !== oldV && newV !== scope.settings) {
-								scope.settings = newV;
-							}
-						},
-						true
-					);
-				}
 			};
 		}]);
 
@@ -883,6 +845,101 @@ angular
 						true
 					);
 
+				}
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("newGame")
+		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
+			return {
+				restrict: "E",
+				scope: {
+        },
+				templateUrl: "assets/angular/new-game/new-game.html",
+        link: function(scope, element, attrs) {
+          scope.submitNewGameForm = function() {
+            var newGameForm = scope.newGameForm;
+            newGameForm.errorMsg = "";
+            if (newGameForm.$invalid) {
+              var errorMsg;
+              var $error = newGameForm.charName.$error;
+              if ($error.required) {
+                errorMsg = "You need to choose a name";
+              } else if ($error.pattern) {
+                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
+              } else if ($error.maxlength) {
+                errorMsg = "Your character's name cannot be over 20 characters";
+              }
+              newGameForm.errorMsg = errorMsg;
+              return
+            }
+            newGameForm.disableSubmitBtn = true;
+            GameService
+              .loadNewGame(scope.characterName)
+              .then(function successfulGameLoad() {
+                $location.path("/game");
+              }, function failureGameLoad(response) {
+                var errorMsg;
+                if (response.status === 400) { //missing field, shouldn't happen
+                  errorMsg = "You need to choose a name";
+                } else {
+                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
+                }
+                newGameForm.errorMsg = errorMsg;
+              })
+              .finally(function reenabelSubmitBtn() {
+                newGameForm.disableSubmitBtn = false;
+              })
+              
+          }
+        }
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("settingsModal")
+		.directive("settingsModal", ["SettingsService", "ZorkdaSounds", function(SettingsService, ZorkdaSounds){
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/settings-modal/settings-modal.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+
+					scope.playTestSound = function() {
+						ZorkdaSounds.playSound("navi");
+					};
+
+					scope.playTestTextScroll = function() {
+						scope.testText = [];
+						scope.testText = ["Here is some text to demonstrate how fast the game text will scroll along the page."];
+					};
+
+					//Initialize popover functionality
+					$("[data-toggle='popover']").popover();
+					//Initialize testText
+					scope.testText = [];
+					//Set up 2-way binding with scope.settings and SettingsService.settings
+					scope.settings = SettingsService.getSettings();
+					scope.$watch(
+						function() {return SettingsService.getSettings();},
+						function(newV, oldV) {
+							if (newV !== oldV && newV !== scope.settings) {
+								scope.settings = newV;
+							}
+						},
+						true
+					);
 				}
 			};
 		}]);
@@ -1252,29 +1309,6 @@ angular
 			}
 
 		}])
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("splashPage")
-		.directive("splashPage", ["UserService", function(UserService) {
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/splash-page/splash-page.html",
-				scope: {},
-				transclude: true,
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser();},
-						function(user) {scope.user = user;},
-						true
-					)
-				}
-			}
-		}]);
 
 })();
 'use strict';
@@ -1898,59 +1932,6 @@ if(typeof module === "object" && module.exports){
 (function() {
 	
 	angular
-		.module("newGame")
-		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
-			return {
-				restrict: "E",
-				scope: {
-        },
-				templateUrl: "assets/angular/new-game/new-game.html",
-        link: function(scope, element, attrs) {
-          scope.submitNewGameForm = function() {
-            var newGameForm = scope.newGameForm;
-            newGameForm.errorMsg = "";
-            if (newGameForm.$invalid) {
-              var errorMsg;
-              var $error = newGameForm.charName.$error;
-              if ($error.required) {
-                errorMsg = "You need to choose a name";
-              } else if ($error.pattern) {
-                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
-              } else if ($error.maxlength) {
-                errorMsg = "Your character's name cannot be over 20 characters";
-              }
-              newGameForm.errorMsg = errorMsg;
-              return
-            }
-            newGameForm.disableSubmitBtn = true;
-            GameService
-              .loadNewGame(scope.characterName)
-              .then(function successfulGameLoad() {
-                $location.path("/game");
-              }, function failureGameLoad(response) {
-                var errorMsg;
-                if (response.status === 400) { //missing field, shouldn't happen
-                  errorMsg = "You need to choose a name";
-                } else {
-                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
-                }
-                newGameForm.errorMsg = errorMsg;
-              })
-              .finally(function reenabelSubmitBtn() {
-                newGameForm.disableSubmitBtn = false;
-              })
-              
-          }
-        }
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
 		.module("zorkdaSounds")
 		.factory("ZorkdaSounds", ["ngAudio", function ZorkdaSoundsFactory(ngAudio) {
 			
@@ -1975,6 +1956,29 @@ if(typeof module === "object" && module.exports){
 			}
 
 		}])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("splashPage")
+		.directive("splashPage", ["UserService", function(UserService) {
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/splash-page/splash-page.html",
+				scope: {},
+				transclude: true,
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser();},
+						function(user) {scope.user = user;},
+						true
+					)
+				}
+			}
+		}]);
 
 })();
 "use strict";
@@ -2066,7 +2070,9 @@ if(typeof module === "object" && module.exports){
 					return game;
 				},
 
-				quitGame: clearGame,
+				quitGame: function() {
+					clearGame();
+				},
 
 				startGame: function() {
 					//server response data should be status code or object with the following properties:
@@ -2220,87 +2226,6 @@ if(typeof module === "object" && module.exports){
 	
 	angular
 		.module("core")
-		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
-			var defaultSettings = {
-				volume: .5, //value between 0 and 1
-				textSpeed: 7 //value between 1 and 10
-			};
-
-			//If no settings cookie exists, make one
-			if (getSettingsCookie() === undefined) initSettingsCookie();
-
-			//Sync settings variable with settings cookie
-			var settings;
-			updateSettings();
-
-			//Initialize volume
-			ZorkdaSounds.setVolume(settings.volume);
-			//Initialize text speed
-			streamTextService.setSpeed(settings.textSpeed);
-
-			//When settings variable changes...
-			$rootScope.$watch(
-				function() {return settings},
-				function(newV, oldV) {
-					//Set sound volume
-					if (newV.volume !== oldV.volume) {
-						ZorkdaSounds.setVolume(newV.volume);
-					}
-					//Set text speed
-					if (newV.textSpeed !== oldV.textSpeed) {
-						streamTextService.setSpeed(newV.textSpeed);
-					}
-					//Update cookie
-					if (newV !== oldV && !angular.equals(newV, getSettingsCookie())) {
-						updateSettingsCookie();
-					}
-				},
-				true
-			);
-
-			function initSettingsCookie() {
-				setSettingsCookie($.extend(true, {}, defaultSettings));
-			}
-
-			function updateSettings() {
-				settings = $.extend(true, {}, getSettingsCookie());
-			}
-
-			function updateSettingsCookie() {
-				setSettingsCookie(settings);
-			}
-
-			function getSettingsCookie() {
-				return $cookies.getObject("settings");
-			}
-
-			function setSettingsCookie(data) {
-				$cookies.putObject("settings", data);
-			}
-
-			return {
-				getSettings: function() {
-					return settings;
-				},
-
-				setAllSettings: function(newSettingsObj) {
-					settings = newSettingsObj;
-				},
-
-				resetAllSettings: function() {
-					settings = $.extend(true, {}, defaultSettings);
-				}
-			}
-
-		}])
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("core")
 		.factory("UserService", ["$cookies", "$http", "GameService", function userServiceFactory($cookies, $http, GameService) {
 			if (getUserCookie() === undefined) initUserCookie();
 			var user
@@ -2379,6 +2304,87 @@ if(typeof module === "object" && module.exports){
 					return promise;
 				}
 			}
+		}])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("core")
+		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
+			var defaultSettings = {
+				volume: .5, //value between 0 and 1
+				textSpeed: 7 //value between 1 and 10
+			};
+
+			//If no settings cookie exists, make one
+			if (getSettingsCookie() === undefined) initSettingsCookie();
+
+			//Sync settings variable with settings cookie
+			var settings;
+			updateSettings();
+
+			//Initialize volume
+			ZorkdaSounds.setVolume(settings.volume);
+			//Initialize text speed
+			streamTextService.setSpeed(settings.textSpeed);
+
+			//When settings variable changes...
+			$rootScope.$watch(
+				function() {return settings},
+				function(newV, oldV) {
+					//Set sound volume
+					if (newV.volume !== oldV.volume) {
+						ZorkdaSounds.setVolume(newV.volume);
+					}
+					//Set text speed
+					if (newV.textSpeed !== oldV.textSpeed) {
+						streamTextService.setSpeed(newV.textSpeed);
+					}
+					//Update cookie
+					if (newV !== oldV && !angular.equals(newV, getSettingsCookie())) {
+						updateSettingsCookie();
+					}
+				},
+				true
+			);
+
+			function initSettingsCookie() {
+				setSettingsCookie($.extend(true, {}, defaultSettings));
+			}
+
+			function updateSettings() {
+				settings = $.extend(true, {}, getSettingsCookie());
+			}
+
+			function updateSettingsCookie() {
+				setSettingsCookie(settings);
+			}
+
+			function getSettingsCookie() {
+				return $cookies.getObject("settings");
+			}
+
+			function setSettingsCookie(data) {
+				$cookies.putObject("settings", data);
+			}
+
+			return {
+				getSettings: function() {
+					return settings;
+				},
+
+				setAllSettings: function(newSettingsObj) {
+					settings = newSettingsObj;
+				},
+
+				resetAllSettings: function() {
+					settings = $.extend(true, {}, defaultSettings);
+				}
+			}
+
 		}])
 
 })();
