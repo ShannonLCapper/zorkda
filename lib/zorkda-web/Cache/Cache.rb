@@ -4,7 +4,6 @@ module Zorkda
 		require "redis"
     uri = URI.parse(ENV["REDISCLOUD_URL"])
     $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-    $redis.config(:set, "maxmemory", "25mb")
     $redis.config(:set, "notify-keyspace-events", "xE")
 
     def self.get_game_session_file(game_session_id)
