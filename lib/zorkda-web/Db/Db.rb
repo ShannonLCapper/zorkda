@@ -18,8 +18,8 @@ module Zorkda
       credentials: Aws::Credentials.new(creds["AccessKeyId"], creds["SecretAccessKey"]),
       # logger: Logger.new($stdout),
       # log_level: :debug,
-      # endpoint: "http://dynamodb.us-west-2.amazonaws.com"
-      endpoint: "http://localhost:8000" # remove this line to access the cloud
+      endpoint: "http://dynamodb.us-west-2.amazonaws.com"
+      # endpoint: "http://localhost:8000" # remove this line to access the cloud
     })
 
     Oj.default_options = { 

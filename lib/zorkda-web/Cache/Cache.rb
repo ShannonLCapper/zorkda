@@ -2,8 +2,8 @@ module Zorkda
 	module Cache
 
 		require "redis"
-    # uri = URI.parse(ENV["REDISCLOUD_URL"])
-    $redis = Redis.new#(:host => uri.host, :port => uri.port, :password => uri.password)
+    uri = URI.parse(ENV["REDISCLOUD_URL"])
+    $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
     $redis.config(:set, "maxmemory", "25mb")
     $redis.config(:set, "notify-keyspace-events", "xE")
 
