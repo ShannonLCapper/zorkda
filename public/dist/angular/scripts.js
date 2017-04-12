@@ -58,6 +58,16 @@
 (function() {
 	
 	angular
+		.module("landing", [
+			"core"
+		])
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
 		.module("navbar", [
 			"core",
       "settingsModal"
@@ -69,7 +79,7 @@
 (function() {
 	
 	angular
-		.module("landing", [
+		.module("newGame", [
 			"core"
 		])
 
@@ -96,16 +106,6 @@
       "core",
       "zorkdaForm"
 		]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("newGame", [
-			"core"
-		])
 
 })();
 "use strict";
@@ -145,6 +145,16 @@
 
 (function() {
 	
+	angular
+		.module("splashPage", [
+			"core"
+		])
+
+})();
+"use strict";
+
+(function() {
+	
 	angular.module("streamText", [
     "ngSanitize"
 	]);
@@ -167,16 +177,6 @@
 	angular.module("zorkdaSounds", [
 		"ngAudio"
 	]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("splashPage", [
-			"core"
-		])
 
 })();
 "use strict";
@@ -311,10 +311,10 @@ $(document).ready(function() {
 								addGameOutput(response.data);
 							}, function unsuccessfulGameStart(response) {
 								var msg;
-								if (response.status  === "404") {
+								if (response.status  === 404) {
 									msg = "Your game session expired. Please go back to resume from the nearest savepoint, or to start a new game.";
 									scope.canRetryRetrieve = false;
-								} else if (response.status === "400") { //shouldn't happen
+								} else if (response.status === 400) { //shouldn't happen
 									msg = "Your game file ID didn't get sent in the request. Please go back and try loading the game again.";
 									scope.canRetryRetrieve = false;
 								} else {
@@ -342,9 +342,15 @@ $(document).ready(function() {
 						scope.form.submitDisabled = true;
 						scope.loadingOutputResponse = true;
 						var input = scope.userInput;
-						if (!input) {
+						if (!input || /[<>&]/.test(input)) {
+							var errorMsg;
+							if (!input) {
+								errorMsg = "Please type a command."
+							} else {
+								errorMsg = "Your command cannot contain \"<\", \">\", or \"&\"."
+							}
 							pushToOutputs({
-								text: "Please type a command.",
+								text: errorMsg,
 								error: true
 							});
 							scope.form.submitDisabled = false;
@@ -559,6 +565,28 @@ angular
 (function() {
 	
 	angular
+		.module("landing")
+		.directive("landing", ["UserService", function(UserService) {
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/landing/landing.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser().signedIn;},
+						function(signedIn) {scope.isSignedIn = signedIn;},
+						true
+					);
+				}
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
 		.module("navbar")
 		.directive("navbar", ["UserService", "GameService", function(UserService, GameService){
 			return {
@@ -599,19 +627,50 @@ angular
 (function() {
 	
 	angular
-		.module("landing")
-		.directive("landing", ["UserService", function(UserService) {
+		.module("newGame")
+		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
 			return {
 				restrict: "E",
-				templateUrl: "assets/angular/landing/landing.html",
-				scope: {},
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser().signedIn;},
-						function(signedIn) {scope.isSignedIn = signedIn;},
-						true
-					);
-				}
+				scope: {
+        },
+				templateUrl: "assets/angular/new-game/new-game.html",
+        link: function(scope, element, attrs) {
+          scope.submitNewGameForm = function() {
+            var newGameForm = scope.newGameForm;
+            newGameForm.errorMsg = "";
+            if (newGameForm.$invalid) {
+              var errorMsg;
+              var $error = newGameForm.charName.$error;
+              if ($error.required) {
+                errorMsg = "You need to choose a name";
+              } else if ($error.pattern) {
+                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
+              } else if ($error.maxlength) {
+                errorMsg = "Your character's name cannot be over 20 characters";
+              }
+              newGameForm.errorMsg = errorMsg;
+              return
+            }
+            newGameForm.disableSubmitBtn = true;
+            GameService
+              .loadNewGame(scope.characterName)
+              .then(function successfulGameLoad() {
+                $location.path("/game");
+              }, function failureGameLoad(response) {
+                var errorMsg;
+                if (response.status === 400) { //missing field, shouldn't happen
+                  errorMsg = "You need to choose a name";
+                } else {
+                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
+                }
+                newGameForm.errorMsg = errorMsg;
+              })
+              .finally(function reenabelSubmitBtn() {
+                newGameForm.disableSubmitBtn = false;
+              })
+              
+          }
+        }
 			};
 		}]);
 
@@ -814,8 +873,16 @@ angular
 								scope.closeModal();
 								scope.saveFormData.gameId = "";
 								scope.loadGameSummaries();
-							}, function failureGameSave() {
-								saveForm.errorMsg = "An error occurred while saving your game. Please try again in a moment."
+							}, function failureGameSave(response) {
+								var errorMsg;
+								if (response.status === "404") {
+									errorMsg = "Your game session has expired and can no longer be saved.";
+								} else if (response.status === "400") {
+									errorMsg = "Something was wrong with your request. Try logging out and signing back in.";
+								} else {
+									errorMsg = "An error occurred while saving your game. Please try again in a moment.";
+								}
+								saveForm.errorMsg = errorMsg;
 							})
 							.finally(function reenableSubmitBtn() {
 								saveForm.disableSubmitBtn = false;
@@ -846,59 +913,6 @@ angular
 					);
 
 				}
-			};
-		}]);
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("newGame")
-		.directive("newGame", ["GameService", "$location", function(GameService, $location) {
-			return {
-				restrict: "E",
-				scope: {
-        },
-				templateUrl: "assets/angular/new-game/new-game.html",
-        link: function(scope, element, attrs) {
-          scope.submitNewGameForm = function() {
-            var newGameForm = scope.newGameForm;
-            newGameForm.errorMsg = "";
-            if (newGameForm.$invalid) {
-              var errorMsg;
-              var $error = newGameForm.charName.$error;
-              if ($error.required) {
-                errorMsg = "You need to choose a name";
-              } else if ($error.pattern) {
-                errorMsg = "Your character's name cannot contain any special characters besides \" \", \"-\", \"_\", \".\", and \" ' \"";
-              } else if ($error.maxlength) {
-                errorMsg = "Your character's name cannot be over 20 characters";
-              }
-              newGameForm.errorMsg = errorMsg;
-              return
-            }
-            newGameForm.disableSubmitBtn = true;
-            GameService
-              .loadNewGame(scope.characterName)
-              .then(function successfulGameLoad() {
-                $location.path("/game");
-              }, function failureGameLoad(response) {
-                var errorMsg;
-                if (response.status === 400) { //missing field, shouldn't happen
-                  errorMsg = "You need to choose a name";
-                } else {
-                  errorMsg = "There was a problem loading your game. Please try again in a moment.";
-                }
-                newGameForm.errorMsg = errorMsg;
-              })
-              .finally(function reenabelSubmitBtn() {
-                newGameForm.disableSubmitBtn = false;
-              })
-              
-          }
-        }
 			};
 		}]);
 
@@ -1163,6 +1177,29 @@ angular
 "use strict";
 
 (function() {
+	
+	angular
+		.module("splashPage")
+		.directive("splashPage", ["UserService", function(UserService) {
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/splash-page/splash-page.html",
+				scope: {},
+				transclude: true,
+				link: function(scope, element, attrs) {
+					scope.$watch(
+						function() {return UserService.getUser();},
+						function(user) {scope.user = user;},
+						true
+					)
+				}
+			}
+		}]);
+
+})();
+"use strict";
+
+(function() {
 
   angular
     .module('streamText')
@@ -1173,7 +1210,7 @@ angular
           textLines: "=",
           afterStream: "&"
         },
-        template: "<span ng-bind-html='outputString'></span>",
+        template: '<span ng-bind-html="outputString"></span>',
         link: function(scope, element, attrs) {
 
           //Declare variables
@@ -1213,8 +1250,19 @@ angular
                 addLetter();
                 return
               }
-              scope.outputString += currText[currCharPos];
-              currCharPos ++;
+              var currChar = currText[currCharPos];
+              if (currChar !== "&") { //if character is not part of an html entity
+                scope.outputString += currChar;
+                currCharPos ++;
+              } else { //print the full html entity
+                var entity = "";
+                while (currCharPos < currText.length) {
+                  entity += currText[currCharPos];
+                  currCharPos ++;
+                  if (currText[currCharPos] == ";") break;
+                }
+                scope.outputString += entity;
+              }
           }
 
           function startStreamInterval() {
@@ -1961,29 +2009,6 @@ if(typeof module === "object" && module.exports){
 "use strict";
 
 (function() {
-	
-	angular
-		.module("splashPage")
-		.directive("splashPage", ["UserService", function(UserService) {
-			return {
-				restrict: "E",
-				templateUrl: "assets/angular/splash-page/splash-page.html",
-				scope: {},
-				transclude: true,
-				link: function(scope, element, attrs) {
-					scope.$watch(
-						function() {return UserService.getUser();},
-						function(user) {scope.user = user;},
-						true
-					)
-				}
-			}
-		}]);
-
-})();
-"use strict";
-
-(function() {
 
   angular
     .module('core')
@@ -2083,7 +2108,7 @@ if(typeof module === "object" && module.exports){
 					var promise = $http.post(
 						"/game/start",
 						{ gameSessionId: game.gameSessionId },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					promise.then(function successfulCall(response) {
 						game.loaded = true;
@@ -2091,7 +2116,6 @@ if(typeof module === "object" && module.exports){
 					return promise
 				},
 
-				//TODO
 				submitInput: function(input) {
 					//response should be error status code or object with the following properties:
 					//outputLines(array of strings), location(obj with area and room strings), and navi(boolean)
@@ -2101,7 +2125,7 @@ if(typeof module === "object" && module.exports){
 					var promise = $http.post(
 						"/game/input",
 						{ gameSessionId: game.gameSessionId, input: input },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					return promise
 				},
@@ -2117,7 +2141,7 @@ if(typeof module === "object" && module.exports){
 								uuid: uuid, 
 								gameSessionId: gameSessionId 
 							},
-							{ responseType: "json", timeout: 20000 }
+							{ responseType: "json", timeout: 10000 }
 						);
 					} else {
 						promise = $http.post(
@@ -2127,7 +2151,7 @@ if(typeof module === "object" && module.exports){
 								gameSessionId: gameSessionId,
 								saveGameId: saveGameId 
 							},
-							{ responseType: "json", timeout: 20000 }
+							{ responseType: "json", timeout: 10000 }
 						);
 					}
 					promise.then(function successfulGameSave(response) {
@@ -2146,7 +2170,7 @@ if(typeof module === "object" && module.exports){
 					var promise = $http.post(
 						"/game/load", 
 						{ uuid: uuid, savedGameId: savedGameId },
-						{ responseType: "json", timeout: 20000 }
+						{ responseType: "json", timeout: 10000 }
 					);
 					promise.then(function successfulGameLoad(response) {
 						loadGameLocally(response.data.gameSessionId, response.data.savedGameId);
@@ -2162,7 +2186,7 @@ if(typeof module === "object" && module.exports){
 					var promise = $http.post(
 						"/game/load-new", 
 						{ protagonistName: protagonistName },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					promise.then(function successfulGameLoad(response) {
 						loadGameLocally(response.data.gameSessionId, null);
@@ -2179,7 +2203,7 @@ if(typeof module === "object" && module.exports){
 					var promise = $http.post(
 						"/user/game-summaries", 
 						{ uuid: uuid },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					return promise;
 				}
@@ -2218,6 +2242,87 @@ if(typeof module === "object" && module.exports){
         }
       };
     });
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("core")
+		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
+			var defaultSettings = {
+				volume: .5, //value between 0 and 1
+				textSpeed: 7 //value between 1 and 10
+			};
+
+			//If no settings cookie exists, make one
+			if (getSettingsCookie() === undefined) initSettingsCookie();
+
+			//Sync settings variable with settings cookie
+			var settings;
+			updateSettings();
+
+			//Initialize volume
+			ZorkdaSounds.setVolume(settings.volume);
+			//Initialize text speed
+			streamTextService.setSpeed(settings.textSpeed);
+
+			//When settings variable changes...
+			$rootScope.$watch(
+				function() {return settings},
+				function(newV, oldV) {
+					//Set sound volume
+					if (newV.volume !== oldV.volume) {
+						ZorkdaSounds.setVolume(newV.volume);
+					}
+					//Set text speed
+					if (newV.textSpeed !== oldV.textSpeed) {
+						streamTextService.setSpeed(newV.textSpeed);
+					}
+					//Update cookie
+					if (newV !== oldV && !angular.equals(newV, getSettingsCookie())) {
+						updateSettingsCookie();
+					}
+				},
+				true
+			);
+
+			function initSettingsCookie() {
+				setSettingsCookie($.extend(true, {}, defaultSettings));
+			}
+
+			function updateSettings() {
+				settings = $.extend(true, {}, getSettingsCookie());
+			}
+
+			function updateSettingsCookie() {
+				setSettingsCookie(settings);
+			}
+
+			function getSettingsCookie() {
+				return $cookies.getObject("settings");
+			}
+
+			function setSettingsCookie(data) {
+				$cookies.putObject("settings", data);
+			}
+
+			return {
+				getSettings: function() {
+					return settings;
+				},
+
+				setAllSettings: function(newSettingsObj) {
+					settings = newSettingsObj;
+				},
+
+				resetAllSettings: function() {
+					settings = $.extend(true, {}, defaultSettings);
+				}
+			}
+
+		}])
 
 })();
 "use strict";
@@ -2304,87 +2409,6 @@ if(typeof module === "object" && module.exports){
 					return promise;
 				}
 			}
-		}])
-
-})();
-"use strict";
-
-(function() {
-	
-	angular
-		.module("core")
-		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
-			var defaultSettings = {
-				volume: .5, //value between 0 and 1
-				textSpeed: 7 //value between 1 and 10
-			};
-
-			//If no settings cookie exists, make one
-			if (getSettingsCookie() === undefined) initSettingsCookie();
-
-			//Sync settings variable with settings cookie
-			var settings;
-			updateSettings();
-
-			//Initialize volume
-			ZorkdaSounds.setVolume(settings.volume);
-			//Initialize text speed
-			streamTextService.setSpeed(settings.textSpeed);
-
-			//When settings variable changes...
-			$rootScope.$watch(
-				function() {return settings},
-				function(newV, oldV) {
-					//Set sound volume
-					if (newV.volume !== oldV.volume) {
-						ZorkdaSounds.setVolume(newV.volume);
-					}
-					//Set text speed
-					if (newV.textSpeed !== oldV.textSpeed) {
-						streamTextService.setSpeed(newV.textSpeed);
-					}
-					//Update cookie
-					if (newV !== oldV && !angular.equals(newV, getSettingsCookie())) {
-						updateSettingsCookie();
-					}
-				},
-				true
-			);
-
-			function initSettingsCookie() {
-				setSettingsCookie($.extend(true, {}, defaultSettings));
-			}
-
-			function updateSettings() {
-				settings = $.extend(true, {}, getSettingsCookie());
-			}
-
-			function updateSettingsCookie() {
-				setSettingsCookie(settings);
-			}
-
-			function getSettingsCookie() {
-				return $cookies.getObject("settings");
-			}
-
-			function setSettingsCookie(data) {
-				$cookies.putObject("settings", data);
-			}
-
-			return {
-				getSettings: function() {
-					return settings;
-				},
-
-				setAllSettings: function(newSettingsObj) {
-					settings = newSettingsObj;
-				},
-
-				resetAllSettings: function() {
-					settings = $.extend(true, {}, defaultSettings);
-				}
-			}
-
 		}])
 
 })();

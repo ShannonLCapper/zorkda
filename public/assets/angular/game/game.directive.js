@@ -50,10 +50,10 @@
 								addGameOutput(response.data);
 							}, function unsuccessfulGameStart(response) {
 								var msg;
-								if (response.status  === "404") {
+								if (response.status  === 404) {
 									msg = "Your game session expired. Please go back to resume from the nearest savepoint, or to start a new game.";
 									scope.canRetryRetrieve = false;
-								} else if (response.status === "400") { //shouldn't happen
+								} else if (response.status === 400) { //shouldn't happen
 									msg = "Your game file ID didn't get sent in the request. Please go back and try loading the game again.";
 									scope.canRetryRetrieve = false;
 								} else {
@@ -81,9 +81,15 @@
 						scope.form.submitDisabled = true;
 						scope.loadingOutputResponse = true;
 						var input = scope.userInput;
-						if (!input) {
+						if (!input || /[<>&]/.test(input)) {
+							var errorMsg;
+							if (!input) {
+								errorMsg = "Please type a command."
+							} else {
+								errorMsg = "Your command cannot contain \"<\", \">\", or \"&\"."
+							}
 							pushToOutputs({
-								text: "Please type a command.",
+								text: errorMsg,
 								error: true
 							});
 							scope.form.submitDisabled = false;

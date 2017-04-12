@@ -1,16 +1,25 @@
-class Kf_sw < Room
+module Zorkda
+  module Rooms
 
-	def initialize
-		super()
-		@name = "Southwest"
-		@description = "You stand in front of the Know It All Brothers' house.
-A sign points south that reads \"Kokiri Training Center this way\"."
-		@location = "Kokiri Forest"
-		@nside = Pathway.new("north")
-		@sside = Pathway.new("south")
-		@wside = Door.new("west")
-		@eside = Pathway.new("east")
-		@characters = [Kf_sw_kokiri.new]
+    #DONE
+    class Kf_sw < Room
+
+			def initialize
+				super()
+				@name = "Southwest"
+				@description = "You stand in front of the Know It All Brothers' house. " +
+											 "A sign points south that reads &quot;Kokiri Training Center this way&quot;."
+				@location = "Kokiri Forest"
+				@nside = Pathway.new("north")
+				@sside = Pathway.new("south")
+				@wside = Door.new("west")
+				@eside = Pathway.new("east")
+				@characters = [
+					Zorkda::Actors::KfSwKokiri.new
+				]
+			end
+
+		end
+
 	end
-
 end

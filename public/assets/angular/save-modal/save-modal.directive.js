@@ -106,8 +106,16 @@
 								scope.closeModal();
 								scope.saveFormData.gameId = "";
 								scope.loadGameSummaries();
-							}, function failureGameSave() {
-								saveForm.errorMsg = "An error occurred while saving your game. Please try again in a moment."
+							}, function failureGameSave(response) {
+								var errorMsg;
+								if (response.status === "404") {
+									errorMsg = "Your game session has expired and can no longer be saved.";
+								} else if (response.status === "400") {
+									errorMsg = "Something was wrong with your request. Try logging out and signing back in.";
+								} else {
+									errorMsg = "An error occurred while saving your game. Please try again in a moment.";
+								}
+								saveForm.errorMsg = errorMsg;
 							})
 							.finally(function reenableSubmitBtn() {
 								saveForm.disableSubmitBtn = false;

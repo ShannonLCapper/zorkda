@@ -11,7 +11,7 @@
           textLines: "=",
           afterStream: "&"
         },
-        template: "<span ng-bind-html='outputString'></span>",
+        template: '<span ng-bind-html="outputString"></span>',
         link: function(scope, element, attrs) {
 
           //Declare variables
@@ -51,8 +51,19 @@
                 addLetter();
                 return
               }
-              scope.outputString += currText[currCharPos];
-              currCharPos ++;
+              var currChar = currText[currCharPos];
+              if (currChar !== "&") { //if character is not part of an html entity
+                scope.outputString += currChar;
+                currCharPos ++;
+              } else { //print the full html entity
+                var entity = "";
+                while (currCharPos < currText.length) {
+                  entity += currText[currCharPos];
+                  currCharPos ++;
+                  if (currText[currCharPos] == ";") break;
+                }
+                scope.outputString += entity;
+              }
           }
 
           function startStreamInterval() {

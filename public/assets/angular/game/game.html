@@ -35,6 +35,7 @@
 
   <div class="container">
     <div class="game-frame">
+
       <div class="output well">
         <div class="outputs" scroll-glue>
           <p ng-repeat="output in outputs track by $index" ng-class="{'user-supplied': output.userSupplied, 'error': output.error}">
@@ -44,6 +45,7 @@
         </div>
         <loading-icon ng-show="loadingOutputResponse"></loading-icon>
       </div>
+
       <form name="gameInputForm" class="game-input-form animated flipInX" ng-submit="submitInput()">
         <input id="userInput" name="input" type="text" ng-model="userInput" class="form-control" aria-label="Type a command here" placeholder="Type a command here" autofocus autocomplete="off">
         <button ng-disabled="form.submitDisabled" ng-mouseenter="form.submitHover = true" ng-mouseleave="form.submitHover = false" type="submit">
@@ -51,7 +53,6 @@
           <span class="sr-only">Submit</span>
         </button>
       </form>
-
 
     </div><!--game-frame-->
   </div><!--container-->

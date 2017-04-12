@@ -1,6 +1,7 @@
 module Zorkda
 	module Engine
 
+		#DONE
 		def self.initialize_new_game(protagonist_name)
 			#create Link
 			player = Zorkda::Actors::Protagonist.new(protagonist_name)
@@ -8,55 +9,55 @@ module Zorkda
 			#create rooms
 			child_rooms = {
 				#test rooms
-				:test_1 => Test_room_1.new,
-				:test_2 => Test_room_2.new,
-				:test_3 => Test_room_3.new,
+				:test_1 => Zorkda::Rooms::Test_room_1.new,
+				:test_2 => Zorkda::Rooms::Test_room_2.new,
+				:test_3 => Zorkda::Rooms::Test_room_3.new,
 
 				#Kokiri Forest
-				:links_house => Links_house.new,
-				:links_balcony => Links_balcony.new,
-				:kf_s => Kf_s.new,
-				:kf_se => Kf_se.new,
-				:kf_sw => Kf_sw.new,
-				:kf_central => Kf_central.new,
-				:kf_e => Kf_e.new,
-				:kf_w => Kf_w.new,
-				:kf_ne => Kf_ne.new,
-				:kf_n => Kf_n.new,
-				:kf_nw => Kf_nw.new,
-				:kf_training_center => Kf_training_center.new,
-				:kf_sm_1 => Kf_sm_1.new,
-				:kf_sm_2 => Kf_sm_2.new,
-				:kf_sm_3 => Kf_sm_3.new,
-				:kf_sm_4 => Kf_sm_4.new,
-				:kf_sm_5 => Kf_sm_5.new,
-				:kf_sm_6 => Kf_sm_6.new,
-				:sarias_house => Sarias_house.new,
-				:twins_house => Twins_house.new,
-				:know_it_all_house => Know_it_all_house.new,
-				:midos_house => Midos_house.new,
-				:kf_shop => Kf_shop.new,
-				:kf_narrow_path => Kf_narrow_path.new,
-				:kf_deku_glen => Kf_deku_glen.new,
+				:links_house => Zorkda::Rooms::Links_house.new,
+				:links_balcony => Zorkda::Rooms::Links_balcony.new,
+				:kf_s => Zorkda::Rooms::Kf_s.new,
+				:kf_se => Zorkda::Rooms::Kf_se.new,
+				:kf_sw => Zorkda::Rooms::Kf_sw.new,
+				:kf_central => Zorkda::Rooms::Kf_central.new,
+				:kf_e => Zorkda::Rooms::Kf_e.new,
+				:kf_w => Zorkda::Rooms::Kf_w.new,
+				:kf_ne => Zorkda::Rooms::Kf_ne.new,
+				:kf_n => Zorkda::Rooms::Kf_n.new,
+				:kf_nw => Zorkda::Rooms::Kf_nw.new,
+				:kf_training_center => Zorkda::Rooms::Kf_training_center.new,
+				:kf_sm_1 => Zorkda::Rooms::Kf_sm_1.new,
+				:kf_sm_2 => Zorkda::Rooms::Kf_sm_2.new,
+				:kf_sm_3 => Zorkda::Rooms::Kf_sm_3.new,
+				:kf_sm_4 => Zorkda::Rooms::Kf_sm_4.new,
+				:kf_sm_5 => Zorkda::Rooms::Kf_sm_5.new,
+				:kf_sm_6 => Zorkda::Rooms::Kf_sm_6.new,
+				:sarias_house => Zorkda::Rooms::Sarias_house.new,
+				:twins_house => Zorkda::Rooms::Twins_house.new,
+				:know_it_all_house => Zorkda::Rooms::Know_it_all_house.new,
+				:midos_house => Zorkda::Rooms::Midos_house.new,
+				:kf_shop => Zorkda::Rooms::Kf_shop.new,
+				:kf_narrow_path => Zorkda::Rooms::Kf_narrow_path.new,
+				:kf_deku_glen => Zorkda::Rooms::Kf_deku_glen.new,
 
 				#inside the deku tree
-				:idt_f1_main => Idt_f1_main.new,
-				:idt_f2_main => Idt_f2_main.new,
-				:idt_f2_2 => Idt_f2_2.new,
-				:idt_f2_3 => Idt_f2_3.new,
-				:idt_f3_landing => Idt_f3_landing.new,
-				:idt_f3_main => Idt_f3_main.new,
-				:idt_f3_2 => Idt_f3_2.new,
-				:idt_f3_cubby => Idt_f3_cubby.new,
-				:idt_b1_sewer_east => Idt_b1_sewer_east.new,
-				:idt_b1_2 => Idt_b1_2.new,
-				:idt_b1_3_east => Idt_b1_3_east.new,
-				:idt_b1_3_west => Idt_b1_3_west.new,
-				:idt_b1_4 => Idt_b1_4.new,
-				:idt_b1_5 => Idt_b1_5.new,
-				:idt_b1_sewer_west => Idt_b1_sewer_west.new,
-				:idt_b2_antechamber => Idt_b2_antechamber.new,
-				:idt_gohmas_lair => Idt_gohmas_lair.new
+				:idt_f1_main => Zorkda::Rooms::Idt_f1_main.new,
+				:idt_f2_main => Zorkda::Rooms::Idt_f2_main.new,
+				:idt_f2_2 => Zorkda::Rooms::Idt_f2_2.new,
+				:idt_f2_3 => Zorkda::Rooms::Idt_f2_3.new,
+				:idt_f3_landing => Zorkda::Rooms::Idt_f3_landing.new,
+				:idt_f3_main => Zorkda::Rooms::Idt_f3_main.new,
+				:idt_f3_2 => Zorkda::Rooms::Idt_f3_2.new,
+				:idt_f3_cubby => Zorkda::Rooms::Idt_f3_cubby.new,
+				:idt_b1_sewer_east => Zorkda::Rooms::Idt_b1_sewer_east.new,
+				:idt_b1_2 => Zorkda::Rooms::Idt_b1_2.new,
+				:idt_b1_3_east => Zorkda::Rooms::Idt_b1_3_east.new,
+				:idt_b1_3_west => Zorkda::Rooms::Idt_b1_3_west.new,
+				:idt_b1_4 => Zorkda::Rooms::Idt_b1_4.new,
+				:idt_b1_5 => Zorkda::Rooms::Idt_b1_5.new,
+				:idt_b1_sewer_west => Zorkda::Rooms::Idt_b1_sewer_west.new,
+				:idt_b2_antechamber => Zorkda::Rooms::Idt_b2_antechamber.new,
+				:idt_gohmas_lair => Zorkda::Rooms::Idt_gohmas_lair.new
 
 			}
 
@@ -169,13 +170,19 @@ module Zorkda
 			child_rooms[:idt_b2_antechamber].uside.goes_to = child_rooms[:idt_b1_sewer_west]
 			child_rooms[:idt_b2_antechamber].nside.goes_to = child_rooms[:idt_gohmas_lair]
 
+			#set up respawn point for dungeon rooms
+			child_rooms.each do |room|
+				if room.is_a?(Zorkda::Rooms::InsideDekuTree)
+					room.respawn_point = child_rooms[:kf_deku_glen]
+				end
+			end
 
 			#rename Links house
 			child_rooms[:links_house].name = "#{player.name}'s House"
 			child_rooms[:links_balcony].name = "#{player.name}'s Balcony"
 			##################### need to do this for adult rooms too
 
-			return self::GameStatus.new(player, child_rooms[:links_house], child_rooms)
+			return Zorkda::Engine::GameStatus.new(player, child_rooms[:links_house], child_rooms)
 		end
 
 	end

@@ -5,7 +5,7 @@ module Zorkda
     require "json"
     require "oj"
     require "dotenv/load"
-    require "logger"
+    # require "logger"
 
     creds = {
       "AccessKeyId" => ENV["ZORKDA_DYNAMO_KEY"],
@@ -18,8 +18,8 @@ module Zorkda
       credentials: Aws::Credentials.new(creds["AccessKeyId"], creds["SecretAccessKey"]),
       # logger: Logger.new($stdout),
       # log_level: :debug,
-      endpoint: "http://dynamodb.us-west-2.amazonaws.com"
-      # endpoint: "http://localhost:8000" # remove this line to access the cloud
+      # endpoint: "http://dynamodb.us-west-2.amazonaws.com"
+      endpoint: "http://localhost:8000" # remove this line to access the cloud
     })
 
     Oj.default_options = { 
@@ -151,10 +151,9 @@ module Zorkda
           table_name: "Game_Files",
           key: { uuid: uuid, game_id: game_id }
         })
-        game_info = symbolize_and_decode ? self.symbolize(result.item) : result.item
-        if symbolize_and_decode
-          game_info[:game_file] = Zorkda::ObjectEncoder.decode(game_info[:game_file])
-        end
+        return result.item unless symbolize_and_decode
+        game_info = self.symbolize(result.item)
+        game_info[:game_file] = Zorkda::ObjectEncoder.bytes_to_obj(game_info[:game_file])
         return game_info
       rescue Aws::DynamoDB::Errors::ServiceError => error
         return "read error"
@@ -162,23 +161,6 @@ module Zorkda
     end
 
     def self.add_saved_game(game_info) #uuid, game_id, game_file
-      dynamodb = self.connect
-      params = {
-        table_name: "Game_Files",
-        item: game_info,
-        condition_expression: "attribute_not_exists(#id)", # will deny addition if the uuid+game_id key is not unique
-        expression_attribute_names: { "#id": "uuid"}
-      }
-      begin
-        result = dynamodb.put_item(params)
-        return "success"
-      rescue Aws::DynamoDB::Errors::ServiceError => error
-        return "taken" if error.message == "The conditional request failed"
-        return "write error"
-      end
-    end
-
-    def self.update_saved_game(game_info)
       dynamodb = self.connect
       params = {
         table_name: "Game_Files",
@@ -195,53 +177,33 @@ module Zorkda
     def self.get_game_session(game_session_id, symbolize_and_decode = true)
       dynamodb = self.connect
       begin
-        start = Time.now
-        puts "getting game session"
+        # start = Time.now
+        # puts "getting game session"
         result = dynamodb.get_item({
           table_name: "Game_Sessions",
           key: { game_session_id: game_session_id }
         })
-        puts "game session received, time taken: #{Time.now - start}"
-        game_info = symbolize_and_decode ? self.symbolize(result.item) : result.item
-        if symbolize_and_decode
-          game_info[:game_file] = Zorkda::ObjectEncoder.decode(game_info[:game_file])
-        end
+        # puts "game session received, time taken: #{Time.now - start}"
+        return result.item unless symbolize_and_decode
+        game_info = self.symbolize(result.item)
+        game_info[:game_file] = Zorkda::ObjectEncoder.bytes_to_obj(game_info[:game_file])
         return game_info
       rescue Aws::DynamoDB::Errors::ServiceError => error
         return "read error"
       end
     end
 
-    def self.add_game_session(game_info)
-      dynamodb = self.connect
-      params = {
-        table_name: "Game_Sessions",
-        item: game_info,
-        condition_expression: "attribute_not_exists(game_session_id)"
-      }
-      begin
-        start = Time.now
-        puts "saving game session"
-        result = dynamodb.put_item(params)
-        puts "game session saved, time taken: #{Time.now - start}"
-        return "success"
-      rescue Aws::DynamoDB::Errors::ServiceError => error
-        return "taken" if error.message == "The conditional request failed"
-        return "write error"
-      end
-    end
-
-    def self.update_game_session(game_info)
+    def self.add_game_session(game_info) #game_session_id, game_file, expire_at
       dynamodb = self.connect
       params = {
         table_name: "Game_Sessions",
         item: game_info
       }
       begin
-        start = Time.now
-        puts "updating game session"
+        # start = Time.now
+        # puts "saving game session"
         result = dynamodb.put_item(params)
-        puts "game session updated, time taken: #{Time.now - start}"
+        # puts "game session saved, time taken: #{Time.now - start}"
         return "success"
       rescue Aws::DynamoDB::Errors::ServiceError => error
         return "write error"

@@ -10,18 +10,18 @@
 # Aws.config.update({
 #   region: "us-west-2",
 #   credentials: Aws::Credentials.new(creds["AccessKeyId"], creds["SecretAccessKey"]),
-#   endpoint: "http://dynamodb.us-west-2.amazonaws.com"
-#   # endpoint: "http://localhost:8000" # remove this line to access the cloud
+#   # endpoint: "http://dynamodb.us-west-2.amazonaws.com"
+#   endpoint: "http://localhost:8000" # remove this line to access the cloud
 # })
 # dynamodb = Aws::DynamoDB::Client.new
 
-### Clear tables
-# dynamodb.delete_table({table_name: "Users"})
-# dynamodb.delete_table({table_name: "Uuids"})
-# dynamodb.delete_table({table_name: "Game_Sessions"})
-# dynamodb.delete_table({table_name: "Games"})
-# dynamodb.delete_table({table_name: "Game_Summaries"})
-# dynamodb.delete_table({table_name: "Game_Files"})
+# # ## Clear tables
+# # dynamodb.delete_table({table_name: "Users"})
+# # dynamodb.delete_table({table_name: "Uuids"})
+# # dynamodb.delete_table({table_name: "Game_Sessions"})
+# # dynamodb.delete_table({table_name: "Games"})
+# # dynamodb.delete_table({table_name: "Game_Summaries"})
+# # dynamodb.delete_table({table_name: "Game_Files"})
 
 
 # # USERS TABLE
@@ -173,7 +173,7 @@
 
 # end
 
-# Make entries in Game_Sessions table auto-delete after expiration time
+# #Make entries in Game_Sessions table auto-delete after expiration time
 # begin
 #   result = dynamodb.update_time_to_live({
 #     table_name: "Game_Sessions",

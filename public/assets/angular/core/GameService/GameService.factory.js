@@ -83,7 +83,7 @@
 					var promise = $http.post(
 						"/game/start",
 						{ gameSessionId: game.gameSessionId },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					promise.then(function successfulCall(response) {
 						game.loaded = true;
@@ -91,7 +91,6 @@
 					return promise
 				},
 
-				//TODO
 				submitInput: function(input) {
 					//response should be error status code or object with the following properties:
 					//outputLines(array of strings), location(obj with area and room strings), and navi(boolean)
@@ -101,7 +100,7 @@
 					var promise = $http.post(
 						"/game/input",
 						{ gameSessionId: game.gameSessionId, input: input },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					return promise
 				},
@@ -117,7 +116,7 @@
 								uuid: uuid, 
 								gameSessionId: gameSessionId 
 							},
-							{ responseType: "json", timeout: 20000 }
+							{ responseType: "json", timeout: 10000 }
 						);
 					} else {
 						promise = $http.post(
@@ -127,7 +126,7 @@
 								gameSessionId: gameSessionId,
 								saveGameId: saveGameId 
 							},
-							{ responseType: "json", timeout: 20000 }
+							{ responseType: "json", timeout: 10000 }
 						);
 					}
 					promise.then(function successfulGameSave(response) {
@@ -146,7 +145,7 @@
 					var promise = $http.post(
 						"/game/load", 
 						{ uuid: uuid, savedGameId: savedGameId },
-						{ responseType: "json", timeout: 20000 }
+						{ responseType: "json", timeout: 10000 }
 					);
 					promise.then(function successfulGameLoad(response) {
 						loadGameLocally(response.data.gameSessionId, response.data.savedGameId);
@@ -162,7 +161,7 @@
 					var promise = $http.post(
 						"/game/load-new", 
 						{ protagonistName: protagonistName },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					promise.then(function successfulGameLoad(response) {
 						loadGameLocally(response.data.gameSessionId, null);
@@ -179,7 +178,7 @@
 					var promise = $http.post(
 						"/user/game-summaries", 
 						{ uuid: uuid },
-						{ responseType: "json", timeout: 20000}
+						{ responseType: "json", timeout: 10000}
 					);
 					return promise;
 				}
