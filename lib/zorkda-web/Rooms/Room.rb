@@ -5,9 +5,10 @@ module Zorkda
 		class Room
 
 			attr_accessor :name, :description, :location, :nside, :sside, :eside, :wside, 
-			:uside, :dside, :inventory, :characters, :enemies, :respawn, :respawn_while_in_room, 
-			:visited_before, :hot, :underwater, :contains_portal, :portal_goes_to, 
-			:has_entry_cutscene, :checkpoint_cutscene_list, :floor, :navi_hint, :respawn_point
+			:uside, :dside, :inventory, :characters, :enemies, :respawn, 
+			:respawn_while_in_room, :visited_before, :hot, :underwater, :contains_portal, 
+			:portal_goes_to, :has_entry_cutscene, :checkpoint_cutscene_list, :floor, 
+			:navi_hint, :respawn_point
 
 			def initialize
 				@name = "Room"

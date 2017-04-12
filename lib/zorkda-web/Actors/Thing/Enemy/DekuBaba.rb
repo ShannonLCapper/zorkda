@@ -7,8 +7,9 @@ module Zorkda
 			def initialize(name, description, distance)
 				super(name, "Deku Baba", "Deku Babas", 2, [Zorkda::Actors::DekuNuts.new], distance)
 				@description = description
-				@navi_description = "This tall toothy plant has some attitude.
-		Hit it when it lungest at you, and it will stand upright. Cut it quickly to get a Deku stick!"
+				@navi_description = "This tall toothy plant has some attitude. " +
+														"Hit it when it lungest at you, and it will stand " +
+														"upright. Cut it quickly to get a Deku stick!"
 				@respawn = true
 				@attack_damage = 0.5
 				@contact_damage = 0.5
@@ -23,6 +24,7 @@ module Zorkda
 				Zorkda::GameOutput.add_line("#{self.name} lunges at you with fangs bared.")
 				self.attacking = true
 				self.stunned_by << "sword"
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)
@@ -34,6 +36,7 @@ module Zorkda
 			def terminate_attack
 				self.attacking = false
 				self.stunned_by.delete("sword")
+				self.moves_when_attack_started = nil
 			end
 
 			def stun(move_counter)

@@ -3,7 +3,8 @@
     <input type="radio" ng-model="$parent.selectedGameId" name="selectedFileId" ng-value="gameFile.id" required radio-detect-change>
     <div class="game-summary">
       Name: {{gameFile.protagonistName}}<br>
-      {{gameFile.location.area}}<span ng-show="gameFile.location.room">: {{gameFile.location.room}}</span><br>
+      <span ng-show="gameFile.location.area">{{gameFile.location.area}}:</span> {{gameFile.location.room}}<br>
+      Health: {{gameFile.health}}<br>
       Last Saved: <span class="date">{{gameFile.saveTimestamp | date:"medium"}}</span>
     </div>
   </label>

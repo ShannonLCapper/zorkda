@@ -89,6 +89,8 @@
           	} else {
           		scope.gameFiles = [];
           	}
+          	//fix bug where if the new-file tab is selected to save, it still appears active afterwards
+          	element.find("game-file-select .new-file").removeClass("active");
           };
           
           //Save form function

@@ -3,10 +3,11 @@ module Zorkda
 
 		class InventoryItem < Thing
 
-			attr_accessor :uses, :max_uses, :damage_enemy, :range, :stun_enemy, :gen_singular, :gen_plural,
-			:acquired_description, :type, :available_as_child, :available_as_adult, 
-			:flammable, :can_throw, :can_shoot, :can_drop, :replace_previous, :quantity_allowed, :display_item,
-			:quantity, :parent_alias, :parent_singular, :parent_plural, :can_hit_things
+			attr_accessor :name, :gen_singular, :gen_plural, :can_pick_up,
+			:hittable, :damage_enemy, :range, :display_item, :acquired_description,
+			:uses, :max_uses, :flammable, :can_drop, :can_throw, :replace_previous,
+			:quantity_allowed, :quantity, :parent_alias, :parent_singular,
+			:parent_plural, :available_as_adult, :available_as_child, :can_hit_things
 
 			def initialize(name, gen_singular, gen_plural)
 				super()

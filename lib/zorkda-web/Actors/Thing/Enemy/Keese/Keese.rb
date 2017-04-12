@@ -7,8 +7,9 @@ module Zorkda
 			def initialize(name, description)
 				super(name, "Keese", "Keese", 1, "RNG", 5)
 				@description = description
-				@navi_description = "These bats like to fly around and attack.
-		Hit it with a ranged weapon if it's far away, or use your sword if it's flying at you."
+				@navi_description = "These bats like to fly around and attack. Hit it with " +
+														"a ranged weapon if it's far away, or use your sword if " +
+														"it's flying at you."
 				@stunned_by = []
 				@respawn = true
 				@attack_damage = 0.5
@@ -25,6 +26,7 @@ module Zorkda
 				Zorkda::GameOutput.add_line("#{self.name} flies toward you.")
 				self.attacking = true
 				self.distance = 0
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)
@@ -36,6 +38,7 @@ module Zorkda
 			def terminate_attack
 				self.attacking = false
 				self.distance = 5
+				self.moves_when_attack_started = nil
 			end
 
 			def block(game_status)

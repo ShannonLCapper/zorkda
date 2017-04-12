@@ -9,8 +9,9 @@ module Zorkda
 			def initialize(name, description, distance)
 				super(name, "Deku scrub", "Deku scrubs", 1, "RNG", distance)
 				@description = description
-				@navi_description = "This sneaky plant just hides in the bushes if you try to hit it up close.
-		Use your shield to bounce back the nuts it spits to force it out of hiding!"
+				@navi_description = "This sneaky plant just hides in the bushes if you try " +
+														"to hit it up close. Use your shield to bounce back the " +
+														"nuts it spits to force it out of hiding!"
 				@effective_items = ["bow", "sword", "stick", "hammer"]
 				@can_hide_from = ["sword", "stick", "hammer"]
 				@respawn = false
@@ -69,6 +70,7 @@ module Zorkda
 			def start_attack(game_status)
 				Zorkda::GameOutput.add_line("#{self.name} shoots a Deku nut at you.")
 				self.attacking = true
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)

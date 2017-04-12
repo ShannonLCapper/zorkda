@@ -21,6 +21,7 @@ module Zorkda
 			def start_attack(game_status)
 				Zorkda::GameOutput.add_line("#{self.name}'s eye turns red, and it pounces at you.")
 				self.attacking = true
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)

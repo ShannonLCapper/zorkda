@@ -6,7 +6,7 @@ module Zorkda
 
 			def initialize
 				super()
-				@name = "Greak Deku Tree's Glen"
+				@name = "Great Deku Tree's Glen"
 				@description = "You're in a large clearing dominated by the towering Great Deku Tree."
 				@location = "Kokiri Forest"
 				@nside.change_type(:trees)

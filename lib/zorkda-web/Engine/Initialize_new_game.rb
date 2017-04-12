@@ -171,7 +171,7 @@ module Zorkda
 			child_rooms[:idt_b2_antechamber].nside.goes_to = child_rooms[:idt_gohmas_lair]
 
 			#set up respawn point for dungeon rooms
-			child_rooms.each do |room|
+			child_rooms.each_value do |room|
 				if room.is_a?(Zorkda::Rooms::InsideDekuTree)
 					room.respawn_point = child_rooms[:kf_deku_glen]
 				end
@@ -182,7 +182,7 @@ module Zorkda
 			child_rooms[:links_balcony].name = "#{player.name}'s Balcony"
 			##################### need to do this for adult rooms too
 
-			return Zorkda::Engine::GameStatus.new(player, child_rooms[:links_house], child_rooms)
+			return Zorkda::Engine::GameStatus.new(player, child_rooms[:kf_deku_glen], child_rooms)
 		end
 
 	end

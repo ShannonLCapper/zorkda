@@ -12,8 +12,8 @@ module Zorkda
 				@parent_alias = true
 				@parent_singular = "spider"
 				@parent_plural = "spiders"
-				@navi_description = "This giant, cycloptic spider is one of the parasitic monsters inside the Deku Tree!
-		It's vulnerable when its eye turns red."
+				@navi_description = "This giant, cycloptic spider is one of the parasitic monsters inside the Deku Tree! " +
+														"It's vulnerable when its eye turns red."
 				@respawn = false
 				@attack_damage = 0
 				@contact_damage = 0
@@ -25,7 +25,8 @@ module Zorkda
 			end
 
 			def determine_if_attacking(game_status)
-				if self.attacking
+				if self.attacking &&
+					self.moves_when_attack_started + self.moves_to_land_attack <= game_status.move_counter
 					self.land_attack(game_status)
 				end
 				if !self.attacking && !self.stunned && game_status.curr_room.enemies.length == 1
@@ -40,6 +41,7 @@ module Zorkda
 				Zorkda::GameOutput.add_line("Gohma's eye turns red.")
 				self.attacking = true
 				self.stunned_by = ["slingshot"]
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)
@@ -51,6 +53,7 @@ module Zorkda
 			def terminate_attack
 				self.attacking = false
 				self.stunned_by = []
+				self.moves_when_attack_started = nil
 			end
 
 			def stun(move_counter)

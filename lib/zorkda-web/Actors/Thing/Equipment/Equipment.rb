@@ -5,9 +5,11 @@ module Zorkda
 		class Equipment < Thing
 			attr_accessor :name, :equipped, :type, :damage_enemy, :gen_singular, :gen_plural, :range, 
 			:available_as_child, :available_as_adult, :parent_alias, :parent_singular,
-			:parent_plural, :replace_previous, :description, :acquired_description, :susceptible_to_fire,
-			:reflective, :strength, :weight, :heat_resistance, :underwater_breathing, :diving_distance, 
-			:quantity_allowed, :quantity, :can_hit_things
+			:parent_plural, :replace_previous, :description, :can_pick_up, :can_slide, 
+			:flammable, :hookshotable, :rewspawn, :acquired_description, :susceptible_to_fire,
+			:reflective, :strength, :weight, :heat_resistance, :underwater_breathing, 
+			:diving_distance, :quantity_allowed, :quantity, :can_roll_into,
+			:can_hit_things, :can_shoot
 
 			def initialize(name, type, gen_singular, gen_plural)
 				super()
@@ -42,6 +44,7 @@ module Zorkda
 				@quantity = 1
 				@can_roll_into = true
 				@can_hit_things = false
+				@can_shoot = false
 			end
 
 			def use

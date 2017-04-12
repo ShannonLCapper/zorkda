@@ -117,7 +117,9 @@ module Zorkda
 
 				#talk to/speak to
 				elsif self::Utils.action_one_obj("talk to", Zorkda::Actions.method(:talk_to), game_status, response)
+					game_status.move_counter -= 1
 				elsif self::Utils.action_one_obj("speak to", Zorkda::Actions.method(:talk_to), game_status, response)
+					game_status.move_counter -= 1
 
 				#block
 				elsif self::Utils.action_no_obj("block", Zorkda::Actions.method(:block), game_status, response)

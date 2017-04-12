@@ -14,7 +14,8 @@ module Zorkda
 					distance
 				)
 				@description = description
-				@navi_description = "This shiny gold arachnid is also known as a Spider of the Curse. If you defeat it, you'll get a token as proof!"
+				@navi_description = "This shiny gold arachnid is also known as a Spider of the Curse. "
+														"If you defeat it, you'll get a token as proof!"
 				@respawn = false
 				@attack_damage = 0
 				@contact_damage = 1

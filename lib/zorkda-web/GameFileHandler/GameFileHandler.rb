@@ -75,15 +75,15 @@ module Zorkda
       game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
       return 500 if game_file == "failed"
       return 404 if game_file.nil?
-      # game_output = Zorkda::Engine.run_game(game_file)
+      game_output = Zorkda::Engine.run_game(game_file)
       update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
       return 500 if update_game_session_response == "failed"
-      return { # temporary
-        outputLines: ["Your name is #{game_file.player.name}", "You are on move #{game_file.move_counter.to_i}" ],
-        location: game_file.get_location, 
-        navi: false
-      }.to_json
-      # return game_output.to_json
+      # return { # temporary
+      #   outputLines: ["Your name is #{game_file.player.name}", "You are on move #{game_file.move_counter.to_i}" ],
+      #   location: game_file.get_location, 
+      #   navi: false
+      # }.to_json
+      return game_output.to_json
     end
 
     def self.input_to_game(game_session_id, input)
@@ -92,16 +92,16 @@ module Zorkda
       game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
       return 500 if game_file == "failed"
       return 404 if game_file.nil?
-      # game_output = Zorkda::Engine.run_game(game_file, input)
-      game_file.move_counter += 1 #temporary
+      game_output = Zorkda::Engine.run_game(game_file, input)
+      # game_file.move_counter += 1 #temporary
       update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
       return 500 if update_game_session_response == "failed"
-      return { # temporary
-        outputLines: ["You are on move #{game_file.move_counter.to_i}" ],
-        location: game_file.get_location,
-        navi: true
-      }.to_json
-      # return game_output.to_json
+      # return { # temporary
+      #   outputLines: ["You are on move #{game_file.move_counter.to_i}" ],
+      #   location: game_file.get_location,
+      #   navi: true
+      # }.to_json
+      return game_output.to_json
     end
 
     def self.save(game_session_id, uuid, save_game_id)
@@ -157,6 +157,7 @@ module Zorkda
       return { 
         protagonistName: game_file.player.name,
         location: game_file.get_location,
+        health: game_file.player.display_health,
         id: save_game_id, 
         saveTimestamp: Time.now.to_i * 1000
       }

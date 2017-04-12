@@ -19,7 +19,7 @@ module Zorkda
 
 			def get_location
 				area = self.curr_room.location
-				area += "(#{self.curr_room.floor})" if self.curr_room.location && self.curr_room.floor
+				area += " (#{self.curr_room.floor})" if self.curr_room.location && self.curr_room.floor
 				return {
         	area: area,
         	room: self.curr_room.name

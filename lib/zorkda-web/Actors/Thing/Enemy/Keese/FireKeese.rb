@@ -6,8 +6,8 @@ module Zorkda
 
 			def initialize(name, description)
 				super(name, description)
-				@navi_description = "This flying bat is on fire! Destroy it before it flies into you!
-		If it hits you, your Deku shield could burn away."
+				@navi_description = "This flying bat is on fire! Destroy it before it flies into you! " +
+														"If it hits you, your Deku shield could burn away."
 				@attack_damage = 1
 				@contact_damage = 1
 				@on_fire = true

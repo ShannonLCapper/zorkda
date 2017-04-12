@@ -7,7 +7,7 @@
 		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
 			var defaultSettings = {
 				volume: .5, //value between 0 and 1
-				textSpeed: 7 //value between 1 and 10
+				textSpeed: 5 //value between 1 and 10
 			};
 
 			//If no settings cookie exists, make one

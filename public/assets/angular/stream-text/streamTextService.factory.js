@@ -7,7 +7,7 @@
 		.factory("streamTextService", [function streamTextServiceFactory() {
 			
 			function calcDelay(speed) {
-				return (1 - speed / 10) * .1 * 1000;
+				return (1 - speed / 10) * .04 * 1000;
 			}
 
 			var speed = 5; //must be number between 1 and 10

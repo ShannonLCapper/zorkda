@@ -1,7 +1,6 @@
 module Zorkda
 	module Actors
 
-		#TODO: figure out what to do when player dies
 		class Protagonist
 			attr_accessor :name, :inventory, :equipment, :health_curr, :health_max, :heart_pieces, 
 			:rupees_curr, :rupees_max, :strength, :carrying, :weight, :age, :on_fire, :diving_distance,
@@ -12,8 +11,16 @@ module Zorkda
 			def initialize(name)
 				@name = name
 				#always have the deku stick holder be the 0th inventory item!!!! Needs to be that way for the dive and light commands
-				@inventory = [Zorkda::Actors::DekuStickHolder.new, Zorkda::Actors::DekuNutHolder.new]
-				@equipment = [Zorkda::Actors::KokiriTunic.new, Zorkda::Actors::KokiriBoots.new]
+				@inventory = [
+					Zorkda::Actors::DekuStickHolder.new, 
+					Zorkda::Actors::DekuNutHolder.new
+				]
+				@equipment = [
+					Zorkda::Actors::KokiriTunic.new, 
+					Zorkda::Actors::KokiriBoots.new,
+					Zorkda::Actors::KokiriSword.new, # temp
+					Zorkda::Actors::DekuShield.new # temp
+				]
 				@deku_sticks = @inventory[0]
 				@health_curr = 3.0
 				@health_max = 3.0
@@ -53,7 +60,7 @@ module Zorkda
 				self.moves_when_frozen = nil
 				self.paralyzed = false
 				self.moves_when_paralyzed = nil
-				self.of_fire = false
+				self.on_fire = false
 				self.can_move = true
 				self.breath_left = 4
 				self.dead = false
@@ -97,10 +104,12 @@ module Zorkda
 
 			def display_health
 				if self.health_curr == self.health_curr.to_i.to_f
-					Zorkda::GameOutput.add_line("#{self.health_curr.to_i} out of #{self.health_max.to_i} hearts")
+					text_line = "#{self.health_curr.to_i} out of #{self.health_max.to_i} hearts"
 				else
-					Zorkda::GameOutput.add_line("#{self.health_curr} out of #{self.health_max.to_i} hearts")
+					text_line = "#{self.health_curr} out of #{self.health_max.to_i} hearts"
 				end
+				Zorkda::GameOutput.add_line(text_line)
+				return text_line
 			end
 
 			def display_heart_pieces
@@ -324,19 +333,11 @@ module Zorkda
 			end
 
 			def die(game_status)
-
+				Zorkda::GameOutput.new_paragraph
 				Zorkda::GameOutput.add_line("Game over")
-				3.times { Zorkda::GameOutput.new_paragraph }
 				Zorkda::GameOutput.add_line("Type any command to continue.")
-				#TODO: what should happen here?
-				# puts "Would you like to continue from your last save point?"
-				# response = get_valid_yes_or_no
-				# if response == "yes"
-				# 	load_game(game_status.file_name)
-				# else
-				# 	puts "Ok then. Hyrule needs you, so come back soon!"
-				# 	exit(0)
-				# end
+				self.dead = true
+				Zorkda::GameOutput.suppress_text_additions
 			end
 
 			def check_if_too_hot(game_status)

@@ -23,7 +23,6 @@ module Zorkda
         ]
 				@inventory[0].display = false
 				@enemies = [
-          Zorkda::Actors::DekuBaba.new(nil, nil, 0), 
           Zorkda::Actors::DekuBaba.new(nil, nil, 0)
         ]
 				@has_entry_cutscene = true

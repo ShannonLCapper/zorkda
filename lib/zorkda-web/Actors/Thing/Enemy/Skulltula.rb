@@ -9,8 +9,8 @@ module Zorkda
 			def initialize(name, description, distance)
 				super(name, "Skulltula", "Skulltulas", 2, "RNG", distance)
 				@description = description
-				@navi_description = "This nasty spider likes to hang down from the ceiling.
-		Its soft backside is its weak point!"
+				@navi_description = "This nasty spider likes to hang down from the ceiling. " +
+														"Its soft backside is its weak point!"
 				@respawn = true
 				@attack_damage = 0
 				@contact_damage = 0.5
@@ -26,10 +26,14 @@ module Zorkda
 			def determine_if_attacking(game_status)
 				if self.attacking && self.distance > self.range
 					self.terminate_attack
-				elsif self.attacking && self.distance <= self.range
+				elsif self.attacking && 
+							self.distance <= self.range
+							self.moves_when_attack_started + self.moves_to_land_attack <= game_status.move_counter
 					self.land_attack(game_status)
-				elsif !self.attacking && !self.stunned && self.distance <= self.range && 
-				game_status.move_counter > 1 + moves_when_last_spun 
+				elsif !self.attacking && 
+							!self.stunned && 
+							self.distance <= self.range && 
+							game_status.move_counter > 1 + self.moves_when_last_spun 
 					random_number = rand(1..10)
 					if random_number <= self.aggression
 						self.start_attack(game_status)
@@ -42,6 +46,7 @@ module Zorkda
 				self.attacking = true
 				self.effective_items = ["sword", "slingshot", "boomerang", "bow", "bomb", "hookshot", "stick", "hammer"]
 				self.moves_when_last_spun = game_status.move_counter
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)
@@ -52,6 +57,7 @@ module Zorkda
 			def terminate_attack
 				self.attacking = false
 				self.effective_items = ["hookshot", "bow", "bomb", "hammer"]
+				self.moves_when_attack_started = nil
 			end
 
 			def stun(move_counter)

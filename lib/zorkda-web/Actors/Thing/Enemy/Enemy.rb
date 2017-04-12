@@ -8,7 +8,7 @@ module Zorkda
 			:respawn_while_in_room, :moves_when_removed,  :contact_damage, :effective_items, :health, :health_max, 
 			:navi_description, :awake, :on_fire, :frozen, :on_fire_normally, :speed, :aggression, 
 			:destun_upon_taking_damage, :random_contents, :awake_normally, :attacking, :attack_damage,
-			:range, :dead
+			:range, :dead, :moves_when_attack_started, :moves_to_land_attack
 
 			def initialize(name, gen_singular, gen_plural, health, contents, distance)
 				#set when initialized
@@ -53,13 +53,15 @@ module Zorkda
 				@destun_upon_taking_damage = true
 				@range = 0
 				@destun_time = 2
+				@moves_to_land_attack = 1
 
 				#never changes at initialization
 				@stunned = false
 				@moves_when_stunned = nil
 				@moves_when_removed = nil
 				@attacking = false
-				@dead
+				@moves_when_attack_started = nil
+				@dead = false
 			end
 
 			def update(game_status)
@@ -70,7 +72,9 @@ module Zorkda
 			def determine_if_attacking(game_status)
 				if self.attacking && self.distance > self.range
 					self.terminate_attack
-				elsif self.attacking && self.distance <= self.range
+				elsif self.attacking && 
+							self.distance <= self.range &&
+							self.moves_when_attack_started + self.moves_to_land_attack <= game_status.move_counter
 					self.land_attack(game_status)
 				end
 				if !self.attacking && !self.stunned && self.distance <= self.range
@@ -84,6 +88,7 @@ module Zorkda
 			def start_attack(game_status)
 				Zorkda::GameOutput.add_line("#{self.name} starts its attack.")
 				self.attacking = true
+				self.moves_when_attack_started = game_status.move_counter
 			end
 
 			def land_attack(game_status)
@@ -94,6 +99,7 @@ module Zorkda
 
 			def terminate_attack
 				self.attacking = false
+				self.moves_when_attack_started = nil
 			end
 
 			def stun(move_counter)

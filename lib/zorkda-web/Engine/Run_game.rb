@@ -1,11 +1,8 @@
 module Zorkda
 	module Engine
 
-		#TODO: figure out what to do if character is dead
 		def self.run_game(game_status, input = nil)
 			Zorkda::GameOutput.reset
-			# Zorkda::GameOutput.add_line("This is a single line") #temp
-			# Zorkda::GameOutput.add_lines(["This is text that is...", "...On two lines"]) #temp
 			if input
 				if game_status.player.dead
 					self.respawn_player(game_status)

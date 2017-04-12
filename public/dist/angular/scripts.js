@@ -20,19 +20,6 @@
 
 (function() {
 	
-	angular
-		.module("core", [
-			"ngCookies",
-      "ngAnimate",
-      "zorkdaSounds",
-      "streamText"
-		]);
-
-})();
-"use strict";
-
-(function() {
-	
 	angular.module("game", [
 		"ngSanitize",
 		"luegg.directives",
@@ -40,6 +27,19 @@
 		"core",
 		"saveModal"
 	]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("core", [
+			"ngCookies",
+      "ngAnimate",
+      "zorkdaSounds",
+      "streamText"
+		]);
 
 })();
 "use strict";
@@ -856,6 +856,8 @@ angular
           	} else {
           		scope.gameFiles = [];
           	}
+          	//fix bug where if the new-file tab is selected to save, it still appears active afterwards
+          	element.find("game-file-select .new-file").removeClass("active");
           };
           
           //Save form function
@@ -1330,7 +1332,7 @@ angular
 		.factory("streamTextService", [function streamTextServiceFactory() {
 			
 			function calcDelay(speed) {
-				return (1 - speed / 10) * .1 * 1000;
+				return (1 - speed / 10) * .04 * 1000;
 			}
 
 			var speed = 5; //must be number between 1 and 10
@@ -2253,7 +2255,7 @@ if(typeof module === "object" && module.exports){
 		.factory("SettingsService", ["$cookies", "$rootScope", "ZorkdaSounds", "streamTextService", function settingsServiceFactory($cookies, $rootScope, ZorkdaSounds, streamTextService) {
 			var defaultSettings = {
 				volume: .5, //value between 0 and 1
-				textSpeed: 7 //value between 1 and 10
+				textSpeed: 5 //value between 1 and 10
 			};
 
 			//If no settings cookie exists, make one
