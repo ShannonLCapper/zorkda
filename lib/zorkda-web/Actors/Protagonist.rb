@@ -18,8 +18,8 @@ module Zorkda
 				@equipment = [
 					Zorkda::Actors::KokiriTunic.new, 
 					Zorkda::Actors::KokiriBoots.new,
-					Zorkda::Actors::KokiriSword.new, # temp
-					Zorkda::Actors::DekuShield.new # temp
+					# Zorkda::Actors::KokiriSword.new, # temp
+					# Zorkda::Actors::DekuShield.new # temp
 				]
 				@deku_sticks = @inventory[0]
 				@health_curr = 3.0

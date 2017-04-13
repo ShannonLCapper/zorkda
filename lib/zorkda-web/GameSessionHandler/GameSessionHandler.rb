@@ -4,8 +4,6 @@ module Zorkda
     def self.get_game_session_file(game_session_id)
       redis_game_file = Zorkda::Cache.get_game_session_file(game_session_id)
       return redis_game_file if redis_game_file && redis_game_file != "read error"
-      # return "failed" if redis_game_file == "read error" # temp
-      # return nil # temp
       dynamo_response = Zorkda::Db.get_game_session(game_session_id)
       return "failed" if dynamo_response == "read error"
       return dynamo_response[:game_file]
@@ -66,8 +64,6 @@ module Zorkda
         sleep(1)
       end
       if !game_file_str || game_file_str == "read error"
-        # puts "no game file available" if !game_file_str
-        # puts "error while reading from redis" if game_file_str == "read error"
         return "transfer error"
       end
       dynamo_game_info = {

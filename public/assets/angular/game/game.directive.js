@@ -130,6 +130,12 @@
 							});
 					};
 
+					scope.toggleHelpSidebar = function() {
+						scope.helpSidebarActive = !scope.helpSidebarActive;
+					}
+					//Initially set help-sidebar to hidden
+					scope.helpSidebarActive = false;
+
 					//Alert user if leaving page without saving
 					scope.$on("$locationChangeStart", function(e, next, current) {
 						if (scope.game.loaded && !scope.game.saved) {

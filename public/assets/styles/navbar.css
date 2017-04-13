@@ -6,6 +6,12 @@
 	font-family: "Orbitron", sans-serif;
 }
 
+@media (max-width: 768px) {
+  .navbar-brand .full-brand {
+    display: none;
+  }
+}
+
 .navbar-inverse .navbar-toggle {
   border-color: #bea870;
 }

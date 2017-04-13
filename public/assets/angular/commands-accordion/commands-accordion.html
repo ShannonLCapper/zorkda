@@ -1,0 +1,147 @@
+<div class="panel-group" id="commandsAccordion" role="tablist" aria-multiselectable="true">
+  <div class="panel">
+    <div class="panel-heading" role="tab" id="informationalCommandsHeading">
+      <h4 class="panel-title">
+        <button type="button" data-toggle="collapse" data-parent="#commandsAccordion" href="#informationalCommandsList" aria-expanded="false" aria-controls="informationalCommandsList">
+          Informational Commands
+        </button>
+      </h4>
+    </div><!--panel-heading-->
+    <div id="informationalCommandsList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="informationalCommandsHeading">
+      <dl class="panel-body">
+        <dt>Look / L</dt>
+        <dd>Gives you information about the room you are in</dd>
+        <dt>Next / N / Wait</dt>
+        <dd>Moves time forward one frame</dd>
+        <dt>Health / Hearts / H</dt>
+        <dd>Shows you your health</dd>
+        <dt>Heart pieces</dt>
+        <dd>Shows how many heart pieces you have</dd>
+        <dt>Rupees / Wallet / Money / R</dt>
+        <dd>Shows you how many rupees you have</dd>
+        <dt>Inventory / I</dt>
+        <dd>Shows you your inventory</dd>
+        <dt>Equipment / E</dt>
+        <dd>Shows you your equipment</dd>
+        <dt>Carrying</dt>
+        <dd>Tells you what you're carrying in front of you, if anything</dd>
+        <dt>Navi / Talk to Navi</dt>
+        <dd>Listens to Navi if she calls to you, otherwise gives objective</dd>
+        <dt>Enemy Info</dt>
+        <dd>Gives you information about any enemies in the room</dd>
+        <dt>Stones / Spiritual Stones</dt>
+        <dd> Shows you what spiritual stones you have</dd>
+        <dt>Medallions</dt>
+        <dd>Shows you what medallions you have</dd>
+        <dt>Tokens / Gold Skulltula Tokens</dt>
+        <dd>Shows you how many gold skulltula tokens you have</dd>
+        <dt>Brief</dt>
+        <dd>Long room descriptions will not show for rooms you have already visited</dd>
+        <dt>Verbose</dt>
+        <dd>Restores long room descriptions</dd>
+      </dl>
+    </div><!--panel-collapse-->
+  </div><!--panel-->
+  <div class="panel">
+    <div class="panel-heading" role="tab" id="ActionCommandsHeading">
+      <h4 class="panel-title">
+        <button type="button" data-toggle="collapse" data-parent="#commandsAccordion" href="#actionCommandsList" aria-expanded="false" aria-controls="actionCommandsList">
+          Action Commands
+        </button>
+      </h4>
+    </div><!--panel-heading-->
+    <div id="actionCommandsList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="actionCommandsHeading">
+      <dl class="panel-body">
+        <dt>Go &lt;direction&gt;</dt>
+        <dd>
+          Moves you to a new room, if able
+          <ul>
+            <li>Valid directions: north, south, east, west, up, down</li>
+            <li>Abbreviations are acceptable (ie. "go n")</li>
+          </ul>
+        </dd>
+        <dt>Talk to / Speak to &lt;person&gt;</dt>
+        <dd>Allows you to speak to a character in the room</dd>
+        <dt>Pick up / Get &lt;item&gt;</dt>
+        <dd>
+          Picks up an item in the room
+          <ul>
+            <li>If the item can be added to your inventory, it will do so</li>
+            <li>Otherwise, you will carry the item in front of you</li>
+          </ul>
+        </dd>
+        <dt>Put down / Drop &lt;item&gt; (on &lt;item&gt;)</dt>
+        <dd>
+          Puts down an item you are holding
+          <ul>
+            <li>If the optional "on &lt;item&gt;" is used, will drop the item on something in particular</li>
+          </ul>
+        </dd>
+        <dt>Throw &lt;item&gt; (at &lt;enemy / item&gt;)</dt>
+        <dd>
+          Roughly throws an item that you are holding in front of you
+          <ul>
+            <li>If the item breaks, you will be given its contents, if it has any</li>
+          </ul>
+        </dd>
+        <dt>Open &lt;chest&gt;</dt>
+        <dd>
+          Opens a chest, if able
+          <ul>
+            <li>Do not use this action on doors. They will open automatically if you walk in their direction</li>
+          </ul>
+        </dd>
+        <dt>Step on / Press &lt;switch&gt;</dt>
+        <dd>Presses a floor switch temporarily</dd>
+        <dt>Break &lt;item&gt; with &lt;sword / inventory item&gt;</dt>
+        <dd>Breaks item and gives you its contents, if it has any</dd>
+        <dt>Buy &lt;item&gt;</dt>
+        <dd>Buys an item in a shop, if you have sufficient rupees</dd>
+        <dt>Light &lt;item&gt; with &lt;item&gt;</dt>
+        <dd>
+          Lights an object on fire using another already lit object
+          <ul>
+            <li>You can use this to light flammable items from your inventory on fire</li>
+            <li>Or you can light objects in the room on fire using something on fire in your inventory</li>
+          </ul>
+        </dd>
+        <dt>Extinguish stick / deku stick</dt>
+        <dd>Puts out your lit deku stick, if you have one</dd>
+        <dt>Push / Slide &lt;item&gt;</dt>
+        <dd>Pushes around an object in the room</dd>
+        <dt>Dive for &lt;item&gt;</dt>
+        <dd>Reaches for an item submerged underwater</dd>
+      </dl>
+    </div><!--panel-collapse-->
+  </div><!--panel-->
+  <div class="panel">
+    <div class="panel-heading" role="tab" id="fightingCommandsHeading">
+      <h4 class="panel-title">
+        <button type="button" data-toggle="collapse" data-parent="#commandsAccordion" href="#fightingCommandsList" aria-expanded="false" aria-controls="fightingCommandsList">
+          Fighting Commands
+        </button>
+      </h4>
+    </div><!--panel-heading-->
+    <div id="fightingCommandsList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="fightingCommandsHeading">
+      <dl class="panel-body">
+        <dt>Hit &lt;enemy / object&gt; with &lt;item&gt;</dt>
+        <dd>
+          Hits an enemy or object in the room with an item you possess
+          <ul>
+            <li>If the enemy dies, you will automatically be given any items it drops</li>
+          </ul>
+        </dd>
+        <dt>Shoot &lt;enemy / object&gt; with &lt;item&gt;</dt>
+        <dd>Shoots an enemy or object in the room with a weapon you possess</dd>
+        <dt>Shoot &lt;item&gt; at &lt;enemy / object&gt;</dt>
+        <dd>Shoots an enemy or object in the room with a weapon you possess</dd>
+        <dt>Cut &lt;item&gt;</dt>
+        <dd>Cuts target with your equipped sword</dd>
+        <dt>Block</dt>
+        <dd>Blocks incoming attacks with your shield</dd>
+        <dt>Dodge</dt>
+        <dd>Dodges incoming attacks</dd>
+      </dl>
+    </div><!--panel-collapse-->
+  </div><!--panel-->
+</div><!--panel-group-->

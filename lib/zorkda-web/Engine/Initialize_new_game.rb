@@ -182,7 +182,7 @@ module Zorkda
 			child_rooms[:links_balcony].name = "#{player.name}'s Balcony"
 			##################### need to do this for adult rooms too
 
-			return Zorkda::Engine::GameStatus.new(player, child_rooms[:kf_deku_glen], child_rooms)
+			return Zorkda::Engine::GameStatus.new(player, child_rooms[:links_house], child_rooms)
 		end
 
 	end

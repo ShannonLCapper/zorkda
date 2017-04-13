@@ -17,46 +17,59 @@
   </div>
 </div>
 
-<div ng-show="gameStarted"><!--game started view-->
+<div ng-show="gameStarted" class="game-started-view"><!--game started view-->
 
   <div class="container-fluid">
-    <div class="game-hud row">
-      <div class="game-header col-sm-9 animated slideInLeft">
-        <h3>
-          <span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span>
-          <span ng-show="location.area[0]">:</span>
-          <span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span>
-        </h3>
-      </div>
-      <div class="game-settings col-sm-3 animated flipInX">
-        <button type="button" class="grad-btn save-btn" data-toggle="modal" data-target=".saveModal">Save</button>
-      </div>
-  </div><!--container-fluid-->
+    <div class="row">
 
-  <div class="container">
-    <div class="game-frame">
-
-      <div class="output well">
-        <div class="outputs" scroll-glue>
-          <p ng-repeat="output in outputs track by $index" ng-class="{'user-supplied': output.userSupplied, 'error': output.error}">
-            <span ng-if="output.stream" stream-text text-lines="output.text" after-stream="finishGameOutput(output)"></span>
-            <span ng-if="!output.stream" ng-bind="output.text"></span>
-          </p>
+      <div class="game-hud">
+        <div class="game-header col-sm-9 animated slideInLeft">
+          <h3>
+            <span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span>
+            <span ng-show="location.area[0]">:</span>
+            <span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span>
+          </h3>
         </div>
-        <loading-icon ng-show="loadingOutputResponse"></loading-icon>
-      </div>
+        <div class="game-settings col-sm-3">
+          <button type="button" class="grad-btn save-btn animated flipInX" data-toggle="modal" data-target=".saveModal">Save</button>
+          <button type="button" class="help-sidebar-btn" ng-class="{'active': helpSidebarActive}" ng-click="toggleHelpSidebar()">
+            <img src="assets/images/navi/navi.svg" alt="navi">
+            <span class="sr-only">Toggle Help Sidebar</span>
+          </button>
+        </div>
+      </div><!--game-hud-->
 
-      <form name="gameInputForm" class="game-input-form animated flipInX" ng-submit="submitInput()">
-        <input id="userInput" name="input" type="text" ng-model="userInput" class="form-control" aria-label="Type a command here" placeholder="Type a command here" autofocus autocomplete="off">
-        <button ng-disabled="form.submitDisabled" ng-mouseenter="form.submitHover = true" ng-mouseleave="form.submitHover = false" type="submit">
-          <span ng-class="{'bounce': form.submitHover && !form.submitDisabled}" class="animated infinite glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-          <span class="sr-only">Submit</span>
-        </button>
-      </form>
+      <div class="game-frame col-sm-9">
+        <div class="output well">
+          <div class="outputs" scroll-glue>
+            <p ng-repeat="output in outputs track by $index" ng-class="{'user-supplied': output.userSupplied, 'error': output.error}">
+              <span ng-if="output.stream" stream-text text-lines="output.text" after-stream="finishGameOutput(output)"></span>
+              <span ng-if="!output.stream" ng-bind="output.text"></span>
+            </p>
+          </div>
+          <loading-icon ng-show="loadingOutputResponse"></loading-icon>
+        </div>
 
-    </div><!--game-frame-->
-  </div><!--container-->
+        <form name="gameInputForm" class="game-input-form animated flipInX" ng-submit="submitInput()">
+          <input id="userInput" name="input" type="text" ng-model="userInput" class="form-control" aria-label="Type a command here" placeholder="Type a command here" autofocus autocomplete="off">
+          <button ng-disabled="form.submitDisabled" ng-mouseenter="form.submitHover = true" ng-mouseleave="form.submitHover = false" type="submit">
+            <span ng-class="{'bounce': form.submitHover && !form.submitDisabled}" class="animated infinite glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+            <span class="sr-only">Submit</span>
+          </button>
+        </form>
+
+      </div><!--game-frame-->
+
+      <div class="col-sm-3 help-sidebar" ng-class="{'active': helpSidebarActive}">
+        <img class="navi" src="assets/images/navi/navi.svg" alt="navi">
+        <h3>Commands</h3>
+        <commands-accordion></commands-accordion>
+      </div><!--help-panel-->
+      
+
+    </div><!--row-->
+  </div><!--container-fluid-->
 
   <save-modal></save-modal>
 
-</div><!--game-loaded view-->
+</div><!--game-started view-->

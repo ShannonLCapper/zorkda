@@ -1,0 +1,48 @@
+commands-accordion .panel {
+	background-color: transparent;
+}
+
+commands-accordion .panel-heading {
+	background-color: rgba(190,168,112,.3);
+	color: #bea870;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	font-weight: bold !important;
+}
+
+commands-accordion .panel-title {
+	height: 100%;
+	width: 100%;
+}
+commands-accordion .panel-title button {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	border: none;
+}
+
+commands-accordion .panel-title button:hover {
+	color: #dac99c;
+}
+
+commands-accordion .panel-body {
+	border-top: none !important;
+}
+
+commands-accordion dl{
+	font-size: 1.5rem;
+	text-align: left;
+}
+
+commands-accordion dt {
+	color: #dac99c;
+}
+
+commands-accordion dd {
+	margin-bottom: 5px;
+	font-size: .9em;
+}
+
+commands-accordion dd ul {
+	padding-left: 20px;
+}

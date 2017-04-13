@@ -9,6 +9,13 @@ use Rack::PostBodyContentTypeParser
 enable :sessions
 set :session_secret, 'BADSECRET'
 
+before do
+  next unless request.post?
+  params.each do |param, val|
+    params[param] = Rack::Utils.escape_html(val)
+  end
+end
+
 get '/' do
   send_file File.join(settings.public_folder, 'index.html')
 end

@@ -10,7 +10,7 @@ module Zorkda
       return true
     end
 
-    def self.uuid_valid?(uuid)
+    def self.uuid_exists?(uuid)
       entry = Zorkda::Db.get_uuid(uuid)
       return 500 if entry == "read error"
       return false if entry.nil?
@@ -19,7 +19,7 @@ module Zorkda
 
     def self.get_all_game_summaries(uuid)
       return 400 unless self.all_params_present?([uuid])
-      valid_uuid = self.uuid_valid?(uuid)
+      valid_uuid = self.uuid_exists?(uuid)
       case valid_uuid
       when "read error"
         return 500

@@ -1,115 +1,163 @@
 game {
 	text-align: left;
+	width: 100vw;
+	overflow-x: hidden;
 }
 
 game .center-text {
 	text-align: center;
 }
 
-.game-hud {
-	margin-bottom: 10px;
+game .game-started-view {
+	position: relative;
 }
 
-.game-hud .game-header {
+game .game-hud .game-header {
 	padding-left: 0px;
 	margin-bottom: 10px;
 	min-height: 2em;
 }
 
-.game-hud .game-header h3 {
+game .game-hud .game-header h3 {
 	color: white;
 	background: linear-gradient(270deg, rgba(190,168,112,0), rgba(190,168,112,.7), #614b25 90%);
-	padding: 10px 0px 10px 30px;
+	padding: 10px 30px;
 	margin: 0;
 }
 
-.game-header>h3>span {
+game .game-header>h3>span {
 	display: inline-block;
 }
 
-.game-header>h3>span.ng-leave {
+game .game-header>h3>span.ng-leave {
 	display: none;
 }
 
-.game-header>h3>span.ng-leave-active {
+game .game-header>h3>span.ng-leave-active {
 	display: none;
 }
 
-.game-hud .save-btn {
-	display: block;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	margin: 0px auto;
-	width: 100%;
+game .game-settings {
+	position: relative;
+	margin-top: -5px; /*remove 5px from the 10px bottom margin of the .game-header*/
+	padding-top: 14px; /*centers the save button with the tab for the help sidebar*/
+	padding-bottom: 19px; /*14px to clear the bottom of the help sidebar tab + 5px of actual margin*/
 }
 
-@media (min-width: 500px) {
-	.game-hud .save-btn {
-		max-width: 300px;
+@media (min-width: 768px) {
+	game .game-settings {
+		margin-top: 0;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 }
 
-.game-frame .output {
+game .game-settings .save-btn {
+	display: inline;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0px auto;
+	width: calc(100% - 70px); /*make button full width minus the tab for the help menu*/
+}
+
+@media (min-width: 500px) {
+	game .game-settings .save-btn {
+		width: 100%;
+		max-width: 300px;
+		display: block;
+	}
+}
+
+game .help-sidebar-btn {
+	border: 1px solid transparent;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	background-color: #0c130a;
+	position: absolute;
+	display: block;
+	right: 0;
+	top: 0;
+	width: 70px;
+	padding: 10px;
+	z-index: 100;
+}
+
+game .help-sidebar-btn.active {
+	right: 80vw; /*same as width of the help-sidebar*/
+}
+
+@media (min-width: 768px) {
+	game .help-sidebar-btn {
+		display: none;
+	}
+}
+
+game .game-frame {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+game .game-frame .output {
 	background-color: rgba(8,19,10, 0.4);
 	border-color: transparent;
-	height: 70vh;
+	height: 62vh;
 	overflow: hidden;
 	position: relative;
 	padding: 0px;
 }
 
 @media (min-width: 768px) {
-	.game-frame .output {
+	game .game-frame .output {
 		height: 75vh;
 	}
 }
 
-.game-frame .outputs{
+game .game-frame .outputs{
 	height: 100%;
 	overflow: auto;
 	padding: 19px;
 }
 
-.game-frame loading-icon {
+game .game-frame loading-icon {
 	display: block;
 	position: absolute;
 	right: 20px;
 	bottom: 15px;
 }
 
-.game-frame .output .user-supplied {
+game .game-frame .output .user-supplied {
 	color: #a3be70;
 }
 
-.game-input-form {
+game .game-input-form {
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	width: 100%;
 }
 
-.game-input-form input::-webkit-input-placeholder {
+game .game-input-form input::-webkit-input-placeholder {
 	color: #333d30;
 }
-.game-input-form input::-moz-placeholder {
+game .game-input-form input::-moz-placeholder {
 	color: #333d30;
 }
-.game-input-form input:-moz-placeholder {
+game .game-input-form input:-moz-placeholder {
 	color: #333d30;
 	opacity: 1;
 }
-.game-input-form input:-ms-input-placeholder {
+game .game-input-form input:-ms-input-placeholder {
 	color: #333d30;
 	opacity: 1;
 }
 
 @media (min-width: 768px) {
-	.game-input-form {
+	game .game-input-form {
 		position: relative;
 	}
 }
 
-.game-input-form .form-control {
+game .game-input-form .form-control {
 	display: inline;
 	width: 100%;
 	border-radius: 0;
@@ -117,7 +165,7 @@ game .center-text {
 	background-color: #5e665b;
 }
 
-.game-input-form button {
+game .game-input-form button {
 	color: #0c130a;
 	position: absolute;
 	right: 0;
@@ -131,20 +179,65 @@ game .center-text {
 	text-align: center;
 }
 
-.game-input-form button:hover,
-.game-input-form button:focus {
+game .game-input-form button:hover,
+game .game-input-form button:focus {
 	color: inherit;
 }
 
-.game-input-form button[disabled] {
+game .game-input-form button[disabled] {
 	color: #0c130a;
 	opacity: 0.2;
 }
 
-.game-input-form button .glyphicon {
+game .game-input-form button .glyphicon {
 	font-size: 3rem;
 	position: absolute;
 	left: 50%;
 	margin-left: -1.5rem;
 	top: 0;
 }
+
+game .help-sidebar {
+	text-align: center;
+	font-size: 2rem;
+	overflow-y: scroll;
+	overflow-x: visible;
+	z-index: 100;
+	background-color: #0c130a;
+	position: fixed;
+	right: -80vw;
+	top: 50px;
+	width: 80vw;
+	height: 90vh;
+	height: calc(100vh - 50px);
+}
+
+game .help-sidebar,
+game .help-sidebar-btn {
+	transition: right .3s ease;
+}
+
+game .help-sidebar.active {
+	right: 0vw;
+}
+
+game .help-sidebar .navi {
+	display: none;
+}
+
+@media (min-width: 768px) {
+	game .help-sidebar {
+		background-color: transparent;
+		position: static;
+		width: 25%; /*return it back to col-sm-3 width*/
+		height: auto;
+		max-height: 82vh;
+	}
+
+	game .help-sidebar .navi {
+		width: 80px;
+		margin: auto;
+		display: block;
+	}
+}
+

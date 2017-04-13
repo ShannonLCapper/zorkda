@@ -7,7 +7,8 @@
 		"luegg.directives",
 		"zorkdaSounds",
 		"core",
-		"saveModal"
+		"saveModal",
+    "commandsAccordion"
 	]);
 
 })();

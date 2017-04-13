@@ -20,12 +20,8 @@
 
 (function() {
 	
-	angular.module("game", [
-		"ngSanitize",
-		"luegg.directives",
-		"zorkdaSounds",
-		"core",
-		"saveModal"
+	angular.module("commandsAccordion", [
+
 	]);
 
 })();
@@ -40,6 +36,20 @@
       "zorkdaSounds",
       "streamText"
 		]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular.module("game", [
+		"ngSanitize",
+		"luegg.directives",
+		"zorkdaSounds",
+		"core",
+		"saveModal",
+    "commandsAccordion"
+	]);
 
 })();
 "use strict";
@@ -264,6 +274,24 @@ $(document).ready(function() {
 (function() {
 	
 	angular
+		.module("commandsAccordion")
+		.directive("commandsAccordion", [function(){
+			return {
+				restrict: "E",
+				templateUrl: "assets/angular/commands-accordion/commands-accordion.html",
+				scope: {},
+				link: function(scope, element, attrs) {
+					
+				}
+			};
+		}]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
 		.module("game")
 		.directive("game", ["GameService", "SettingsService", "ZorkdaSounds", "$sanitize", "$timeout", function(GameService, SettingsService, ZorkdaSounds, $sanitize, $timeout){
 			return {
@@ -390,6 +418,12 @@ $(document).ready(function() {
 								scope.loadingOutputResponse = false;
 							});
 					};
+
+					scope.toggleHelpSidebar = function() {
+						scope.helpSidebarActive = !scope.helpSidebarActive;
+					}
+					//Initially set help-sidebar to hidden
+					scope.helpSidebarActive = false;
 
 					//Alert user if leaving page without saving
 					scope.$on("$locationChangeStart", function(e, next, current) {
