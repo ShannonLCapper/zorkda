@@ -57,6 +57,7 @@ module Zorkda
     end
 
     def self.transfer_from_cache_to_db(game_session_id)
+      puts "transferring game file from cache to db"
       game_file_str = nil
       5.times do
         game_file_str = Zorkda::Cache.get_encoded_game_session_file(game_session_id)
