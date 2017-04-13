@@ -1,14 +1,15 @@
-require "redis"
-require "uri"
-# require_relative "lib/zorkda-web.rb"
-
-uri = URI.parse(ENV["REDISCLOUD_URL"])
-redis_psub = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-
 loop do
-  puts "hello"
+  puts "WORKER SAYS HELLO"
   sleep(5)
 end
+
+# require "redis"
+# require "uri"
+# require_relative "lib/zorkda-web.rb"
+
+# uri = URI.parse(ENV["REDISCLOUD_URL"])
+# redis_psub = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+
 # redis_psub.psubscribe('__keyevent@*__:expired') do |on|
 #   on.pmessage do |pattern, channel, message|
 #     return unless /^shadowkey:/.match(message)
