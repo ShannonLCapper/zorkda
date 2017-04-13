@@ -1,4 +1,5 @@
 require "redis"
+require "uri"
 # require_relative "lib/zorkda-web.rb"
 
 uri = URI.parse(ENV["REDISCLOUD_URL"])
