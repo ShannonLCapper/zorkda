@@ -27,7 +27,7 @@ module Zorkda
         $redis[game_session_id] = encoded_game_file
         shadowkey = "shadowkey:#{game_session_id}"
         $redis[shadowkey] = ""
-        $redis.expireat(shadowkey, Time.now.to_i + 5) #expire_time)
+        $redis.expireat(shadowkey, expire_time)#Time.now.to_i + 5) 
         $redis.expireat(game_session_id, error_expire_time)
         return "success"
       rescue Exception => e
