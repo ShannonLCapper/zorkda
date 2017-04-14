@@ -10,8 +10,8 @@
 # Aws.config.update({
 #   region: "us-west-2",
 #   credentials: Aws::Credentials.new(creds["AccessKeyId"], creds["SecretAccessKey"]),
-#   # endpoint: "http://dynamodb.us-west-2.amazonaws.com"
-#   endpoint: "http://localhost:8000" # remove this line to access the cloud
+#   endpoint: "http://dynamodb.us-west-2.amazonaws.com"
+#   # endpoint: "http://localhost:8000" # remove this line to access the cloud
 # })
 # dynamodb = Aws::DynamoDB::Client.new
 
@@ -19,7 +19,6 @@
 # # dynamodb.delete_table({table_name: "Users"})
 # # dynamodb.delete_table({table_name: "Uuids"})
 # # dynamodb.delete_table({table_name: "Game_Sessions"})
-# # dynamodb.delete_table({table_name: "Games"})
 # # dynamodb.delete_table({table_name: "Game_Summaries"})
 # # dynamodb.delete_table({table_name: "Game_Files"})
 
