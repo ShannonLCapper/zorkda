@@ -3929,22 +3929,40 @@ game .help-sidebar .navi {
   padding: 5px 10px;
 }
 landing h3 {
+  line-height: 1.5;
   color: #dac99c;
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 20px;
   font-family: 'Orbitron', sans-serif;
 }
 
 landing h4 {
+  line-height: 1.5;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+}
+
+@media (min-width: 500px) {
+  landing h3 {
+    font-size: 2.2rem;
+  }
+
+  landing h4 {
+    width: 80%;
+    font-size: 1.6rem;
+  }
 }
 
 @media (min-width: 768px) {
+  landing h3 {
+    font-size: 2.5rem;
+  }
+
   landing h4 {
     width: 60%;
+    font-size: 1.8rem;
   }
 }
 
@@ -4320,13 +4338,12 @@ resume-game game-file-select {
 .ascii-logo {
   width: 100%;
   margin: auto;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {
   .ascii-logo {
     width: 80%;
-    margin-bottom: 20px;
   }
 }
 
