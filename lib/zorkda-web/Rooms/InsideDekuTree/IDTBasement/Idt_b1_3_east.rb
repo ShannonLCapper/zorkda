@@ -29,13 +29,13 @@ module Zorkda
           )
         ]
 				@inventory[0].submerged = true
-				@navi_hint = "If you see something submerged, you can dive for it with the command &quot;dive for <item>&quot;.
-		I bet there are some interesting things down there!"
+				@navi_hint = "If you see something submerged, you can dive for it with the command " +
+                     "&quot;dive for <item>&quot;. I bet there are some interesting things down there!"
 			end
 
 			def update_locks(game_status)
 				if self.inventory[0].activated && self.wside.blocked
-					Zorkda::GameOutput.add_line("The water level drops, allowing more space between the floating platform and the spiked log.")
+					Zorkda::GameOutput.add_line("The water level drops, allowing more space between the floating platform and the spiked log. You can now go west.")
 					@wside.unblock
 				elsif !self.inventory[0].activated && !self.wside.blocked
 					Zorkda::GameOutput.add_line("The water returns to its original height.")

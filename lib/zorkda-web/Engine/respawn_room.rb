@@ -14,9 +14,9 @@ module Zorkda
 					if thing.random_contents
 						thing.contents = rng_contents(player)
 					end
-					if thing.kind_of?(Zorkda::Actors::Enemy)
+					if thing.is_a?(Zorkda::Actors::Enemy)
 						curr_room.enemies << thing
-					elsif thing.kind_of?(Zorkda::Actors::Character)
+					elsif thing.is_a?(Zorkda::Actors::Character)
 						curr_room.characters << thing
 					else
 						curr_room.inventory << thing

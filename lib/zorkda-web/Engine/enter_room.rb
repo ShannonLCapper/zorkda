@@ -36,24 +36,21 @@ module Zorkda
 						items_to_delete << item
 					end
 				elsif item.is_a?(Zorkda::Actors::TemporaryTorch)
-					additions_already_suppressed = Zorkda::GameOutput.additions_suppressed?
 					Zorkda::GameOutput.suppress_text_additions
 					item.update_if_should_go_out(move_counter)
-					Zorkda::GameOutput.unsuppress_text_additions unless additions_already_suppressed
+					Zorkda::GameOutput.unsuppress_text_additions
 				elsif item.is_a?(Zorkda::Actors::Switch)
-					additions_already_suppressed = Zorkda::GameOutput.additions_suppressed?
 					Zorkda::GameOutput.suppress_text_additions
 					item.check_deactivation(move_counter)
-					Zorkda::GameOutput.unsuppress_text_additions unless additions_already_suppressed
+					Zorkda::GameOutput.unsuppress_text_additions
 				end
 			end
 			items_to_delete.each do |item|
 				curr_room.inventory.delete(item)
 			end
-			additions_already_suppressed = Zorkda::GameOutput.additions_suppressed?
 			Zorkda::GameOutput.suppress_text_additions
 			curr_room.update_distances(game_status)
-			Zorkda::GameOutput.unsuppress_text_additions unless additions_already_suppressed
+			Zorkda::GameOutput.unsuppress_text_additions
 
 			#update stop previous enemy attacks
 			curr_room.enemies.each do |enemy|

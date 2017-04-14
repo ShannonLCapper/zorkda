@@ -122,9 +122,9 @@ module Zorkda
 			end
 
 			def update_names
-				number_generic_names_when_others_present(self.inventory)
-				number_generic_names_when_others_present(self.enemies)
-				number_generic_names_when_others_present(self.characters)
+				self.number_generic_names_when_others_present(self.inventory)
+				self.number_generic_names_when_others_present(self.enemies)
+				self.number_generic_names_when_others_present(self.characters)
 			end
 
 			def number_generic_names_when_others_present(array)
@@ -172,9 +172,9 @@ module Zorkda
 
 			def block_distances_check(block, move_counter)
 				if block.slid && block.when_moved == (move_counter - 1)
-					move_all_closer
+					self.move_all_closer
 				elsif !block.slid && block.when_moved != nil && block.when_moved == move_counter - 1
-					move_all_farther_if_needed
+					self.move_all_farther_if_needed
 				end
 			end
 			
@@ -185,7 +185,7 @@ module Zorkda
 				objects_that_could_move.each do |thing|
 					if thing.distance > 0
 						thing.distance -= 1
-						if thing.distance == 0
+						if thing.distance.zero?
 							things_now_in_range << thing.name
 						end
 					end	

@@ -41,7 +41,7 @@ module Zorkda
 						self.break(curr_room, player)
 						curr_room.inventory.delete(self)
 						item_removed = true
-					elsif self.is_a?(DiamondSwitch)
+					elsif self.is_a?(Zorkda::Actors::DiamondSwitch)
 						self.activate(move_counter, nil)
 					end
 				end
@@ -83,7 +83,7 @@ module Zorkda
 				if self.respawn_while_in_room
 					curr_room.respawn_while_in_room << self
 				end
-				if self.is_a?(BombFlower)
+				if self.is_a?(Zorkda::Actors::BombFlower)
 					self.fuse_lit = true
 					self.moves_when_activated = move_counter
 					self.moves_when_removed = move_counter

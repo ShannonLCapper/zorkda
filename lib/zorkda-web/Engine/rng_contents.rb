@@ -3,7 +3,7 @@ module Zorkda
 
 		#DONE
 		def self.rng_contents(player)
-			num_of_contents = [0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3].sample
+			num_of_contents = [0, 1, 1, 2].sample
 			possibilities = [
 				Zorkda::Actors::Heart.new(nil, nil, false), 
 				Zorkda::Actors::GreenRupee.new(nil, nil, false), 

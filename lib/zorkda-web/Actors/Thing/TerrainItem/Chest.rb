@@ -45,7 +45,7 @@ module Zorkda
 				self.parent_alias = true
 				self.parent_singular = name
 				self.parent_plural = name
-				self.name = "open " + self.name
+				self.name = "open #{self.name}"
 				self.is_open = true
 				self.description = nil
 			end

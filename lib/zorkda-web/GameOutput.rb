@@ -1,7 +1,7 @@
 module Zorkda
 
   class GameOutput
-    @@allow_text_additions = true
+    @@text_suppression_levels = 0
     @@text_lines = []
     @@location = {
       area: nil,
@@ -18,7 +18,7 @@ module Zorkda
     end
 
     def self.reset
-      @@allow_text_additions = true
+      @@text_suppression_levels = 0
       @@text_lines = []
       @@location = {
         area: nil,
@@ -28,19 +28,19 @@ module Zorkda
     end
 
     def self.add_line(new_line)
-      @@text_lines << new_line if @@allow_text_additions
+      @@text_lines << new_line unless self.additions_suppressed?
     end
 
     def self.add_lines(new_lines)
       if new_lines.kind_of?(Array)
-        @@text_lines.concat(new_lines) if @@allow_text_additions
+        @@text_lines.concat(new_lines) unless self.additions_suppressed?
       else
         self.add_line(new_lines)
       end
     end
 
     def self.append_text(text)
-      return unless @@allow_text_additions
+      return if self.additions_suppressed?
 
       if text.kind_of?(Array) && !text.empty?
         line_to_append = text[0]
@@ -58,15 +58,17 @@ module Zorkda
     end
 
     def self.additions_suppressed?
-      return !@@allow_text_additions
+      return true if @@text_suppression_levels > 0
+      return false
     end
 
     def self.suppress_text_additions
-      @@allow_text_additions = false
+      @@text_suppression_levels += 1
     end
 
     def self.unsuppress_text_additions
-      @@allow_text_additions = true
+      @@text_suppression_levels -= 1
+      @@text_suppression_levels = 0 if @@text_suppression_levels < 0
     end
 
     def self.new_paragraph

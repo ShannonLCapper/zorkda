@@ -78,11 +78,11 @@ module Zorkda
 					Zorkda::GameOutput.add_line("You can't light something that is underwater.")
 				elsif target.distance > lighter.range
 					Zorkda::GameOutput.add_line("That target is too far away to light.")
-				elsif target.is_a?(Character)
+				elsif target.is_a?(Zorkda::Actors::Character)
 					Zorkda::GameOutput.add_line("How would you like it if I set YOU on fire?")
 				elsif !target.flammable
 					Zorkda::GameOutput.add_line("You're trying to light something that isn't flammable.")
-				elsif lighter.is_a?(FireArrows)
+				elsif lighter.is_a?(Zorkda::Actors::FireArrows)
 					lighter.use(game_status, target)
 				else
 					target.light(game_status)
@@ -92,7 +92,7 @@ module Zorkda
 					Zorkda::GameOutput.add_line("You're trying to light something that isn't flammable.")
 				elsif lighter.distance > 0
 					Zorkda::GameOutput.add_line("You can't reach the #{lighter.name}.")
-				elsif lighter.is_a?(Enemy)
+				elsif lighter.is_a?(Zorkda::Actors::Enemy)
 					Zorkda::GameOutput.add_line("You're a brave one, aren't you? That seems like a bad idea.")
 				else
 					target.light(move_counter)

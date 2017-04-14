@@ -44,26 +44,9 @@ module Zorkda
       }.to_json
     end
 
-    class FakePlayer #temporary
-      attr_accessor :name
-      def initialize(name)
-        @name = name
-      end
-    end
-
-    class FakeGameFile #temporary
-      attr_accessor :move_counter, :player, :get_location
-      def initialize(protagonist_name)
-        @move_counter = 0
-        @player = FakePlayer.new(protagonist_name)
-        @get_location = {area: "Starting Place", room: "Room 1"}
-      end
-    end
-
     def self.load_new_game_file(protagonist_name)
       return 400 unless self.all_params_present?([protagonist_name])
       game_file = Zorkda::Engine.initialize_new_game(protagonist_name)
-      # game_file = FakeGameFile.new(protagonist_name) # temporary
       game_session_id = Zorkda::GameSessionHandler.create_game_session(game_file)
       # return status code if adding game file to game sessions failed
       return 500 if game_session_id == "failed"
@@ -75,7 +58,13 @@ module Zorkda
       game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
       return 500 if game_file == "failed"
       return 404 if game_file.nil?
-      game_output = Zorkda::Engine.run_game(game_file)
+      begin
+        game_output = Zorkda::Engine.run_game(game_file)
+      rescue Exception => e
+        puts e.message
+        puts e.backtrace.join("\n")
+        return 500
+      end
       update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
       return 500 if update_game_session_response == "failed"
       # return { # temporary
@@ -92,7 +81,13 @@ module Zorkda
       game_file = Zorkda::GameSessionHandler.get_game_session_file(game_session_id)
       return 500 if game_file == "failed"
       return 404 if game_file.nil?
-      game_output = Zorkda::Engine.run_game(game_file, input)
+      begin
+        game_output = Zorkda::Engine.run_game(game_file, input)
+      rescue Excpetion => e
+        puts e.message
+        puts e.backtrace.join("\n")
+        return 500
+      end
       # game_file.move_counter += 1 #temporary
       update_game_session_response = Zorkda::GameSessionHandler.update_game_session(game_session_id, game_file)
       return 500 if update_game_session_response == "failed"

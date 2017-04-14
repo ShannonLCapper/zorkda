@@ -4,7 +4,12 @@ module Zorkda
 		def self.run_game(game_status, input = nil)
 			Zorkda::GameOutput.reset
 			if input
-				if game_status.player.dead
+				if game_status.end_of_game
+					Zorkda::GameOutput.add_line(
+						"You have reached the end of this trial. There will hopefully be more coming soon. " +
+						"Thanks for playing!"
+					)
+				elsif game_status.player.dead
 					self.respawn_player(game_status)
 				elsif game_status.player.can_move
 					Zorkda::Parser.parse(game_status, input)

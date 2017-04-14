@@ -30,7 +30,10 @@ module Zorkda
 					enemies_listed_already = []
 					enemies.each do |enemy|
 						if !enemies_listed_already.include?(enemy.gen_singular)
-							text_lines << "#{enemy.gen_singular[0].capitalize}#{enemy.gen_singular[1..-1]}: #{enemy.navi_description}"
+							enemy_desc = "#{enemy.gen_singular[0].capitalize}#{enemy.gen_singular[1..-1]}"
+							enemy_desc += " (#{enemy.parenthetical_name})" if enemy.parenthetical_name
+							enemy_desc += ": #{enemy.navi_description}"
+							text_lines << enemy_desc
 							enemies_listed_already << enemy.gen_singular
 						end
 					end

@@ -33,7 +33,7 @@ module Zorkda
 				if !self.inventory.include?(self.wall) && self.nside.blocked
 					self.nside.unblock
 				end
-				if !self.inventory.include?(self.web) && self.eside.is_a?(Blockable_path) && self.eside.blocked
+				if !self.inventory.include?(self.web) && self.eside.is_a?(BlockablePath) && self.eside.blocked
 					self.eside = Crawlway.new("east")
 					self.eside.goes_to = game_status.child_rooms[:idt_b1_sewer_west]
 				end

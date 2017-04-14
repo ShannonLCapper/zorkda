@@ -5,7 +5,7 @@ module Zorkda
 		class Gohma < Enemy
 
 			def initialize
-				super("Gohma", "Gohma", "Gohmas", 8, [], 5)
+				super("Gohma", "Gohma", "Gohmas", 6, [], 5)
 				@stunned_by = []
 				@effective_items = ["sword", "stick"]
 				@description = "You can see the giant parasitic arachnid Gohma crawling around the ceiling."
@@ -21,7 +21,7 @@ module Zorkda
 				@range = 1.0/0.0
 				@aggression = 6
 				@destun_upon_taking_damage = false
-				@destun_time = 3
+				@destun_time = 2
 			end
 
 			def determine_if_attacking(game_status)

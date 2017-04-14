@@ -25,7 +25,7 @@ module Zorkda
 
 			def block(game_status)
 				game_status.player.equipment.each do |piece|
-					if piece.is_a?(Deku_shield)
+					if piece.is_a?(Zorkda::Actors::DekuShield)
 						if piece.equipped
 							Zorkda::GameOutput.add_line("You block #{self.name}'s attack but get caught on fire in the process.")
 							game_status.player.on_fire

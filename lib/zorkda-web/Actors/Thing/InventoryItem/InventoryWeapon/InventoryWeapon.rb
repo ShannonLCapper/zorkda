@@ -3,14 +3,16 @@ module Zorkda
 
 		class InventoryWeapon < InventoryItem
 
-			attr_accessor :ammo_type
+			attr_accessor :ammo_type, :type, :can_shoot
 
 			def initialize(name, gen_singular, gen_plural, damage_enemy, range)
 				super(name, gen_singular, gen_plural)
 				@damage_enemy = damage_enemy
 				@range = range
 				@ammo_type = nil
+				@type = nil
 				@can_hit_things = true
+				@can_shoot = false
 			end
 
 			def reduce_uses_left

@@ -5,7 +5,7 @@ module Zorkda
 		class GameStatus
 
 			attr_accessor :player, :curr_room, :move_counter, :checkpoint, 
-			:brief, :navi, :child_rooms
+			:brief, :navi, :child_rooms, :end_of_game
 
 			def initialize(player, curr_room, child_rooms)
 				@player = player
@@ -15,6 +15,7 @@ module Zorkda
 				@brief = false
 				@navi = Zorkda::Actors::Navi.new
 				@child_rooms = child_rooms
+				@end_of_game = false
 			end
 
 			def get_location

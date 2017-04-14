@@ -8,7 +8,7 @@ module Zorkda
 
 			def initialize
 				super("B2", "Antechamber")
-				@description = "You stand in a dimly room lit by flickering torches with a small pond at one end."
+				@description = "You stand in a dim room lit by flickering torches with a small pond at one end."
 				@uside = Vines.new("up")
 				@nside = BarrableDoor.new("north", true)
 				@inventory = [
@@ -51,7 +51,7 @@ module Zorkda
 					]
 					Zorkda::GameOutput.add_lines(dialogue)
 					self.enemies = []
-					self.inventory << Heart.new(nil, nil, false)
+					self.inventory << Zorkda::Actors::Heart.new(nil, nil, false)
 					Zorkda::GameOutput.add_line("The bars lift from the north door.")
 					self.nside.unblock
 				elsif self.stun_order.length == 3

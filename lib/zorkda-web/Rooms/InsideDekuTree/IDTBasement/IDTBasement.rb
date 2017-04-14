@@ -2,15 +2,14 @@ module Zorkda
   module Rooms
 
     #DONE
-    class IDTBasement < Room
+    class IDTBasement < InsideDekuTree
 
 			def initialize(floor, name)
-				super()
-				@name = name
-				@floor = floor
-				@description = nil
-				@location = "Inside the Deku Tree"
-				@uside.change_type(:ceiling)
+				super(floor, name)
+        @nside.change_type(:stone_wall)
+        @sside.change_type(:stone_wall)
+        @eside.change_type(:stone_wall)
+        @wside.change_type(:stone_wall)
 			end
 		end
 

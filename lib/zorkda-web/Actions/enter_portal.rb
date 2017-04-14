@@ -9,7 +9,7 @@ module Zorkda
 				game_status.curr_room = curr_room.portal_goes_to
 				Zorkda::GameOutput.add_line("You walk into the portal, and its surrounds you in blue light, lifting you towards the ceiling.")
 				2.times { Zorkda::GameOutput.new_paragraph}
-				enter_room(game_status)
+				Zorkda::Engine.enter_room(game_status)
 			end
 		end
 

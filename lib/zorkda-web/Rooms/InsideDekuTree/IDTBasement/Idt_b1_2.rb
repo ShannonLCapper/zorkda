@@ -15,7 +15,7 @@ module Zorkda
             nil, 
             nil, 
             0, 
-            Zorkda::Actors::Heart.new(nil, nil, false)
+            [Zorkda::Actors::Heart.new(nil, nil, false)]
           ),
 					Zorkda::Actors::Weed.new(nil, nil, 0, "RNG")
 				]
@@ -25,7 +25,7 @@ module Zorkda
 						"A deku scrub watches from the center of the room.", 
 						0, 
 						[
-							"Wait! Plesae forgive me, master! I'll never do it again! " +
+							"Wait! Please forgive me, master! I'll never do it again! " +
 							"If you spare me, I'll teach you something cool.",
 							" ",
 							"You will never beat my brothers up ahead unless you punish them in the proper order. ",

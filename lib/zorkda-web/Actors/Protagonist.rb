@@ -17,9 +17,7 @@ module Zorkda
 				]
 				@equipment = [
 					Zorkda::Actors::KokiriTunic.new, 
-					Zorkda::Actors::KokiriBoots.new,
-					# Zorkda::Actors::KokiriSword.new, # temp
-					# Zorkda::Actors::DekuShield.new # temp
+					Zorkda::Actors::KokiriBoots.new
 				]
 				@deku_sticks = @inventory[0]
 				@health_curr = 3.0
@@ -161,19 +159,19 @@ module Zorkda
 
 			def add_to_protagonist(item)
 				#if its a rupee, add to wallet
-				if item.kind_of?(Rupee)
+				if item.is_a?(Zorkda::Actors::Rupee)
 					self.get_rupees(item.value)
 				#if its a heart, add to health
-				elsif item.kind_of?(Heart)
+				elsif item.is_a?(Zorkda::Actors::Heart)
 					self.get_health(item.value)
 				#if its a heart piece/container
-				elsif item.kind_of?(HeartPiece)
+				elsif item.is_a?(Zorkda::Actors::HeartPiece)
 					self.get_heart_piece(item.value)
 				#if its an inventory ammo, add to weapon's uses
-				elsif item.kind_of?(InventoryAmmo)
+				elsif item.is_a?(Zorkda::Actors::InventoryAmmo)
 					item.add_to_weapon(self.inventory)
 				#if its some other kind of inventory item, add to inventory
-				elsif item.kind_of?(InventoryItem)
+				elsif item.is_a?(Zorkda::Actors::InventoryItem)
 					Zorkda::GameOutput.add_line("The #{item.name} has been added to your inventory!")
 					if item.replace_previous
 						self.inventory.each do |thing|
@@ -186,15 +184,15 @@ module Zorkda
 					if item.acquired_description != nil
 						Zorkda::GameOutput.add_line(item.acquired_description)
 					end
-					if item.is_a?(Bow)
+					if item.is_a?(Zorkda::Actors::Bow)
 						self.has_bow = true
-					elsif item.is_a?(BombBag)
+					elsif item.is_a?(Zorkda::Actors::BombBag)
 						self.has_bombs = true
-					elsif item.is_a?(Slingshot)
+					elsif item.is_a?(Zorkda::Actors::Slingshot)
 						self.has_slingshot = true
 					end
 				#if its a piece of equipment, add to equipment
-				elsif item.kind_of?(Equipment)
+				elsif item.is_a?(Zorkda::Actors::Equipment)
 					same_type_equipment = []
 					self.equipment.each do |piece|
 						if piece.type.downcase == item.type.downcase
@@ -229,13 +227,13 @@ module Zorkda
 					if item.acquired_description != nil
 						Zorkda::GameOutput.add_line(item.acquired_description)
 					end
-				elsif item.kind_of?(GoldSkulltulaToken)
+				elsif item.is_a?(Zorkda::Actors::GoldSkulltulaToken)
 					Zorkda::GameOutput.add_line("This token is proof of the Gold Skulltula's destruction.")
 					self.tokens += 1
-				elsif item.kind_of?(SpiritualStone)
+				elsif item.is_a?(Zorkda::Actors::SpiritualStone)
 					self.stones << item
 					Zorkda::GameOutput.new_paragraph
-				elsif item.kind_of?(Medallion)
+				elsif item.is_a?(Zorkda::Actors::Medallion)
 					self.medallions << item
 				else
 					Zorkda::GameOutput.add_line("I don't know how to add that equipment to you yet. Oops.")
@@ -317,7 +315,7 @@ module Zorkda
 			end
 
 			def check_if_holding_exploding_bomb(game_status)
-				if self.carrying.is_a?(BombFlower) || self.carrying.is_a?(LitBomb)
+				if self.carrying.is_a?(Zorkda::Actors::BombFlower) || self.carrying.is_a?(Zorkda::Actors::LitBomb)
 					if move_counter > self.carrying.moves_when_activated + self.carrying.moves_to_explode
 						Zorkda::GameOutput.add_line("The #{self.carrying.name} explodes in your hands.")
 						self.carrying.fuse_lit = false

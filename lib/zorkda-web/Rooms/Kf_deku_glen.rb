@@ -132,9 +132,11 @@ module Zorkda
 						"Great Deku Tree...&quot;"
 					]
 					Zorkda::GameOutput.add_lines(dialogue)
-					game_status.player.add_to_protagonist(Kokiri_emerald.new)
+					game_status.player.add_to_protagonist(Zorkda::Actors::KokiriEmerald.new)
 					Zorkda::GameOutput.new_paragraph
 					Zorkda::GameOutput.add_line("You have reached the end of this trial. There will hopefully be more coming soon. Thanks for playing!")
+					Zorkda::GameOutput.suppress_text_additions
+					game_status.end_of_game = true
 				else
 					Zorkda::GameOutput.add_line("error")
 				end

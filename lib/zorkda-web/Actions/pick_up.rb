@@ -9,7 +9,7 @@ module Zorkda
 			#if more than one item matched, check to make sure valid
 			if matches.length > 1 
 				#if there are carryable items the user could be referring to
-				if matches[0].kind_of?(Zorkda::Actors::TerrainItem) || matches[0].kind_of?(Zorkda::Actors::Character) || matches[0].kind_of?(Zorkda::Actors::Enemy)
+				if matches[0].is_a?(Zorkda::Actors::TerrainItem) || matches[0].is_a?(Zorkda::Actors::Character) || matches[0].is_a?(Zorkda::Actors::Enemy)
 					Zorkda::GameOutput.add_line("You're going to have to be more specific about what you want to pick up.")
 					self::Utils.list_options(matches)
 					Zorkda::GameOutput.add_line("Type &quot;pick up&quot; and the thing you want.")
@@ -49,7 +49,7 @@ module Zorkda
 			elsif !matches[0].can_pick_up
 				Zorkda::GameOutput.add_line("That's not really something you can pick up.")
 			#the item is something you carry and your hands are full
-			elsif (matches[0].kind_of?(Zorkda::Actors::TerrainItem) || matches[0].kind_of?(Zorkda::Actors::Character) || matches[0].kind_of?(Zorkda::Actors::Enemy)) && player.carrying != nil
+			elsif (matches[0].is_a?(Zorkda::Actors::TerrainItem) || matches[0].is_a?(Zorkda::Actors::Character) || matches[0].is_a?(Zorkda::Actors::Enemy)) && player.carrying != nil
 				Zorkda::GameOutput.add_line("You're already carrying something. Drop that first.")
 			else
 				matches.each do |item|
@@ -65,7 +65,7 @@ module Zorkda
 					#link can pick up the item
 					else
 						#if its a terrain item or character that can be picked up, carry
-						if item.kind_of?(Zorkda::Actors::TerrainItem) || item.kind_of?(Zorkda::Actors::Character)
+						if item.is_a?(Zorkda::Actors::TerrainItem) || item.is_a?(Zorkda::Actors::Character)
 							if matches.length > 1
 								Zorkda::GameOutput.add_line("You're going to have to be more specific about what you want to pick up.")
 								self::Utils.list_options(matches)

@@ -67,7 +67,7 @@ module Zorkda
 			def update_distances(game_status)
 				# if self.wside.distance == 1
 				# 	self.inventory.each do |item|
-				# 		if item.is_a?(Block)
+				# 		if item.is_a?(Zorkda::Actors::Block)
 				# 			self.wside.distance = 0
 				# 			break
 				# 		end
@@ -79,8 +79,9 @@ module Zorkda
 					self.chest.display = true
 					self.move_all_closer
 					self.inventory.delete(self.corner_web)
-					# pass fake output obj to suppress output
-					self.torch.light({outputLines: []}, game_status)
+          Zorkda::GameOutput.suppress_text_additions
+					self.torch.light(game_status)
+          Zorkda::GameOutput.unsuppress_text_additions
 				end
 			end
 

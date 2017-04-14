@@ -37,6 +37,7 @@ module Zorkda
 				self.attacking = false
 				self.stunned_by.delete("sword")
 				self.moves_when_attack_started = nil
+				self.contents = [Zorkda::Actors::DekuNuts.new] # prevents deku sticks from being stuck as the contents when the enemy dies and respawns
 			end
 
 			def stun(move_counter)

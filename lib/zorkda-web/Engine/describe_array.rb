@@ -27,7 +27,7 @@ module Zorkda
 					text_line = banner_for_items_without_desc + ": "
 					(non_descriptions.length).times do |i|
 						text_line += non_descriptions[i].name 
-						if non_descriptions[i].has_parenthetical_name
+						if non_descriptions[i].parenthetical_name
 							text_line += " (#{non_descriptions[i].parenthetical_name})"
 						end
 						text_line += ", "

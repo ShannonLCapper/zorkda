@@ -19,7 +19,7 @@ module Zorkda
 				inventory.each do |item|
 					if item.type == self.weapon_type
 						item_found = true
-						if item.display_item == false
+						unless item.display_item
 							Zorkda::GameOutput.add_line(item.acquired_description)
 							item.display_item = true
 						end
