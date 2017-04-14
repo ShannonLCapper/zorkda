@@ -23,6 +23,7 @@ game .game-hud .game-header h3 {
 	background: linear-gradient(270deg, rgba(190,168,112,0), rgba(190,168,112,.7), #614b25 90%);
 	padding: 10px 30px;
 	margin: 0;
+	white-space: pre-wrap !important; /*Needed to make text wrap properly on small screens*/
 }
 
 game .game-header>h3>span {
@@ -97,10 +98,18 @@ game .game-frame {
 	padding-right: 15px;
 }
 
+@media (min-width: 768px) {
+	game .game-frame {
+		padding-bottom: 0px;
+	}
+}
+
 game .game-frame .output {
 	background-color: rgba(8,19,10, 0.4);
 	border-color: transparent;
 	height: 62vh;
+	height: calc(100vh - 70px - 127px - 35px - 20px); /*70 from navbar + margin, 56 from game-hud, 35 from input bar, 20 for margin above input bar*/
+	min-height: 150px;
 	overflow: hidden;
 	position: relative;
 	padding: 0px;
@@ -109,6 +118,7 @@ game .game-frame .output {
 @media (min-width: 768px) {
 	game .game-frame .output {
 		height: 75vh;
+		height: calc(100vh - 70px - 56px - 35px - 40px); /*70 from navbar + margin, 56 from game-hud, 35 from input bar, 40 for margin around input bar*/
 	}
 }
 
@@ -134,6 +144,7 @@ game .game-input-form {
 	bottom: 0;
 	left: 0;
 	width: 100%;
+	z-index: 10;
 }
 
 game .game-input-form input::-webkit-input-placeholder {
@@ -163,6 +174,7 @@ game .game-input-form .form-control {
 	border-radius: 0;
 	padding-right: 4.2rem;
 	background-color: #5e665b;
+	z-index: 10;
 }
 
 game .game-input-form button {

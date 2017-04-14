@@ -24,11 +24,7 @@
 
       <div class="game-hud">
         <div class="game-header col-sm-9 animated slideInLeft">
-          <h3>
-            <span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span>
-            <span ng-show="location.area[0]">:</span>
-            <span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span>
-          </h3>
+          <h3><span class="curr-area animated bounceIn" ng-repeat="area in location.area">{{area}}</span><span ng-show="location.area[0]">: </span><span class="curr-room animated bounceIn" ng-repeat="room in location.room">{{room}}</span></h3>
         </div>
         <div class="game-settings col-sm-3">
           <button type="button" class="grad-btn save-btn animated flipInX" data-toggle="modal" data-target=".saveModal">Save</button>

@@ -27,11 +27,18 @@
 </head>
 
 <body ng-controller="ZorkdaAppController as zorkdaCtrl" ng-class="{notMobile: !zorkdaCtrl.isMobileOrTablet()}">
+  <div id="container-all">
+    <navbar></navbar>
 
-  <navbar></navbar>
+    <div class="view-container">
+      <main ng-view class="view-frame" autoscroll="true"></main>
+    </div>
 
-  <div class="view-container">
-    <main ng-view class="view-frame"></main>
+    <footer>
+      &copy;Shannon Capper, 2017<br>
+      All rights reserved<br>
+      This page has no affiliation with Nintendo&trade;
+    </footer>
   </div>
 
 </body>

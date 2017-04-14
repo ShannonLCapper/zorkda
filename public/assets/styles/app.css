@@ -11,8 +11,6 @@ body {
   /*font-family: 'Jura', sans-serif;*/
   font-family: 'Kelly Slab', cursive;
   text-align: center;
-  padding-top: 70px;
-  padding-bottom: 30px;
   font-size: 1.8rem;
   background: #172213;
 }
@@ -44,7 +42,25 @@ body::-webkit-scrollbar-track {
   border-radius: 0;
 }
 
+#container-all {
+  min-height: 100vh;
+  position: relative;
+  padding-top: 70px;
+  padding-bottom: 80px; /*60px from footer + 20px padding between footer and content*/
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  font-size: 1rem;
+  opacity: .5;
+  text-align: center;
+}
+
 .error {
   font-size: .9em;
   color: #a94442;
 }
+
