@@ -6,9 +6,6 @@ html {
 body {
   min-height: 100%; /*makes body go to at least the bottom of the page*/
   color: #bea870;
-  /*font-family: 'Orbitron', sans-serif;*/
-  /*font-family: 'Rajdhani', sans-serif;*/
-  /*font-family: 'Jura', sans-serif;*/
   font-family: 'Kelly Slab', cursive;
   text-align: center;
   font-size: 1.8rem;

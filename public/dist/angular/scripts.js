@@ -29,19 +29,6 @@
 
 (function() {
 	
-	angular
-		.module("core", [
-			"ngCookies",
-      "ngAnimate",
-      "zorkdaSounds",
-      "streamText"
-		]);
-
-})();
-"use strict";
-
-(function() {
-	
 	angular.module("game", [
 		"ngSanitize",
 		"luegg.directives",
@@ -50,6 +37,19 @@
 		"saveModal",
     "commandsAccordion"
 	]);
+
+})();
+"use strict";
+
+(function() {
+	
+	angular
+		.module("core", [
+			"ngCookies",
+      "ngAnimate",
+      "zorkdaSounds",
+      "streamText"
+		]);
 
 })();
 "use strict";
@@ -2261,28 +2261,6 @@ if(typeof module === "object" && module.exports){
 "use strict";
 
 (function() {
-
-  angular
-    .module('core')
-    .directive('radioDetectChange', function radioDetectChange() {
-      return {
-        replace: false,
-        require: 'ngModel',
-        scope: false,
-        link: function (scope, element, attrs, ngModelCtrl) {
-          element.on('change', function () {
-            scope.$apply(function () {
-              ngModelCtrl.$setViewValue(element[0].type.toLowerCase() == 'radio' ? element[0].value : element[0].checked);
-            });
-          });
-        }
-      };
-    });
-
-})();
-"use strict";
-
-(function() {
 	
 	angular
 		.module("core")
@@ -2359,6 +2337,28 @@ if(typeof module === "object" && module.exports){
 			}
 
 		}])
+
+})();
+"use strict";
+
+(function() {
+
+  angular
+    .module('core')
+    .directive('radioDetectChange', function radioDetectChange() {
+      return {
+        replace: false,
+        require: 'ngModel',
+        scope: false,
+        link: function (scope, element, attrs, ngModelCtrl) {
+          element.on('change', function () {
+            scope.$apply(function () {
+              ngModelCtrl.$setViewValue(element[0].type.toLowerCase() == 'radio' ? element[0].value : element[0].checked);
+            });
+          });
+        }
+      };
+    });
 
 })();
 "use strict";

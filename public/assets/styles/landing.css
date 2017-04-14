@@ -2,12 +2,20 @@ landing h3 {
   color: #dac99c;
   font-size: 2.5rem;
   margin-bottom: 20px;
+  font-family: 'Orbitron', sans-serif;
 }
 
 landing h4 {
-  margin-left: 30px;
-  margin-right: 30px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 1.8rem;
+}
+
+@media (min-width: 768px) {
+  landing h4 {
+    width: 60%;
+  }
 }
 
 .intro-btns {
