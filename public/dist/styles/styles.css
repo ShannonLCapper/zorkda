@@ -3866,6 +3866,7 @@ game .help-sidebar .navi {
 		width: 25%; /*return it back to col-sm-3 width*/
 		height: auto;
 		max-height: 82vh;
+		max-height: calc(100vh - 70px - 127px - 20px); /*70 from navbar + margin, 56 from game-hud, 20 from margin below input bar*/
 	}
 
 	game .help-sidebar .navi {
