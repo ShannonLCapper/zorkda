@@ -26,6 +26,18 @@ game .game-hud .game-header h3 {
 	white-space: pre-wrap !important; /*Needed to make text wrap properly on small screens*/
 }
 
+@media (min-width: 992px) {
+	game .game-hud .game-header h3 {
+		padding-left: 10vw; /*lines text up with game outputs below*/
+	}
+}
+
+@media (min-width: 1200px) {
+	game .game-hud .game-header h3 {
+		padding-left: 18vw;
+	}
+}
+
 game .game-header>h3>span {
 	display: inline-block;
 }
