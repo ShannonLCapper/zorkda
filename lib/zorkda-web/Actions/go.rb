@@ -1,11 +1,15 @@
 module Zorkda
 	module Actions
 
-		def self.go(game_status, side)
+		def self.go(game_status, direction_str)
 			curr_room = game_status.curr_room
 			player = game_status.player
 			move_counter = game_status.move_counter
 			brief = game_status.brief
+
+			# removes all words besides the first word of the direction string
+			# accounts for if someone types "go down ladder" instead of "go down"
+			side = direction_str.split(" ")[0]
 			if side == "north" || side == "n"
 				side = curr_room.nside
 			elsif side == "south" || side == "s"

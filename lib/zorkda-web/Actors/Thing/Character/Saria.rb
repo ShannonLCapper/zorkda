@@ -20,7 +20,7 @@ module Zorkda
 					return [
 						"Wow! A fairy!! Finally, a fairy came to you, #{name}! Now you're a true Kokiri!",
 						" ",
-						"Is that right? The Great Deku Tree has summoned you? " +
+						"The Great Deku Tree has summoned you? " +
 						"It's quite an honor to talk to the Great Deku Tree! " +
 						"I'll wait for you here. Get going! Go see the Great Deku Tree!"
 					]

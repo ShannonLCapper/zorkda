@@ -19,7 +19,8 @@ module Zorkda
 
 			def entry_cutscene(game_status)
 				dialogue = [
-					"Navi: &quot;Hello #{game_status.player.name}!",
+					"Navi the Fairy: &quot;Hello #{game_status.player.name}!",
+					"I'm going to be your partner from now on. Nice to meet you!"
 					"The Great Deku Tree has summoned you! Let&#39;s get going!",
 					"You can move around by typing &quot;go &lt;direction&gt;&quot;.",
 					"To talk to me, type &quot;talk to Navi&quot; or just &quot;Navi&quot;."

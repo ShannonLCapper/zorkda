@@ -18,7 +18,7 @@ module Zorkda
 					"Which action commands are relevant to that item will be " +
 					"listed when you get your first one.",
 					" ",
-					"Actions can also be done to things in the room.", 
+					"Actions can also be done to things around you.", 
 					" ",
 					"Some actions have optional parts. " +
 					"For example, you can &quot;throw pot&quot;, or you can &quot;throw pot at boulder&quot;. " +
@@ -43,7 +43,7 @@ module Zorkda
 					"If you hear a &quot;Hey!&quot;, that means your fairy has something to say to you.",
 					"You can talk to her using &quot;talk to Navi&quot; or just &quot;Navi&quot;.",
 					"If you talk to her when she hasn't called to you, she'll tell you your objective.",
-					"If you want to her to tell you about enemies in the room, type &quot;enemy info&quot;."
+					"If you want her to tell you about enemies in the area, type &quot;enemy info&quot;."
 				]
 			end
 

@@ -10,7 +10,7 @@ module Zorkda
 			#describe directions you can go in room
 			self.describe_directions_in_room(room)
 			#describe items in room
-			submerged = self.describe_array(room.inventory, "The room also contains these items")
+			submerged = self.describe_array(room.inventory, "The area also contains these items")
 
 			#describe characters in room
 			submerged.concat(self.describe_array(room.characters, "The following people are present as well"))

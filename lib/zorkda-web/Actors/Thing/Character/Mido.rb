@@ -52,7 +52,7 @@ module Zorkda
 						return [
 							"Hey you! &quot;Mr. No Fairy!&quot; " +
 							"What's your business with the Great Deku Tree? " +
-							"Without a fairy, you're not even a real man!",
+							"Without a fairy, you're not keven a real man!",
 							" ",
 							"What?! You've got a fairy?!",
 							"Say what? The Great Deku Tree actually summoned you?",
@@ -62,7 +62,7 @@ module Zorkda
 							"This isn't funny...",
 							"I don't believe it! You aren't even fully equipped yet! " +
 							"How do you think you're going to help the Great Deku Tree without " +
-							"both a sword and shild ready?",
+							"both a sword and shield ready?",
 							" ",
 							"What? You're right, I dont have my equipment ready, but... " +
 							"If you want to pass through here, you should at least equip a sword and shield! " +
