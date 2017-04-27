@@ -44,8 +44,8 @@
 #     }
 #   ],
 #   provisioned_throughput: {
-#     read_capacity_units: 10,
-#     write_capacity_units: 10
+#     read_capacity_units: 1,
+#     write_capacity_units: 1
 #   }
 # }
 
@@ -67,8 +67,8 @@
 #     }
 #   ],
 #   provisioned_throughput: {
-#     read_capacity_units: 10,
-#     write_capacity_units: 10
+#     read_capacity_units: 1,
+#     write_capacity_units: 1
 #   }
 # }
 
@@ -123,8 +123,8 @@
 #     }
 #   ],
 #   provisioned_throughput: {
-#     read_capacity_units: 10,
-#     write_capacity_units: 10
+#     read_capacity_units: 1,
+#     write_capacity_units: 1
 #   }
 # }
 
