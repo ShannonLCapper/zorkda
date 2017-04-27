@@ -8,17 +8,17 @@ game .center-text {
 	text-align: center;
 }
 
-game .game-started-view {
+.game-started-view {
 	position: relative;
 }
 
-game .game-hud .game-header {
+.game-hud .game-header {
 	padding-left: 0px;
 	margin-bottom: 10px;
 	min-height: 2em;
 }
 
-game .game-hud .game-header h3 {
+.game-hud .game-header h3 {
 	color: white;
 	background: linear-gradient(270deg, rgba(190,168,112,0), rgba(190,168,112,.7), #614b25 90%);
 	padding: 10px 30px;
@@ -27,30 +27,30 @@ game .game-hud .game-header h3 {
 }
 
 @media (min-width: 992px) {
-	game .game-hud .game-header h3 {
+	.game-hud .game-header h3 {
 		padding-left: 10vw; /*lines text up with game outputs below*/
 	}
 }
 
 @media (min-width: 1200px) {
-	game .game-hud .game-header h3 {
+	.game-hud .game-header h3 {
 		padding-left: 18vw;
 	}
 }
 
-game .game-header>h3>span {
+.game-hud .game-header>h3>span {
 	display: inline-block;
 }
 
-game .game-header>h3>span.ng-leave {
+.game-hud .game-header>h3>span.ng-leave {
 	display: none;
 }
 
-game .game-header>h3>span.ng-leave-active {
+.game-hud .game-header>h3>span.ng-leave-active {
 	display: none;
 }
 
-game .game-settings {
+.game-hud .game-settings {
 	position: relative;
 	margin-top: -5px; /*remove 5px from the 10px bottom margin of the .game-header*/
 	padding-top: 14px; /*centers the save button with the tab for the help sidebar*/
@@ -58,14 +58,14 @@ game .game-settings {
 }
 
 @media (min-width: 768px) {
-	game .game-settings {
+	.game-hud .game-settings {
 		margin-top: 0;
 		padding-top: 0;
 		padding-bottom: 0;
 	}
 }
 
-game .game-settings .save-btn {
+.game-hud .game-settings .save-btn {
 	display: inline;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -74,7 +74,7 @@ game .game-settings .save-btn {
 }
 
 @media (min-width: 500px) {
-	game .game-settings .save-btn {
+	.game-hud .game-settings .save-btn {
 		width: 100%;
 		max-width: 300px;
 		display: block;
@@ -105,18 +105,18 @@ game .help-sidebar-btn.active {
 	}
 }
 
-game .game-frame {
+.game-frame {
 	padding-left: 15px;
 	padding-right: 15px;
 }
 
 @media (min-width: 768px) {
-	game .game-frame {
+	.game-frame {
 		padding-bottom: 0px;
 	}
 }
 
-game .game-frame .output {
+.game-frame .output {
 	background-color: rgba(8,19,10, 0.4);
 	border-color: transparent;
 	height: 62vh;
@@ -128,30 +128,30 @@ game .game-frame .output {
 }
 
 @media (min-width: 768px) {
-	game .game-frame .output {
+	.game-frame .output {
 		height: 75vh;
 		height: calc(100vh - 70px - 56px - 35px - 40px); /*70 from navbar + margin, 56 from game-hud, 35 from input bar, 40 for margin around input bar*/
 	}
 }
 
-game .game-frame .outputs{
+.game-frame .outputs{
 	height: 100%;
 	overflow: auto;
 	padding: 19px;
 }
 
-game .game-frame loading-icon {
+.game-frame loading-icon {
 	display: block;
 	position: absolute;
 	right: 20px;
 	bottom: 15px;
 }
 
-game .game-frame .output .user-supplied {
+.game-frame .output .user-supplied {
 	color: #a3be70;
 }
 
-game .game-input-form {
+.game-input-form {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -159,28 +159,28 @@ game .game-input-form {
 	z-index: 10;
 }
 
-game .game-input-form input::-webkit-input-placeholder {
+.game-input-form input::-webkit-input-placeholder {
 	color: #333d30;
 }
-game .game-input-form input::-moz-placeholder {
+.game-input-form input::-moz-placeholder {
 	color: #333d30;
 }
-game .game-input-form input:-moz-placeholder {
+.game-input-form input:-moz-placeholder {
 	color: #333d30;
 	opacity: 1;
 }
-game .game-input-form input:-ms-input-placeholder {
+.game-input-form input:-ms-input-placeholder {
 	color: #333d30;
 	opacity: 1;
 }
 
 @media (min-width: 768px) {
-	game .game-input-form {
+	.game-input-form {
 		position: relative;
 	}
 }
 
-game .game-input-form .form-control {
+.game-input-form .form-control {
 	display: inline;
 	width: 100%;
 	border-radius: 0;
@@ -189,7 +189,7 @@ game .game-input-form .form-control {
 	z-index: 10;
 }
 
-game .game-input-form button {
+.game-input-form button {
 	color: #0c130a;
 	position: absolute;
 	right: 0;
@@ -203,17 +203,17 @@ game .game-input-form button {
 	text-align: center;
 }
 
-game .game-input-form button:hover,
-game .game-input-form button:focus {
+.game-input-form button:hover,
+.game-input-form button:focus {
 	color: inherit;
 }
 
-game .game-input-form button[disabled] {
+.game-input-form button[disabled] {
 	color: #0c130a;
 	opacity: 0.2;
 }
 
-game .game-input-form button .glyphicon {
+.game-input-form button .glyphicon {
 	font-size: 3rem;
 	position: absolute;
 	left: 50%;
